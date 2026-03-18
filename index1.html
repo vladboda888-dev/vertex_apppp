@@ -6,239 +6,124 @@
     <title>Vertex Tournaments</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* 1. ПРЕМИАЛЬНАЯ ПАЛИТРА (Матовый киберспорт) */
+        /* 1. ПРЕМИАЛЬНАЯ ПАЛИТРА (Черно-светло-синий) */
         :root {
-            --bg-main: #12141d;
-            --bg-panel: #1a1d29;
-            --bg-hover: #222634;
-            --accent-blue: #4f46e5;
-            --accent-light: #6366f1;
+            --bg-main: #07090f; /* Очень глубокий черный с синим отливом */
+            --bg-panel: #11141d; /* Цвет карточек */
+            --bg-hover: #1a1e2b;
+            --light-blue: #00d2ff; /* Красивый светло-синий акцент */
+            --dark-blue: #3a7bd5;
             --text-main: #f8fafc;
             --text-muted: #8b92a5;
             --border-light: rgba(255, 255, 255, 0.05);
             --danger-red: #ef4444;
-            --success-green: #10b981;
-            --gold: #fbbf24;
+            --gold: #ffd700;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-main); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
         /* =========================================
-           2. НОВАЯ ШАПКА (Как на скрине)
+           2. НОВАЯ ШАПКА И ЛОГОТИП
            ========================================= */
         .top-navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            background: var(--bg-panel);
-            border-bottom: 1px solid var(--border-light);
-            z-index: 10;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 15px; background: var(--bg-panel);
+            border-bottom: 1px solid var(--border-light); z-index: 10;
         }
 
-        .nav-left { display: flex; align-items: center; gap: 12px; }
-        .nav-logo { width: 32px; height: 32px; background: #fff; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 20px; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
-        .nav-stats { font-size: 10px; color: var(--text-muted); font-weight: 600; line-height: 1.4; }
-        .nav-stats span { color: #fff; }
+        .nav-left { display: flex; align-items: center; gap: 10px; }
+        .nav-logo { width: 34px; height: 34px; background: linear-gradient(135deg, var(--light-blue), var(--dark-blue)); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 20px; font-weight: 900; color: #fff; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+        .logo-text-container { display: flex; flex-direction: column; }
+        .logo-title { font-size: 14px; font-weight: 900; color: #fff; letter-spacing: 1px; text-transform: uppercase; }
+        .logo-sub { font-size: 9px; color: var(--light-blue); font-weight: 700; letter-spacing: 2px; }
 
-        /* Кнопка входа / Мини-профиль */
-        .login-btn {
-            background: var(--accent-blue); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: background 0.2s;
-        }
-        .login-btn:active { background: var(--accent-light); }
-        
-        .user-mini-profile {
-            display: none; /* Скрыто до авторизации */
-            align-items: center; gap: 8px; background: var(--bg-hover); padding: 4px 12px 4px 4px; border-radius: 20px; border: 1px solid var(--border-light); cursor: pointer;
-        }
-        .user-mini-ava { width: 24px; height: 24px; background: var(--accent-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; }
-        .user-mini-name { font-size: 12px; font-weight: 700; color: #fff; }
+        /* Переливающиеся плашки статистики (Админы/Игроки) */
+        .stats-column { display: flex; flex-direction: column; gap: 5px; margin-left: 10px; }
+        .stat-pill { padding: 3px 10px; border-radius: 8px; font-size: 9px; font-weight: 800; display: flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-pill-admin { background: linear-gradient(90deg, rgba(255, 215, 0, 0.15), transparent); border: 1px solid rgba(255, 215, 0, 0.4); color: var(--gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.1); }
+        .stat-pill-player { background: linear-gradient(90deg, rgba(200, 200, 200, 0.1), transparent); border: 1px solid rgba(255, 255, 255, 0.2); color: #e2e8f0; }
+
+        .login-btn { background: linear-gradient(90deg, var(--dark-blue), var(--light-blue)); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
+        .user-mini-profile { display: none; align-items: center; gap: 8px; background: var(--bg-hover); padding: 4px 12px 4px 4px; border-radius: 20px; border: 1px solid var(--border-light); cursor: pointer; }
+        .user-mini-ava { width: 24px; height: 24px; background: var(--light-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; color: #000; }
+        .user-mini-name { font-size: 11px; font-weight: 800; color: #fff; }
 
         /* =========================================
            3. ВЕРХНЕЕ МЕНЮ ВКЛАДОК
            ========================================= */
-        .main-tabs-container {
-            display: flex; gap: 20px; padding: 0 15px; background: var(--bg-panel); border-bottom: 1px solid var(--border-light); overflow-x: auto; white-space: nowrap; scrollbar-width: none;
-        }
+        .main-tabs-container { display: flex; gap: 20px; padding: 0 15px; background: var(--bg-panel); border-bottom: 1px solid var(--border-light); overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
         .main-tabs-container::-webkit-scrollbar { display: none; }
         
-        .tab-link {
-            padding: 15px 0; font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer; position: relative; display: flex; align-items: center; gap: 6px; transition: color 0.2s;
-        }
-        .tab-link.active { color: #fff; }
-        .tab-link.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--accent-blue); border-radius: 3px 3px 0 0; }
+        .tab-link { padding: 14px 0; font-size: 12px; font-weight: 800; color: var(--text-muted); cursor: pointer; position: relative; display: flex; align-items: center; gap: 6px; transition: color 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
+        .tab-link.active { color: var(--light-blue); text-shadow: 0 0 10px rgba(0, 210, 255, 0.3); }
+        .tab-link.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--light-blue); border-radius: 3px 3px 0 0; box-shadow: 0 -2px 10px var(--light-blue); }
 
-        /* ОБЛАСТЬ КОНТЕНТА */
-        .content-area { flex-grow: 1; overflow-y: auto; padding: 15px; }
+        /* =========================================
+           4. КОНТЕНТ И ОФОРМЛЕНИЕ ТЕКСТА
+           ========================================= */
+        .content-area { flex-grow: 1; overflow-y: auto; padding: 20px 15px; }
         .tab { display: none; animation: fadeIn 0.3s ease; }
         .tab.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .page-title { font-size: 24px; font-weight: 800; margin-bottom: 20px; color: #fff; text-transform: uppercase; }
         
-        /* =========================================
-           4. КАРТОЧКИ И БЛОКИ (Минимализм)
-           ========================================= */
-        .page-title { font-size: 28px; font-weight: 800; margin-bottom: 20px; color: #fff; letter-spacing: -0.5px; }
-        
-        .card { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 16px; padding: 20px; margin-bottom: 20px; transition: transform 0.2s; }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
-        .card-title { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 5px; }
-        
-        .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        .badge-active { background: rgba(59, 130, 246, 0.1); color: var(--accent-light); border: 1px solid var(--border-active); }
+        /* КРАСИВЫЙ ЗАГОЛОВОК СВЕРХУ */
+        .page-title { font-size: 32px; font-weight: 900; margin-bottom: 20px; background: linear-gradient(90deg, #fff, var(--light-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 4px 20px rgba(0, 210, 255, 0.15); }
+
+        /* КАРТОЧКИ И БЕЙДЖИ */
+        .card { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; padding: 18px; margin-bottom: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+        .badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-active { background: rgba(0, 210, 255, 0.1); color: var(--light-blue); border: 1px solid rgba(0, 210, 255, 0.3); box-shadow: 0 0 10px rgba(0, 210, 255, 0.1); }
         .badge-live { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
 
-        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px; }
-        .info-item { text-align: center; }
-        .info-val { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-        .info-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
-
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
-        .btn-primary { background: var(--accent-blue); color: #fff; }
-        .btn-primary:active { background: #2563eb; transform: scale(0.98); }
-        .btn-outline { background: transparent; border: 1px solid var(--border-active); color: var(--accent-light); }
-
-        /* =========================================
-           4. ПРОФИЛЬ И СТАТИСТИКА (Новый дизайн)
-           ========================================= */
-        .card { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; padding: 18px; margin-bottom: 15px; }
-        
+        /* ПРОФИЛЬ: ГРАФИКИ И РОЛИ */
         .role-badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; }
-        .role-owner { background: rgba(251, 191, 36, 0.1); color: var(--gold); border: 1px solid rgba(251, 191, 36, 0.3); }
-        .role-admin { background: rgba(239, 68, 68, 0.1); color: var(--danger-red); border: 1px solid rgba(239, 68, 68, 0.3); }
-        .role-org { background: rgba(99, 102, 241, 0.1); color: var(--accent-light); border: 1px solid rgba(99, 102, 241, 0.3); }
-        .role-player { background: rgba(255, 255, 255, 0.05); color: var(--text-muted); border: 1px solid var(--border-light); }
-
+        .role-owner { background: rgba(255, 215, 0, 0.1); color: var(--gold); border: 1px solid rgba(255, 215, 0, 0.3); box-shadow: 0 0 10px rgba(255, 215, 0, 0.1); }
+        
         .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
         .stat-box { background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; padding: 12px; text-align: center; }
         .stat-val { font-size: 18px; font-weight: 800; color: #fff; }
-        .stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-top: 4px; }
+        .stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-top: 4px; }
 
-        /* Строгий график K/D */
         .chart-wrapper { display: flex; align-items: flex-end; justify-content: space-between; height: 100px; padding-bottom: 5px; border-bottom: 1px solid var(--border-light); margin-top: 15px; }
         .bar-container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 5px; }
-        .bar { width: 100%; max-width: 24px; background: var(--bg-hover); border-radius: 4px 4px 0 0; position: relative; transition: height 0.5s ease; border: 1px solid var(--border-light); border-bottom: none; }
-        .bar.best { background: var(--accent-blue); border-color: var(--accent-light); }
-        .bar-val { font-size: 9px; font-weight: 800; color: var(--text-main); }
-        .bar-lbl { font-size: 9px; color: var(--text-muted); font-weight: 600; }
+        .bar { width: 100%; max-width: 24px; background: var(--bg-hover); border-radius: 4px 4px 0 0; border: 1px solid var(--border-light); border-bottom: none; transition: height 0.5s ease; }
+        .bar.best { background: linear-gradient(0deg, var(--dark-blue), var(--light-blue)); border-color: var(--light-blue); box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+        .bar-val { font-size: 9px; font-weight: 800; color: #fff; }
+        .bar-lbl { font-size: 9px; color: var(--text-muted); font-weight: 700; }
 
-        /* Общие кнопки */
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s; color: #fff; }
-        .btn-primary { background: var(--accent-blue); }
-        .btn-primary:active { background: var(--accent-light); }
-        .btn-outline { background: transparent; border: 1px solid var(--border-light); color: var(--text-muted); }
-        
-        /* =========================================
-           5. ФОРМЫ И ВВОД (Для заявок и настроек)
-           ========================================= */
-        .form-group { margin-bottom: 15px; }
-        .form-label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
-        .form-input, .form-select { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); color: #fff; padding: 12px; border-radius: 8px; outline: none; transition: border 0.2s; }
-        .form-input:focus, .form-select:focus { border-color: var(--accent-blue); }
-        .form-row { display: flex; gap: 10px; }
-
-        /* =========================================
-           6. МОДАЛЬНЫЕ ОКНА И СЕТКА
-           ========================================= */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 15, 25, 0.95); backdrop-filter: blur(10px); z-index: 1000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; padding-bottom: 80px; }
-        .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .close-btn { background: transparent; border: none; color: var(--text-muted); font-size: 28px; cursor: pointer; }
-
-        .bracket-container { display: flex; gap: 30px; overflow-x: auto; padding-bottom: 20px; margin-top: 15px; }
-        .bracket-round { display: flex; flex-direction: column; justify-content: space-around; gap: 15px; min-width: 220px; }
-        .match-card { background: var(--bg-panel-hover); border: 1px solid var(--border-light); border-radius: 8px; padding: 10px; cursor: pointer; transition: border 0.2s; }
-        .match-card:hover { border-color: var(--accent-blue); }
-        .match-team { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .match-team.winner { color: var(--accent-light); }
-        .match-score { background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 4px; }
-
-        /* =========================================
-           7. ТАБЛИЦА БАНОВ (Стиль как на скрине)
-           ========================================= */
-        .table-header {
-            display: grid;
-            grid-template-columns: 2fr 1.5fr 2fr 1fr 1fr 1.5fr;
-            padding: 0 15px 10px;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border-light);
-            margin-bottom: 10px;
-        }
-
-        .ban-row {
-            display: grid;
-            grid-template-columns: 2fr 1.5fr 2fr 1fr 1fr 1.5fr;
-            align-items: center;
-            background: var(--bg-panel);
-            padding: 12px 15px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .ban-row:active {
-            background: var(--bg-hover);
-            border-color: var(--border-light);
-        }
-
-        /* Элементы внутри строки бана */
-        .user-cell { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; }
+        /* ТАБЛИЦА БАНОВ (Восстановление) */
+        .table-header { display: grid; grid-template-columns: 2fr 1.5fr 2fr 1fr 1fr 1.5fr; padding: 0 15px 10px; font-size: 10px; font-weight: 700; color: var(--text-muted); border-bottom: 1px solid var(--border-light); margin-bottom: 10px; text-transform: uppercase; }
+        .ban-row { display: grid; grid-template-columns: 2fr 1.5fr 2fr 1fr 1fr 1.5fr; align-items: center; background: var(--bg-panel); padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
+        .user-cell { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 800; }
         .mini-ava { width: 24px; height: 24px; border-radius: 6px; background: #333; display: flex; justify-content: center; align-items: center; font-size: 12px; }
         .admin-cell { display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
         .reason-cell { color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
         .status-badge { display: flex; align-items: center; gap: 4px; color: var(--danger-red); }
-        .status-icon { font-size: 10px; }
-        
-        .time-cell { display: flex; align-items: center; gap: 4px; color: var(--text-muted); }
+        .time-cell { color: var(--text-muted); }
 
-        /* =========================================
-           8. МОДАЛКА ПОДРОБНОСТЕЙ БАНА
-           ========================================= */
-        .detail-list { display: flex; flex-direction: column; gap: 2px; background: var(--bg-panel); border-radius: 12px; overflow: hidden; }
-        .detail-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--border-light); }
-        .detail-item:last-child { border-bottom: none; }
-        .detail-label { color: var(--text-muted); font-size: 13px; font-weight: 600; }
-        .detail-value { color: #fff; font-size: 14px; font-weight: 700; text-align: right; display: flex; align-items: center; gap: 8px; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-primary { background: linear-gradient(90deg, var(--dark-blue), var(--light-blue)); box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2); }
+        .btn-outline { background: transparent; border: 1px solid var(--border-light); color: var(--text-muted); }
     </style>
 </head>
 <body>
 
-    <header class="top-navbar">
+   <header class="top-navbar">
         <div class="nav-left">
-            <div class="nav-logo">👻</div>
-            <div class="nav-stats">
-                Админов: <span>23</span><br>
-                Игроков: <span>233</span>
+            <div class="nav-logo">V</div>
+            <div class="logo-text-container">
+                <span class="logo-title">Vertex</span>
+                <span class="logo-sub">TOURNAMENT</span>
+            </div>
+            <div class="stats-column">
+                <div class="stat-pill stat-pill-admin">👑 Админов: 23</div>
+                <div class="stat-pill stat-pill-player">🎮 Игроков: 233</div>
             </div>
         </div>
         
         <button id="btn-login" class="login-btn">
-            ✈️ Войти через TG
+            ✈️ Войти (TG)
         </button>
 
         <div id="user-profile-btn" class="user-mini-profile" onclick="switchTab('profile', document.getElementById('tab-link-profile'))">
@@ -248,13 +133,26 @@
     </header>
 
     <div class="main-tabs-container">
-        <div class="tab-link active" onclick="switchTab('tournaments', this)">▶ Играть</div>
-        <div class="tab-link" onclick="switchTab('shop', this)">🛒 Магазин</div>
-        <div class="tab-link" onclick="switchTab('leaders', this)">📊 Лидеры</div>
-        <div class="tab-link" onclick="switchTab('tribunal', this)">👤 Баны</div>
+        <div class="tab-link active" onclick="switchTab('tournaments', this)">🏆 Турниры</div>
+        <div class="tab-link" onclick="switchTab('news', this)">📰 Лента</div>
+        <div class="tab-link" onclick="switchTab('profile', this)">👤 Профиль</div>
+        <div class="tab-link" onclick="switchTab('tribunal', this)">🔨 Баны</div>
         <div class="tab-link" onclick="switchTab('rules', this)">📄 Правила</div>
+        <div class="tab-link" onclick="switchTab('chat', this)">💬 Чат</div>
+        <div class="tab-link" onclick="switchTab('admin', this)">👑 Админ</div>
         <div id="tab-link-profile" class="tab-link" style="display: none;">Профиль</div>
     </div>
+
+    <div class="content-area">
+        
+        <div id="tab-tournaments" class="tab active">
+            <h1 class="page-title">События</h1>
+            
+            <div class="card">
+                <div class="card-header">
+                    <span class="badge badge-active">🟢 Открыто</span>
+                    <span style="font-weight: 800; color: var(--gold);">🏆 5000G</span>
+                </div>
 
     <div class="content-area">
         
