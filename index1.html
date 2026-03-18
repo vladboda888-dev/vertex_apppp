@@ -125,8 +125,8 @@
     </style>
 </head>
 <body>
-
-   <header class="top-navbar">
+    
+    <header class="top-navbar">
         <div class="nav-left">
             <div class="nav-logo">V</div>
             <div class="logo-text-container">
@@ -139,9 +139,7 @@
             </div>
         </div>
         
-        <button id="btn-login" class="login-btn">
-            ✈️ Войти (TG)
-        </button>
+        <button id="btn-login" class="login-btn">✈️ Войти (TG)</button>
 
         <div id="user-profile-btn" class="user-mini-profile" onclick="switchTab('profile', document.getElementById('tab-link-profile'))">
             <div class="user-mini-ava" id="mini-ava">V</div>
@@ -166,139 +164,142 @@
             <h1 class="page-title">События</h1>
             
             <div class="card">
-                <div class="card-header">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
                     <span class="badge badge-active">🟢 Открыто</span>
                     <span style="font-weight: 800; color: var(--gold);">🏆 5000G</span>
                 </div>
+                <div style="font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 5px;">VERTEX MAJOR</div>
+                <div style="font-size: 12px; color: var(--light-blue); font-weight: 600; text-transform: uppercase; margin-bottom: 15px;">Главный турнир сезона - 5v5</div>
+                
+                <div class="stat-grid" style="margin-bottom: 15px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); border-radius: 12px;">
+                    <div class="stat-box" style="border: none; background: transparent;"><div class="stat-val">20:00</div><div class="stat-lbl">Сегодня</div></div>
+                    <div class="stat-box" style="border: none; background: transparent; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); border-radius: 0;"><div class="stat-val">Defuse</div><div class="stat-lbl">Режим</div></div>
+                    <div class="stat-box" style="border: none; background: transparent;"><div class="stat-val">BO3</div><div class="stat-lbl">Формат</div></div>
+                </div>
 
-    <div class="content-area">
-        
-        <div id="tab-tournaments" class="tab active">
-            <h1 class="page-title">Турниры</h1>
-            <div class="card"><div style="color: var(--text-muted); text-align: center;">Список матчей загружается...</div></div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-primary" style="flex: 2;">Подать заявку</button>
+                    <button class="btn btn-outline" style="flex: 1; font-size: 11px;">📊 Сетка матчей</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-news" class="tab">
+            <h1 class="page-title">Лента</h1>
+            <div class="card" style="text-align: center; color: var(--text-muted);">Новости загружаются...</div>
         </div>
 
         <div id="tab-profile" class="tab">
             <h1 class="page-title">Мой Профиль</h1>
-            
             <div class="card" style="display: flex; gap: 15px; align-items: center; position: relative;">
-                <div style="position: absolute; top: 15px; right: 15px; font-size: 9px; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; color: var(--success-green); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);">🟢 Чист</div>
-                
+                <div style="position: absolute; top: 15px; right: 15px; font-size: 9px; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; color: var(--success-green); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);">🟢 Чист</div>
                 <div style="width: 70px; height: 70px; background: var(--bg-hover); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 30px; border: 2px solid var(--light-blue);">👻</div>
-                
                 <div>
                     <div style="font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 2px;" id="full-profile-name">PlayerName</div>
                     <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 700;">ID: 9481023</div>
-                    
                     <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start;">
                         <div class="role-badge role-owner">👑 Владелец проекта</div>
-                        <div class="role-badge" style="background: rgba(59, 130, 246, 0.1); color: var(--light-blue); border: 1px solid rgba(59, 130, 246, 0.3);">⚙️ Организатор (Weekend Cup)</div>
-                        </div>
-                </div>
-            </div>
-
-            <div class="card" style="padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--light-blue);">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <div style="width: 40px; height: 40px; background: var(--bg-main); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 18px; border: 1px solid var(--border-light);">🐺</div>
-                    <div>
-                        <div style="font-size: 14px; font-weight: 900; color: #fff;">[WLV] Wolves E-Sports</div>
-                        <div style="font-size: 10px; color: var(--light-blue); text-transform: uppercase; font-weight: 700;">Создатель / Выдает роли</div>
                     </div>
                 </div>
-                <button class="btn btn-outline" style="width: auto; padding: 6px 12px; font-size: 11px;">Настроить</button>
             </div>
-
-            <div class="card">
-                <div style="font-size: 14px; font-weight: 800; margin-bottom: 10px; color: #fff; text-transform: uppercase;">Общая статистика</div>
-                <div class="stat-grid">
-                    <div class="stat-box"><div class="stat-val" style="color: var(--light-blue);">1.45</div><div class="stat-lbl">K/D Ratio</div></div>
-                    <div class="stat-box"><div class="stat-val">68%</div><div class="stat-lbl">Винрейт</div></div>
-                    <div class="stat-box"><div class="stat-val">124</div><div class="stat-lbl">Матчей</div></div>
-                </div>
-
-                <div style="font-size: 11px; font-weight: 800; margin-top: 20px; color: var(--text-muted); text-transform: uppercase;">История K/D (Последние 5 игр)</div>
-                <div class="chart-wrapper">
-                    <div class="bar-container"><div class="bar-val">0.8</div><div class="bar" style="height: 40%;"></div><div class="bar-lbl">M1</div></div>
-                    <div class="bar-container"><div class="bar-val">1.2</div><div class="bar" style="height: 60%;"></div><div class="bar-lbl">M2</div></div>
-                    <div class="bar-container"><div class="bar-val">1.0</div><div class="bar" style="height: 50%;"></div><div class="bar-lbl">M3</div></div>
-                    <div class="bar-container"><div class="bar-val">2.1</div><div class="bar best" style="height: 100%;"></div><div class="bar-lbl" style="color: var(--light-blue);">MVP</div></div>
-                    <div class="bar-container"><div class="bar-val">1.5</div><div class="bar" style="height: 75%;"></div><div class="bar-lbl">M5</div></div>
-                </div>
-            </div>
-
-            <div class="achievements-header">
-                <span>🌟 Достижения</span>
-                <span class="achiv-count">3 / 10 СЛОТОВ</span>
-            </div>
-            
-            <div class="achievements-list">
-                <div class="achiv-item gold">
-                    <div class="achiv-icon">🏆</div>
-                    <div class="achiv-info">
-                        <div class="achiv-title">Победитель Major</div>
-                        <div class="achiv-desc">VERTEX SPRING MAJOR 5v5</div>
-                    </div>
-                </div>
-
-                <div class="achiv-item">
-                    <div class="achiv-icon">🎯</div>
-                    <div class="achiv-info">
-                        <div class="achiv-title">Лучший снайпер турнира</div>
-                        <div class="achiv-desc">WEEKEND CUP #4</div>
-                    </div>
-                </div>
-
-                <div class="achiv-item">
-                    <div class="achiv-icon">🛡️</div>
-                    <div class="achiv-info">
-                        <div class="achiv-title">Непробиваемый (Клатч 1v4)</div>
-                        <div class="achiv-desc">NIGHT CUP 2v2</div>
-                    </div>
-                </div>
-
-                <div class="achiv-empty"><span>+</span> Пустой слот</div>
-                <div class="achiv-empty"><span>+</span> Пустой слот</div>
-            </div>
-            
-            <button class="btn btn-outline" style="margin-top: 10px;">Настройки аккаунта</button>
         </div>
 
-        <div id="tab-shop" class="tab"><h1 class="page-title">Магазин</h1></div>
-        <div id="tab-leaders" class="tab"><h1 class="page-title">Лидеры</h1></div>
-        <div id="tab-tribunal" class="tab"><h1 class="page-title">Баны</h1><div class="card"><div style="color: var(--text-muted); text-align: center;">Список банов загружается...</div></div></div>
-        <div id="tab-rules" class="tab"><h1 class="page-title">Правила</h1></div>
+        <div id="tab-tribunal" class="tab">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 class="page-title" style="margin: 0;">Баны</h1>
+                <div style="background: var(--bg-panel); padding: 8px 12px; border-radius: 8px; font-size: 12px; color: var(--text-muted); border: 1px solid var(--border-light); display: flex; align-items: center; gap: 6px;">
+                    <span>🔍</span> Поиск по нику...
+                </div>
+            </div>
+            <div class="table-header">
+                <div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Срок</div><div>Дата</div>
+            </div>
+            <div class="ban-row">
+                <div class="user-cell"><div class="mini-ava">🤡</div> 1_SuS_1</div>
+                <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Proc...</div>
+                <div class="reason-cell">Оскорбление родных</div>
+                <div class="status-badge"><span class="status-icon">🔒</span> Забанен</div>
+                <div class="time-cell">⏱️ 8 часов</div>
+                <div class="time-cell">📅 18.03.2026</div>
+            </div>
+        </div>
 
-    </div>
+        <div id="tab-rules" class="tab">
+            <h1 class="page-title">Правила</h1>
+            
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; margin-bottom: 15px; overflow: hidden;">
+                <div style="display: flex; align-items: center; gap: 10px; padding: 15px; font-weight: 800; color: #fff; border-bottom: 1px solid var(--border-light); background: rgba(255,255,255,0.02);">
+                    <span style="font-size: 18px; font-weight: 900; color: var(--light-blue);">1.1</span> Читы и стороннее ПО
+                </div>
+                <div style="padding: 15px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+                    Использование, хранение активных или замороженных подписок на читы и прочее ПО, которое предоставляет преимущество над другими пользователями платформы. Запрещено модифицировать файлы игры.
+                </div>
+                <div style="padding: 12px 15px; background: rgba(251, 191, 36, 0.05); color: var(--gold); font-size: 11px; font-weight: 800; border-top: 1px solid rgba(251, 191, 36, 0.1);">
+                    Наказание: перманентная блокировка аккаунта (Бан навсегда).
+                </div>
+            </div>
 
-    <script>
+            <div style="background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; margin-bottom: 15px; overflow: hidden;">
+                <div style="display: flex; align-items: center; gap: 10px; padding: 15px; font-weight: 800; color: #fff; border-bottom: 1px solid var(--border-light); background: rgba(255,255,255,0.02);">
+                    <span style="font-size: 18px; font-weight: 900; color: var(--light-blue);">1.2</span> Отказ от проверки
+                </div>
+                <div style="padding: 15px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
+                    Выход с сервера после вызова на проверку, отказ от проверки на читы в голосовом или текстовом чате, непредоставление администратору своих контактных данных Discord в течение 180 секунд.
+                </div>
+                <div style="padding: 12px 15px; background: rgba(251, 191, 36, 0.05); color: var(--gold); font-size: 11px; font-weight: 800; border-top: 1px solid rgba(251, 191, 36, 0.1);">
+                    Наказание: бан на 60 дней.
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-chat" class="tab">
+            <h1 class="page-title">Чат</h1>
+            <div class="card" style="text-align: center; color: var(--text-muted);">Чат загружается...</div>
+        </div>
+
+        <div id="tab-admin" class="tab">
+            <h1 class="page-title">Управление</h1>
+            <div class="card" style="text-align: center; color: var(--text-muted);">Панель администратора</div>
+        </div>
+
+    </div> <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
 
-        // МАГИЯ АВТОРИЗАЦИИ: Заменяем кнопку на профиль, если есть данные ТГ
         if(tg.initDataUnsafe && tg.initDataUnsafe.user) {
             let userName = tg.initDataUnsafe.user.first_name;
-            
-            // Скрываем кнопку входа, показываем профиль
             document.getElementById("btn-login").style.display = "none";
             document.getElementById("user-profile-btn").style.display = "flex";
-            
-            // Вписываем имя
             document.getElementById("mini-name").innerText = userName;
             document.getElementById("mini-ava").innerText = userName.charAt(0);
             document.getElementById("full-profile-name").innerText = userName;
         }
 
-        // Переключение вкладок
+        // Надежное переключение вкладок
         function switchTab(tabId, element) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-link').forEach(n => n.classList.remove('active'));
+            // 1. Скрываем абсолютно все вкладки
+            let allTabs = document.querySelectorAll('.tab');
+            allTabs.forEach(t => t.classList.remove('active'));
             
+            // 2. Снимаем выделение со всех кнопок меню
+            let allLinks = document.querySelectorAll('.tab-link');
+            allLinks.forEach(n => n.classList.remove('active'));
+            
+            // 3. Ищем нужную вкладку по ID и показываем ее
             let targetTab = document.getElementById('tab-' + tabId);
-            if(targetTab) targetTab.classList.add('active');
-            if(element) element.classList.add('active');
+            if(targetTab) {
+                targetTab.classList.add('active');
+            }
             
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+            // 4. Подсвечиваем нажатую кнопку
+            if(element) {
+                element.classList.add('active');
+            }
+            
+            if(tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
         }
     </script>
 </body>
