@@ -49,36 +49,156 @@
             z-index: 10;
         }
 
-        /* 5. ЛОГОТИП VERTEX */
+        /* 5. КОСМИЧЕСКИЙ ЛОГОТИП (Обновленный) */
         .logo-box {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--neon-blue), var(--dark-blue));
-            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 87, 255, 0.15); /* Полупрозрачный фон */
+            border: 1px solid rgba(0, 240, 255, 0.5); /* Неоновая рамка */
+            border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: 900;
-            font-size: 18px;
+            font-size: 20px;
             color: #fff;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+            /* Эффект дыхания и внутреннего свечения */
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.5), inset 0 0 10px rgba(0, 87, 255, 0.6);
+            backdrop-filter: blur(5px);
+            animation: pulse-glow 2.5s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 10px rgba(0, 240, 255, 0.3), inset 0 0 5px rgba(0, 87, 255, 0.4); }
+            100% { box-shadow: 0 0 25px rgba(0, 240, 255, 0.8), inset 0 0 15px rgba(0, 87, 255, 0.8); }
         }
 
         .logo-text {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 2px;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            /* Текст с синим переливом */
-            background: linear-gradient(90deg, #fff, var(--neon-blue));
+            /* Градиент от белого к неоново-синему */
+            background: linear-gradient(to right, #ffffff 20%, var(--neon-blue) 80%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+        }
+        /* 6. ПРЕМИУМ МЕНЮ (Floating Glass Nav) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 25px; /* Висит в воздухе, а не прилипает к краю */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%; /* Немного не достает до краев экрана */
+            max-width: 500px;
+            height: 65px;
+            background: rgba(5, 10, 20, 0.65);
+            backdrop-filter: blur(25px); /* Сильное размытие фона */
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 87, 255, 0.2);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            width: 14%;
+            height: 100%;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Пружинистая анимация */
+            position: relative;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 0;
+            transition: all 0.4s ease;
+            filter: grayscale(100%) opacity(0.5); /* Серые пока неактивны */
+        }
+
+        .nav-text {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            position: absolute;
+            bottom: 6px;
+        }
+
+        /* 7. АНИМАЦИЯ НАЖАТИЯ МЕНЮ */
+        .nav-item.active {
+            color: #fff;
+        }
+
+        .nav-item.active .nav-icon {
+            transform: translateY(-12px) scale(1.2); /* Выпрыгивает вверх */
+            filter: grayscale(0%) opacity(1);
+            text-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .nav-item.active .nav-text {
+            opacity: 1;
+            transform: translateY(0);
+            color: var(--neon-blue);
+        }
+
+        /* Светящаяся полоска над активной кнопкой */
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--dark-blue);
+            transition: width 0.3s ease;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .nav-item.active::before {
+            width: 50%;
+        }
+
+        /* 8. СТИЛИ ОБЛАСТИ КОНТЕНТА */
+        .content-area {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px 20px 110px; /* Большой отступ снизу из-за парящего меню */
+        }
+
+        .tab {
+            display: none;
+            /* Космическое появление вкладок с легким блюром */
+            animation: cosmicFade 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .tab.active {
+            display: block;
+        }
+
+        @keyframes cosmicFade {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); filter: blur(5px); }
+            to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
     </style>
 </head>
@@ -89,5 +209,69 @@
             <div class="logo-text">Vertex</div>
         </div>
     </header>
+
+    <div class="content-area">
+        <div id="tab-tournaments" class="tab active">
+            </div>
+        
+        <div id="tab-news" class="tab"></div>
+        <div id="tab-profile" class="tab"></div>
+        <div id="tab-tribunal" class="tab"></div>
+        <div id="tab-apply" class="tab"></div>
+        <div id="tab-chat" class="tab"></div>
+        <div id="tab-admin" class="tab"></div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('tournaments', this)">
+            <div class="nav-icon">🏆</div>
+            <div class="nav-text">Игры</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('news', this)">
+            <div class="nav-icon">📰</div>
+            <div class="nav-text">Лента</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('profile', this)">
+            <div class="nav-icon">👤</div>
+            <div class="nav-text">Боец</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('tribunal', this)">
+            <div class="nav-icon">🔨</div>
+            <div class="nav-text">Баня</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('apply', this)">
+            <div class="nav-icon">📝</div>
+            <div class="nav-text">Заявка</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('chat', this)">
+            <div class="nav-icon">💬</div>
+            <div class="nav-text">Чат</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('admin', this)">
+            <div class="nav-icon">👑</div>
+            <div class="nav-text">Админ</div>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+
+        function switchTab(tabId, element) {
+            // Убираем активность со всех вкладок
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            // Включаем нужную вкладку
+            document.getElementById('tab-' + tabId).classList.add('active');
+            element.classList.add('active');
+            
+            // Легкая вибрация телефона при нажатии (Haptic Feedback)
+            if(tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+        }
+    </script>
     </body>
 </html>
