@@ -2,206 +2,209 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vertex Tournaments</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Строгий темный стиль с красным неоном */
+        /* Главные цвета и переменные (Неоновый киберспорт) */
         :root {
-            --bg-color: #0f0f13;
-            --panel-bg: #1c1c24;
+            --bg-main: #09090b; /* Глубокий темный фон */
+            --bg-panel: rgba(24, 24, 29, 0.7); /* Полупрозрачные панели */
+            --accent: #ff2a2a; /* Неоновый красный */
+            --accent-glow: rgba(255, 42, 42, 0.4);
             --text-main: #ffffff;
-            --text-muted: #8e8e93;
-            --accent-red: #e62e2e;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-        /* Шапка */
-        header {
-            background-color: var(--panel-bg);
-            padding: 15px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            border-bottom: 2px solid var(--accent-red);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        /* Контейнер для вкладок */
-        .content {
-            flex-grow: 1;
-            padding: 15px;
-            overflow-y: auto;
-        }
-        /* Скрываем все вкладки по умолчанию */
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        
-        /* Нижняя панель навигации */
-        .navbar {
-            display: flex;
-            background-color: var(--panel-bg);
-            padding: 10px 5px;
-            overflow-x: auto;
-            border-top: 1px solid #333;
-        }
-        .nav-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 12px;
-            padding: 10px;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: 0.3s;
-        }
-        .nav-btn.active {
-            color: var(--accent-red);
-            font-weight: bold;
-        }
-        
-        /* Элементы дизайна */
-        .card {
-            background-color: var(--panel-bg);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--accent-red);
+            --text-muted: #8a8a93;
+            --border-color: rgba(255, 255, 255, 0.05);
         }
 
-        /* Кнопка действия в админке */
-        .action-btn {
-            background: var(--accent-red);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 42, 42, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(255, 42, 42, 0.05) 0%, transparent 50%);
+        }
+
+        /* Красивая шапка */
+        header {
+            padding: 20px 15px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, var(--bg-main) 0%, transparent 100%);
+            z-index: 10;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #fff, #ff2a2a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* Контейнер для контента с плавной прокруткой */
+        .content-area {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 0 15px 20px;
+            padding-bottom: 80px; /* Отступ для нижнего меню */
+        }
+
+        /* Анимация появления вкладок */
+        .tab {
+            display: none;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        .tab.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Нижнее меню (Стеклянное) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
             width: 100%;
-            margin-top: 10px;
+            height: 70px;
+            background: var(--bg-panel);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 5px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            width: 14%;
+            transition: all 0.3s ease;
             cursor: pointer;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-text {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Активная кнопка в меню */
+        .nav-item.active {
+            color: var(--accent);
+        }
+        .nav-item.active .nav-icon {
+            transform: translateY(-3px) scale(1.1);
+            text-shadow: 0 0 15px var(--accent);
         }
     </style>
 </head>
 <body>
 
-    <header id="header-title">Турниры</header>
+    <header>
+        <div class="header-title" id="top-title">Турниры</div>
+    </header>
 
-    <div class="content">
-        <div id="tab-tournaments" class="tab-content active">
-            <div id="tournament-list">
-                <div class="card">
-                    <h3>Поиск активных турниров...</h3>
-                </div>
-            </div>
+    <div class="content-area">
+        
+        <div id="tab-tournaments" class="tab active">
+            <h2 style="color: var(--text-muted); text-align: center; margin-top: 50px;">Тут будет крутая сетка турниров</h2>
         </div>
-
-        <div id="tab-news" class="tab-content">
-            <div class="card">
-                <h3>📢 Обновление платформы</h3>
-                <p>Мы запустили новый интерфейс! Скоро будут первые турниры.</p>
-            </div>
-        </div>
-
-        <div id="tab-profile" class="tab-content">
-            <h2 id="user-name">Загрузка профиля...</h2>
-            <div class="card">
-                <p>Матчей сыграно: 0</p>
-                <p>MVP медалей: 0</p>
-                <p>Статус: Игрок</p>
-            </div>
-        </div>
-
-        <div id="tab-ban" class="tab-content">
-            <div class="card" style="border-left-color: #555;">
-                <h3 style="color: var(--accent-red);">Tribunal</h3>
-                <p>Список забаненных игроков пуст. Все играют честно.</p>
-            </div>
-        </div>
-
-        <div id="tab-apply" class="tab-content">
-            <div class="card">
-                <h3>Подать заявку на турнир</h3>
-                <p style="color: var(--text-muted);">Тут будет форма для организаторов.</p>
-            </div>
-        </div>
-
-        <div id="tab-chat" class="tab-content">
-            <div class="card">
-                <p>Global Chat (Live)</p>
-            </div>
-        </div>
-
-        <div id="tab-admin" class="tab-content">
-            <div class="card" style="border-left-color: gold;">
-                <h3 style="color: gold;">👑 Управление</h3>
-                <button class="action-btn" onclick="openCreateForm()">➕ Создать турнир</button>
-                <div id="admin-stats" style="margin-top: 10px; font-size: 14px;">
-                    <p>Всего игроков: <span id="stat-users">...</span></p>
-                </div>
-            </div>
-        </div>
+        
+        <div id="tab-news" class="tab"></div>
+        <div id="tab-profile" class="tab"></div>
+        <div id="tab-tribunal" class="tab"></div>
+        <div id="tab-apply" class="tab"></div>
+        <div id="tab-chat" class="tab"></div>
+        <div id="tab-admin" class="tab"></div>
     </div>
 
-    <div class="navbar">
-        <button class="nav-btn active" onclick="switchTab('tournaments', 'Турниры')">Турниры</button>
-        <button class="nav-btn" onclick="switchTab('news', 'Новости')">Новости</button>
-        <button class="nav-btn" onclick="switchTab('profile', 'Профиль')">Профиль</button>
-        <button class="nav-btn" onclick="switchTab('ban', 'Трибунал')">Баня</button>
-        <button class="nav-btn" onclick="switchTab('apply', 'Заявки')">Заявки</button>
-        <button class="nav-btn" onclick="switchTab('chat', 'Чат')">Чат</button>
-        <button class="nav-btn" onclick="switchTab('admin', 'Админ Панель')">Админ</button>
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('tournaments', 'Турниры', this)">
+            <div class="nav-icon">🏆</div>
+            <div class="nav-text">Игры</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('news', 'Новости', this)">
+            <div class="nav-icon">📰</div>
+            <div class="nav-text">Лента</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('profile', 'Профиль', this)">
+            <div class="nav-icon">👤</div>
+            <div class="nav-text">Боец</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('tribunal', 'Трибунал', this)">
+            <div class="nav-icon">🔨</div>
+            <div class="nav-text">Баня</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('apply', 'Заявка', this)">
+            <div class="nav-icon">📝</div>
+            <div class="nav-text">Заявка</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('chat', 'Чат', this)">
+            <div class="nav-icon">💬</div>
+            <div class="nav-text">Чат</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('admin', 'Управление', this)">
+            <div class="nav-icon">👑</div>
+            <div class="nav-text">Админ</div>
+        </div>
     </div>
 
     <script>
-        // Инициализация Web App
         let tg = window.Telegram.WebApp;
         tg.expand();
-        
-        // Подгружаем имя юзера в профиль
-        if(tg.initDataUnsafe.user) {
-            document.getElementById("user-name").innerText = tg.initDataUnsafe.user.first_name;
-        }
+        tg.ready();
 
-        // Логика переключения вкладок
-        function switchTab(tabId, title) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+        function switchTab(tabId, title, element) {
+            // Убираем активность со всех вкладок
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             
+            // Включаем нужную вкладку
             document.getElementById('tab-' + tabId).classList.add('active');
-            event.target.classList.add('active');
+            element.classList.add('active');
             
-            document.getElementById('header-title').innerText = title;
-        }
-
-        // Функция отправки данных боту
-        function sendToBot(data) {
-            tg.sendData(JSON.stringify(data));
-        }
-
-        // Функция создания турнира через админку
-        function openCreateForm() {
-            let name = prompt("Введите название турнира:");
-            let prize = prompt("Введите призовой фонд:");
-            
-            if(name && prize) {
-                sendToBot({
-                    action: "create_tournament",
-                    name: name,
-                    prize: prize
-                });
-                tg.close(); // Закрываем Web App после отправки
-            }
+            // Меняем заголовок с анимацией
+            const titleEl = document.getElementById('top-title');
+            titleEl.style.opacity = 0;
+            setTimeout(() => {
+                titleEl.innerText = title;
+                titleEl.style.opacity = 1;
+            }, 150);
         }
     </script>
 </body>
 </html>
-
