@@ -442,7 +442,7 @@
                     <div class="role-badge role-owner">👑 Владелец проекта</div>
                     <div class="profile-date">На проекте с: 12.05.2023</div>
                 </div>
-                <button class="btn btn-outline" style="width: auto; padding: 8px 20px; font-size: 12px;">⚙️ Настройки</button>
+                <button class="btn btn-outline" style="width: auto; padding: 8px 20px; font-size: 12px;" onclick="openModal('modal-settings')">⚙️ Настройки</button>
             </div>
 
             <div class="card">
@@ -500,7 +500,7 @@
         <div id="tab-checks" class="tab">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h1 class="page-title" style="margin: 0;">Проверки</h1>
-                <button class="btn btn-primary" style="width: auto; padding: 8px 15px; font-size: 11px;" onclick="openModal('modal-active-check')">+ Вызвать игрока</button>
+                <button class="btn btn-primary" style="width: auto; padding: 8px 15px; font-size: 11px;" onclick="openModal('modal-call-player')">+ Вызвать игрока</button>
             </div>
             
             <div class="check-header-ext">
@@ -515,7 +515,7 @@
                     <div style="color: var(--text-muted); font-size: 10px; display: flex; align-items: center; gap: 5px;">pyps_za_ka... <span>📋</span></div>
                     <div><span class="verdict-badge verdict-clean">✔️ Нарушений нет</span></div>
                     <div style="display: flex; justify-content: flex-end; gap: 5px;">
-                        <button class="check-action-btn" title="Смотреть логи">📄</button>
+                        <button class="check-action-btn" title="Досье игрока" onclick="openModal('modal-player-check-info')">📄</button>
                         <button class="check-action-btn" title="Чат проверки">💬</button>
                     </div>
                 </div>
@@ -592,6 +592,63 @@
         <div style="display: flex; gap: 10px; margin-top: 15px;">
             <button class="btn" style="flex: 1; background: rgba(16, 185, 129, 0.1); color: var(--success-green); border: 1px solid var(--success-green);">✔️ Чист</button>
             <button class="btn" style="flex: 1; background: rgba(239, 68, 68, 0.1); color: var(--danger-red); border: 1px solid var(--danger-red);">🔒 Забанить</button>
+        </div>
+    </div>
+
+    <div id="modal-call-player" class="modal-overlay">
+        <div class="modal-header">
+            <h2 style="font-size: 20px; font-weight: 900; color: #fff;">Вызов на проверку</h2>
+            <button class="close-btn" onclick="closeModal('modal-call-player')">×</button>
+        </div>
+        <div class="card" style="border: none; padding: 0;">
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Укажите ID подозреваемого игрока:</div>
+            <input type="text" class="form-input" placeholder="Например: 12345678">
+            <button class="btn btn-primary" onclick="closeModal('modal-call-player'); openModal('modal-active-check')">Отправить вызов</button>
+        </div>
+    </div>
+
+    <div id="modal-player-check-info" class="modal-overlay">
+        <div class="modal-header">
+            <h2 style="font-size: 20px; font-weight: 900; color: #fff;">Досье игрока</h2>
+            <button class="close-btn" onclick="closeModal('modal-player-check-info')">×</button>
+        </div>
+        <div class="card">
+            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px;">
+                <div class="mini-ava" style="width: 50px; height: 50px; font-size: 24px; border-radius: 12px;">🥷</div>
+                <div>
+                    <div style="font-size: 18px; font-weight: 800; color: #fff;">[CHITS] GANGSTER</div>
+                    <div style="font-size: 12px; color: var(--text-muted);">ID: 7656119962853</div>
+                </div>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Активные турниры:</div>
+            <div class="badge badge-active" style="margin-bottom: 15px;">VERTEX MAJOR</div>
+            <button class="btn btn-outline" onclick="closeModal('modal-player-check-info'); switchTab('profile')">Перейти в полный профиль</button>
+        </div>
+    </div>
+
+    <div id="modal-settings" class="modal-overlay">
+        <div class="modal-header">
+            <h2 style="font-size: 20px; font-weight: 900; color: #fff;">Настройки профиля</h2>
+            <button class="close-btn" onclick="closeModal('modal-settings')">×</button>
+        </div>
+        <div class="card" style="border: none; padding: 0;">
+            <div style="margin-bottom: 15px;">
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Ваш Никнейм</div>
+                <input type="text" class="form-input" value="PlayerName">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Ссылка на Аватарку</div>
+                <input type="text" class="form-input" placeholder="https://...">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Привязка Discord</div>
+                <input type="text" class="form-input" placeholder="Ваш Discord Tag">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Привязка Steam ID</div>
+                <input type="text" class="form-input" placeholder="SteamID64">
+            </div>
+            <button class="btn btn-primary" onclick="closeModal('modal-settings')">Сохранить изменения</button>
         </div>
     </div>
 
