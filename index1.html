@@ -441,15 +441,8 @@
                             Уже регаем команду, ждите мощный камбэк!
                         </div>
                     </div>
-                    <div class="comment-item">
-                        <div class="mini-ava" style="border-radius: 50%;">😎</div>
-                        <div class="comment-text">
-                            <div style="font-weight: 800; color: #fff; margin-bottom: 4px;">ProSniper</div>
-                            Надеюсь, пинг серверов будет нормальным в этот раз.
-                        </div>
-                    </div>
                     <div style="display: flex; gap: 10px; margin-top: 15px;">
-                        <input type="text" class="form-input" placeholder="Написать комментарий..." style="padding: 10px; font-size: 12px;">
+                        <input type="text" class="form-input" placeholder="Написать комментарий..." style="margin-bottom: 0;">
                         <button class="btn btn-primary" style="width: auto; padding: 0 15px;">➤</button>
                     </div>
                 </div>
@@ -460,14 +453,12 @@
             <h1 class="page-title">Мой Профиль</h1>
             
             <div class="profile-banner"></div>
-            <div class="profile-header-new" style="justify-content: flex-start; gap: 20px;">
-                <div class="profile-header-new" style="justify-content: flex-start; gap: 20px;">
+            <div class="profile-header-new">
                 
                 <div class="profile-status-badges">
                     <div class="badge-grey">Без наказания</div>
                     <div class="badge-green">✔️ Чист</div>
-                    
-                    </div>
+                </div>
 
                 <div class="profile-avatar-large">👻</div>
                 <div class="profile-info-new" style="flex-grow: 1;">
@@ -520,13 +511,12 @@
             <div class="admin-role-box">
                 <div style="font-size: 12px; font-weight: 800; color: var(--gold); text-transform: uppercase; margin-bottom: 10px;">Управление ролями (Панель Владельца)</div>
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                    <select class="form-select" style="flex: 1; padding: 10px; font-size: 12px;">
-                        <option>Выдать роль: Игрок</option>
+                    <select class="form-input" style="margin-bottom: 0;">
                         <option>Выдать роль: Организатор</option>
                         <option>Выдать роль: Администратор</option>
                     </select>
                 </div>
-                <input type="text" class="form-input" placeholder="Название турнира (если Организатор)" style="padding: 10px; font-size: 12px; margin-bottom: 10px;">
+                <input type="text" class="form-input" placeholder="Название турнира (если Организатор)" style="margin-bottom: 10px;">
                 <button class="btn" style="background: rgba(251, 191, 36, 0.2); color: var(--gold); border: 1px solid var(--gold);">Применить роль</button>
             </div>
         </div>
@@ -543,14 +533,14 @@
 
             <div style="display: flex; flex-direction: column;">
                 <div class="check-row-ext">
-                    <div class="time-cell" style="font-size: 10px; color: #fff; font-weight: 700;">16.08.2026<br><span style="color: var(--text-muted);">16:14:15</span></div>
-                    <div class="user-cell"><div class="mini-ava">🤖</div> ERROR_404</div>
-                    <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🥷</div> [CHITS] GAN...</div>
-                    <div style="color: var(--text-muted); font-size: 10px; display: flex; align-items: center; gap: 5px;">pyps_za_ka... <span>📋</span></div>
-                    <div><span class="verdict-badge verdict-clean">✔️ Нарушений нет</span></div>
+                    <div style="font-size: 10px; color: #fff; font-weight: 700;">16.08.2026<br><span style="color: var(--text-muted);">16:14:15</span></div>
+                    <div class="user-cell"><div class="mini-ava">👑</div> Токеро</div>
+                    <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🐶</div> [Skeeet] Мил...</div>
+                    <div style="color: var(--text-muted); font-size: 10px;">Ожидание...</div>
+                    <div><span class="verdict-badge verdict-wait">⏳ Идет проверка</span></div>
                     <div style="display: flex; justify-content: flex-end; gap: 5px;">
                         <button class="check-action-btn" title="Досье игрока" onclick="openModal('modal-player-check-info')">📄</button>
-                        <button class="check-action-btn" title="Чат проверки">💬</button>
+                        <button class="check-action-btn" title="Открыть чат проверки" onclick="openModal('modal-active-check')">💬</button>
                     </div>
                 </div>
             </div>
@@ -558,7 +548,6 @@
 
         <div id="tab-tribunal" class="tab">
             <h1 class="page-title" style="margin-bottom: 10px;">Трибунал</h1>
-            
             <div class="sub-tabs">
                 <button id="btn-sub-bans" class="sub-tab active" onclick="switchSubTab('bans')">Баны</button>
                 <button id="btn-sub-mutes" class="sub-tab" onclick="switchSubTab('mutes')">Муты</button>
@@ -568,11 +557,11 @@
                 <div class="table-header-ext"><div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Точный срок</div><div>Дата выдачи</div><div>Действие</div></div>
                 <div class="ban-row-ext">
                     <div class="user-cell"><div class="mini-ava">🤡</div> 1_SuS_1</div>
-                    <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Proc...</div>
-                    <div class="reason-cell">Оскорбление родных</div>
-                    <div class="status-badge"><span class="status-icon" style="color: var(--danger-red);">🔒</span> Забанен</div>
-                    <div class="time-cell" style="color: #fff; font-weight: 700;">8 часов<br><span style="font-size: 9px; color: var(--text-muted);">Осталось: 05:21:10</span></div>
-                    <div class="time-cell" style="font-size: 10px;">18.03.2026<br>20:10:00</div>
+                    <div style="color: var(--text-muted); display: flex; align-items: center; gap: 8px;"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Proc...</div>
+                    <div style="color: var(--text-muted);">Оскорбление родных</div>
+                    <div class="status-badge"><span style="color: var(--danger-red);">🔒</span> Забанен</div>
+                    <div style="color: #fff; font-weight: 700;">8 часов<br><span style="font-size: 9px; color: var(--text-muted);">Осталось: 05:21:10</span></div>
+                    <div style="font-size: 10px; color: var(--text-muted);">18.03.2026<br>20:10:00</div>
                     <div><button class="btn-unban">Разбанить</button></div>
                 </div>
             </div>
@@ -581,25 +570,42 @@
                 <div class="table-header-ext"><div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Точный срок</div><div>Дата выдачи</div><div>Действие</div></div>
                 <div class="ban-row-ext">
                     <div class="user-cell"><div class="mini-ava">🔇</div> ToxicBoy</div>
-                    <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👑</div> Токеро</div>
-                    <div class="reason-cell">Спам в чате</div>
-                    <div class="status-badge"><span class="status-icon" style="color: var(--gold);">🔇</span> Мут чата</div>
-                    <div class="time-cell" style="color: #fff; font-weight: 700;">2 часа<br><span style="font-size: 9px; color: var(--text-muted);">Осталось: 01:15:00</span></div>
-                    <div class="time-cell" style="font-size: 10px;">18.03.2026<br>21:00:15</div>
+                    <div style="color: var(--text-muted); display: flex; align-items: center; gap: 8px;"><div class="mini-ava" style="border-radius: 50%;">👑</div> Токеро</div>
+                    <div style="color: var(--text-muted);">Спам в чате</div>
+                    <div class="status-badge"><span style="color: var(--gold);">🔇</span> Мут чата</div>
+                    <div style="color: #fff; font-weight: 700;">2 часа<br><span style="font-size: 9px; color: var(--text-muted);">Осталось: 01:15:00</span></div>
+                    <div style="font-size: 10px; color: var(--text-muted);">18.03.2026<br>21:00:15</div>
                     <div><button class="btn-unban">Размутить</button></div>
                 </div>
             </div>
         </div>
 
         <div id="tab-rules" class="tab">
-            <h1 class="page-title">Правила</h1>
-            <div class="card" style="text-align: center; color: var(--text-muted);">Правила турниров</div>
+            <div id="rules-main-view">
+                <h1 class="page-title">Правила Турниров</h1>
+                <div class="rules-grid">
+                    <div class="rule-tour-card" onclick="openRuleDetails()">
+                        <div style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 5px;">VERTEX MAJOR</div>
+                        <div style="font-size: 11px; color: var(--light-blue); text-transform: uppercase;">Официальный регламент сезона</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rules-detail-view" class="rule-detail-view">
+                <button class="back-btn" onclick="backToRules()">◀ Назад к списку</button>
+                <h1 class="page-title" style="font-size: 24px;">Правила: VERTEX MAJOR</h1>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <div style="padding: 15px; font-weight: 900; color: #fff; border-bottom: 1px solid var(--border-light); background: rgba(255,255,255,0.02);"><span style="color: var(--light-blue);">1.1</span> Читы и ПО</div>
+                    <div style="padding: 15px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">Использование читов запрещено.</div>
+                    <div style="padding: 12px 15px; background: rgba(251, 191, 36, 0.05); color: var(--gold); font-size: 11px; font-weight: 800; border-top: 1px solid rgba(251, 191, 36, 0.1);">Наказание: перманентная блокировка.</div>
+                </div>
+            </div>
         </div>
-        
-        <div id="tab-chat" class="tab"><h1 class="page-title">Чат</h1><div class="card" style="text-align: center; color: var(--text-muted);">Чат загружается...</div></div>
+
+        <div id="tab-chat" class="tab"><h1 class="page-title">Чат</h1><div class="card" style="text-align: center; color: var(--text-muted);">Чат...</div></div>
         <div id="tab-admin" class="tab"><h1 class="page-title">Управление</h1><div class="card" style="text-align: center; color: var(--text-muted);">Панель администратора</div></div>
 
-    <div id="modal-active-check" class="modal-overlay">
+    </div> <div id="modal-active-check" class="modal-overlay">
         <div class="modal-content-wrap">
             <div class="modal-header">
                 <h2 style="font-size: 20px; font-weight: 900; color: #fff;">Проверка игрока</h2>
@@ -700,34 +706,24 @@
             document.getElementById("full-profile-name").innerText = userName;
         }
 
-        // Переключение главных вкладок
+        // Надежное переключение вкладок
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-link').forEach(n => n.classList.remove('active'));
-            
             let targetTab = document.getElementById('tab-' + tabId);
-            if(targetTab) {
-                targetTab.classList.add('active');
-            }
-            if(element) {
-                element.classList.add('active');
-            }
-            if(tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('light');
-            }
+            if(targetTab) targetTab.classList.add('active');
+            if(element) element.classList.add('active');
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
         }
 
         // Переключение Баны/Муты
         function switchSubTab(type) {
             document.getElementById('btn-sub-bans').classList.remove('active');
             document.getElementById('btn-sub-mutes').classList.remove('active');
-            
             document.getElementById('list-bans').classList.add('list-hidden');
             document.getElementById('list-mutes').classList.add('list-hidden');
-            
             document.getElementById('btn-sub-' + type).classList.add('active');
             document.getElementById('list-' + type).classList.remove('list-hidden');
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
         }
 
         // Открытие/закрытие модалок
@@ -742,12 +738,17 @@
         // Скрытие комментариев в ленте
         function toggleComments(id) {
             let el = document.getElementById(id);
-            if (el.style.display === 'none' || el.style.display === '') {
-                el.style.display = 'block';
-            } else {
-                el.style.display = 'none';
-            }
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+            el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
+        }
+
+        // Правила
+        function openRuleDetails() {
+            document.getElementById('rules-main-view').style.display = 'none';
+            document.getElementById('rules-detail-view').style.display = 'block';
+        }
+        function backToRules() {
+            document.getElementById('rules-detail-view').style.display = 'none';
+            document.getElementById('rules-main-view').style.display = 'block';
         }
     </script>
 </body>
