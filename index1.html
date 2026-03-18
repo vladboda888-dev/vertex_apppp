@@ -6,21 +6,23 @@
     <title>Vertex Tournaments</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* =========================================
-           1. ПРЕМИАЛЬНАЯ ПАЛИТРА (Строгий темно-синий)
-           ========================================= */
-        /* 1. ПРЕМИАЛЬНАЯ ПАЛИТРА (Стиль Faceit) */
+        /* 1. ПРЕМИАЛЬНАЯ ПАЛИТРА (Матовый киберспорт) */
         :root {
-            --bg-main: #12141d; /* Темный матовый фон */
-            --bg-panel: #1a1d29; /* Цвет плашек и карточек */
-            --bg-hover: #222634; /* Цвет при наведении */
-            --accent-blue: #4f46e5; /* Фирменный синий/фиолетовый */
+            --bg-main: #12141d;
+            --bg-panel: #1a1d29;
+            --bg-hover: #222634;
+            --accent-blue: #4f46e5;
+            --accent-light: #6366f1;
             --text-main: #f8fafc;
             --text-muted: #8b92a5;
             --border-light: rgba(255, 255, 255, 0.05);
             --danger-red: #ef4444;
             --success-green: #10b981;
+            --gold: #fbbf24;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-main); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
         * {
             box-sizing: border-box;
@@ -40,149 +42,57 @@
         }
 
         /* =========================================
-           2. СТРОГАЯ ШАПКА
+           2. НОВАЯ ШАПКА (Как на скрине)
            ========================================= */
-        .top-header {
+        .top-navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
-            background: var(--bg-main);
+            padding: 12px 15px;
+            background: var(--bg-panel);
             border-bottom: 1px solid var(--border-light);
             z-index: 10;
         }
 
-        .logo-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .nav-left { display: flex; align-items: center; gap: 12px; }
+        .nav-logo { width: 32px; height: 32px; background: #fff; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 20px; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .nav-stats { font-size: 10px; color: var(--text-muted); font-weight: 600; line-height: 1.4; }
+        .nav-stats span { color: #fff; }
 
-        .logo-icon {
-            width: 30px;
-            height: 30px;
-            background: linear-gradient(135deg, var(--accent-light), var(--accent-blue));
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 800;
-            font-size: 16px;
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        /* Кнопка входа / Мини-профиль */
+        .login-btn {
+            background: var(--accent-blue); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: background 0.2s;
         }
-
-        .logo-text {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #fff;
+        .login-btn:active { background: var(--accent-light); }
+        
+        .user-mini-profile {
+            display: none; /* Скрыто до авторизации */
+            align-items: center; gap: 8px; background: var(--bg-hover); padding: 4px 12px 4px 4px; border-radius: 20px; border: 1px solid var(--border-light); cursor: pointer;
         }
-
-        /* Область для контента */
-        .content-area {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 20px 20px 100px; /* Отступ под меню */
-        }
-
-        .tab {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .tab.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .user-mini-ava { width: 24px; height: 24px; background: var(--accent-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; }
+        .user-mini-name { font-size: 12px; font-weight: 700; color: #fff; }
 
         /* =========================================
-           3. МИНИМАЛИСТИЧНОЕ НИЖНЕЕ МЕНЮ
+           3. ВЕРХНЕЕ МЕНЮ ВКЛАДОК
            ========================================= */
-        .bottom-nav {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 92%;
-            max-width: 450px;
-            height: 65px;
-            background: rgba(19, 27, 44, 0.85); /* Полупрозрачная панель */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            z-index: 100;
+        .main-tabs-container {
+            display: flex; gap: 20px; padding: 0 15px; background: var(--bg-panel); border-bottom: 1px solid var(--border-light); overflow-x: auto; white-space: nowrap; scrollbar-width: none;
         }
+        .main-tabs-container::-webkit-scrollbar { display: none; }
+        
+        .tab-link {
+            padding: 15px 0; font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer; position: relative; display: flex; align-items: center; gap: 6px; transition: color 0.2s;
+        }
+        .tab-link.active { color: #fff; }
+        .tab-link.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--accent-blue); border-radius: 3px 3px 0 0; }
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 100%;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-icon {
-            font-size: 22px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-text {
-            font-size: 10px;
-            font-weight: 600;
-            margin-top: 4px;
-            transition: all 0.3s ease;
-            opacity: 0; /* Скрыт по умолчанию для чистоты */
-            position: absolute;
-            bottom: 8px;
-        }
-
-        /* Активное состояние кнопки */
-        .nav-item.active {
-            color: var(--accent-light);
-        }
-
-        .nav-item.active .nav-icon {
-            transform: translateY(-8px);
-            color: var(--accent-light);
-            filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.4));
-        }
-
-        .nav-item.active .nav-text {
-            opacity: 1;
-        }
-
-        /* Маленькая элегантная точка под активной вкладкой */
-        .nav-item::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: var(--accent-light);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .nav-item.active::after {
-            opacity: 1;
-        }
+        /* ОБЛАСТЬ КОНТЕНТА */
+        .content-area { flex-grow: 1; overflow-y: auto; padding: 15px; }
+        .tab { display: none; animation: fadeIn 0.3s ease; }
+        .tab.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .page-title { font-size: 24px; font-weight: 800; margin-bottom: 20px; color: #fff; text-transform: uppercase; }
+        
         /* =========================================
            4. КАРТОЧКИ И БЛОКИ (Минимализм)
            ========================================= */
@@ -206,6 +116,36 @@
         .btn-primary:active { background: #2563eb; transform: scale(0.98); }
         .btn-outline { background: transparent; border: 1px solid var(--border-active); color: var(--accent-light); }
 
+        /* =========================================
+           4. ПРОФИЛЬ И СТАТИСТИКА (Новый дизайн)
+           ========================================= */
+        .card { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; padding: 18px; margin-bottom: 15px; }
+        
+        .role-badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; }
+        .role-owner { background: rgba(251, 191, 36, 0.1); color: var(--gold); border: 1px solid rgba(251, 191, 36, 0.3); }
+        .role-admin { background: rgba(239, 68, 68, 0.1); color: var(--danger-red); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .role-org { background: rgba(99, 102, 241, 0.1); color: var(--accent-light); border: 1px solid rgba(99, 102, 241, 0.3); }
+        .role-player { background: rgba(255, 255, 255, 0.05); color: var(--text-muted); border: 1px solid var(--border-light); }
+
+        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        .stat-box { background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; padding: 12px; text-align: center; }
+        .stat-val { font-size: 18px; font-weight: 800; color: #fff; }
+        .stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-top: 4px; }
+
+        /* Строгий график K/D */
+        .chart-wrapper { display: flex; align-items: flex-end; justify-content: space-between; height: 100px; padding-bottom: 5px; border-bottom: 1px solid var(--border-light); margin-top: 15px; }
+        .bar-container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 5px; }
+        .bar { width: 100%; max-width: 24px; background: var(--bg-hover); border-radius: 4px 4px 0 0; position: relative; transition: height 0.5s ease; border: 1px solid var(--border-light); border-bottom: none; }
+        .bar.best { background: var(--accent-blue); border-color: var(--accent-light); }
+        .bar-val { font-size: 9px; font-weight: 800; color: var(--text-main); }
+        .bar-lbl { font-size: 9px; color: var(--text-muted); font-weight: 600; }
+
+        /* Общие кнопки */
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s; color: #fff; }
+        .btn-primary { background: var(--accent-blue); }
+        .btn-primary:active { background: var(--accent-light); }
+        .btn-outline { background: transparent; border: 1px solid var(--border-light); color: var(--text-muted); }
+        
         /* =========================================
            5. ФОРМЫ И ВВОД (Для заявок и настроек)
            ========================================= */
@@ -288,333 +228,108 @@
 </head>
 <body>
 
-    <header class="top-header">
-        <div class="logo-box">
-            <div class="logo-icon">V</div>
-            <div class="logo-text">Vertex</div>
+    <header class="top-navbar">
+        <div class="nav-left">
+            <div class="nav-logo">👻</div>
+            <div class="nav-stats">
+                Админов: <span>23</span><br>
+                Игроков: <span>233</span>
+            </div>
+        </div>
+        
+        <button id="btn-login" class="login-btn">
+            ✈️ Войти через TG
+        </button>
+
+        <div id="user-profile-btn" class="user-mini-profile" onclick="switchTab('profile', document.getElementById('tab-link-profile'))">
+            <div class="user-mini-ava" id="mini-ava">V</div>
+            <span class="user-mini-name" id="mini-name">Загрузка...</span>
         </div>
     </header>
+
+    <div class="main-tabs-container">
+        <div class="tab-link active" onclick="switchTab('tournaments', this)">▶ Играть</div>
+        <div class="tab-link" onclick="switchTab('shop', this)">🛒 Магазин</div>
+        <div class="tab-link" onclick="switchTab('leaders', this)">📊 Лидеры</div>
+        <div class="tab-link" onclick="switchTab('tribunal', this)">👤 Баны</div>
+        <div class="tab-link" onclick="switchTab('rules', this)">📄 Правила</div>
+        <div id="tab-link-profile" class="tab-link" style="display: none;">Профиль</div>
+    </div>
 
     <div class="content-area">
         
         <div id="tab-tournaments" class="tab active">
             <h1 class="page-title">Турниры</h1>
-            
-            <div class="card">
-                <div class="card-header">
-                    <span class="badge badge-active">🟢 Набор открыт</span>
-                    <span style="font-weight: 700; color: #fbbf24;">🏆 5000G</span>
-                </div>
-                <div class="card-title">VERTEX SPRING MAJOR</div>
-                <div style="font-size: 13px; color: var(--text-muted);">Официальный турнир сезона</div>
-                
-                <div class="info-grid">
-                    <div class="info-item"><div class="info-val">5v5</div><div class="info-lbl">Формат</div></div>
-                    <div class="info-item"><div class="info-val">BO3</div><div class="info-lbl">Матчи</div></div>
-                    <div class="info-item"><div class="info-val">16</div><div class="info-lbl">Команд</div></div>
-                </div>
-
-                <button class="btn btn-primary" onclick="openModal('modal-apply')">Подать заявку</button>
-            </div>
-
-            <div class="card" style="border-color: var(--border-active);">
-                <div class="card-header">
-                    <span class="badge badge-live">🔴 Идет турнир</span>
-                    <button class="btn btn-outline" style="padding: 6px 12px; width: auto; font-size: 12px;" onclick="openModal('modal-admin-bracket')">⚙️ Управление</button>
-                </div>
-                <div class="card-title">WEEKEND CUP #4</div>
-                <div style="font-size: 13px; color: var(--text-muted);">Стадия: Четвертьфиналы</div>
-            </div>
+            <div class="card"><div style="color: var(--text-muted); text-align: center;">Список матчей загружается...</div></div>
         </div>
 
         <div id="tab-profile" class="tab">
-            <h1 class="page-title">Профиль</h1>
-            <div class="card" style="display: flex; gap: 20px; align-items: center;">
-                <div style="width: 70px; height: 70px; background: var(--bg-panel-hover); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; border: 2px solid var(--accent-blue);">👤</div>
+            <h1 class="page-title">Мой Профиль</h1>
+            
+            <div class="card" style="display: flex; gap: 15px; align-items: center;">
+                <div style="width: 60px; height: 60px; background: var(--bg-main); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 24px; border: 1px solid var(--border-light);">👻</div>
                 <div>
-                    <div style="font-size: 22px; font-weight: 700; margin-bottom: 4px;">PlayerName</div>
-                    <div class="badge badge-active">ID: 1029384</div>
-                </div>
+                    <div style="font-size: 20px; font-weight: 800; color: #fff;" id="full-profile-name">Player</div>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">ID: 9481023</div>
+                    <div class="role-badge role-owner">👑 Владелец проекта</div>
+                    </div>
             </div>
 
             <div class="card">
-                <div class="card-title" style="font-size: 16px;">Статистика</div>
-                <div class="info-grid" style="background: transparent; padding: 0; margin-top: 15px;">
-                    <div class="info-item"><div class="info-val" style="font-size: 20px; color: var(--accent-light);">1.45</div><div class="info-lbl">K/D Ratio</div></div>
-                    <div class="info-item"><div class="info-val" style="font-size: 20px;">68%</div><div class="info-lbl">Винрейт</div></div>
-                    <div class="info-item"><div class="info-val" style="font-size: 20px;">124</div><div class="info-lbl">Матчей</div></div>
+                <div style="font-size: 14px; font-weight: 700; margin-bottom: 10px;">Общая статистика</div>
+                <div class="stat-grid">
+                    <div class="stat-box"><div class="stat-val" style="color: var(--accent-light);">1.45</div><div class="stat-lbl">K/D Ratio</div></div>
+                    <div class="stat-box"><div class="stat-val">68%</div><div class="stat-lbl">Винрейт</div></div>
+                    <div class="stat-box"><div class="stat-val">124</div><div class="stat-lbl">Матчей</div></div>
+                </div>
+
+                <div style="font-size: 12px; font-weight: 700; margin-top: 20px; color: var(--text-muted);">ИСТОРИЯ K/D (5 МАТЧЕЙ)</div>
+                <div class="chart-wrapper">
+                    <div class="bar-container"><div class="bar-val">0.8</div><div class="bar" style="height: 40%;"></div><div class="bar-lbl">M1</div></div>
+                    <div class="bar-container"><div class="bar-val">1.2</div><div class="bar" style="height: 60%;"></div><div class="bar-lbl">M2</div></div>
+                    <div class="bar-container"><div class="bar-val">1.0</div><div class="bar" style="height: 50%;"></div><div class="bar-lbl">M3</div></div>
+                    <div class="bar-container"><div class="bar-val">2.1</div><div class="bar best" style="height: 100%;"></div><div class="bar-lbl" style="color: var(--accent-light);">MVP</div></div>
+                    <div class="bar-container"><div class="bar-val">1.5</div><div class="bar" style="height: 75%;"></div><div class="bar-lbl">M5</div></div>
                 </div>
             </div>
             
-            <div class="card">
-                <div class="card-title" style="font-size: 16px;">Ваш Клан</div>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-                    <div>
-                        <div style="font-weight: 700;">[WLV] Wolves E-Sports</div>
-                        <div style="font-size: 12px; color: var(--text-muted);">Роль: Владелец</div>
-                    </div>
-                    <button class="btn btn-outline" style="width: auto; padding: 6px 15px; font-size: 12px;">Управление</button>
-                </div>
-            </div>
+            <button class="btn btn-outline">Настройки аккаунта</button>
         </div>
 
-        <div id="tab-news" class="tab"><h1 class="page-title">Лента</h1><div class="card"><div style="color: var(--text-muted); text-align: center;">Новости загружаются...</div></div></div>
-        <div id="tab-tribunal" class="tab"><h1 class="page-title">Баны</h1><div class="card"><div style="color: var(--text-muted); text-align: center;">Список нарушителей пуст</div></div></div>
-        <div id="tab-chat" class="tab"><h1 class="page-title">Чат</h1><div class="card"><div style="color: var(--text-muted); text-align: center;">Подключение к серверу...</div></div></div>
-        <div id="tab-admin" class="tab"><h1 class="page-title">Админ-панель</h1><div class="card"><div style="color: var(--text-muted); text-align: center;">Доступно только создателям</div></div></div>
+        <div id="tab-shop" class="tab"><h1 class="page-title">Магазин</h1></div>
+        <div id="tab-leaders" class="tab"><h1 class="page-title">Лидеры</h1></div>
+        <div id="tab-tribunal" class="tab"><h1 class="page-title">Баны</h1><div class="card"><div style="color: var(--text-muted); text-align: center;">Список банов загружается...</div></div></div>
+        <div id="tab-rules" class="tab"><h1 class="page-title">Правила</h1></div>
+
     </div>
-
-    <div id="tab-tribunal" class="tab">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h1 class="page-title" style="margin: 0;">Баны</h1>
-                <div style="background: var(--bg-panel); padding: 8px 12px; border-radius: 8px; font-size: 12px; color: var(--text-muted); border: 1px solid var(--border-light); display: flex; align-items: center; gap: 6px;">
-                    <span>🔍</span> Поиск по нику / ID...
-                </div>
-            </div>
-
-            <div class="table-header">
-                <div>Игрок</div>
-                <div>Админ</div>
-                <div>Причина</div>
-                <div>Статус</div>
-                <div>Срок</div>
-                <div>Дата бана</div>
-            </div>
-
-            <div style="display: flex; flex-direction: column;">
-                
-                <div class="ban-row" onclick="openModal('modal-ban-details')">
-                    <div class="user-cell"><div class="mini-ava">🤡</div> 1_SuS_1</div>
-                    <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Proc...</div>
-                    <div class="reason-cell">Оскорбление родных</div>
-                    <div class="status-badge"><span class="status-icon">🔒</span> Забанен</div>
-                    <div class="time-cell">⏱️ 8 часов</div>
-                    <div class="time-cell">📅 18.03.2026</div>
-                </div>
-
-                <div class="ban-row" onclick="openModal('modal-ban-details')">
-                    <div class="user-cell"><div class="mini-ava">🐱</div> KOT LEOPOLYD</div>
-                    <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">🕶️</div> lenivskiy</div>
-                    <div class="reason-cell">Оскорбление родных</div>
-                    <div class="status-badge"><span class="status-icon">🔒</span> Забанен</div>
-                    <div class="time-cell">⏱️ 8 часов</div>
-                    <div class="time-cell">📅 18.03.2026</div>
-                </div>
-
-                <div class="ban-row" onclick="openModal('modal-ban-details')">
-                    <div class="user-cell"><div class="mini-ava">👴</div> Luck1shenko</div>
-                    <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Proc...</div>
-                    <div class="reason-cell">Игрок отказался от проверки</div>
-                    <div class="status-badge"><span class="status-icon">🔒</span> Забанен</div>
-                    <div class="time-cell">⏱️ 2 месяца</div>
-                    <div class="time-cell">📅 18.03.2026</div>
-                </div>
-
-                <div class="ban-row">
-                    <div class="user-cell"><div class="mini-ava" style="filter: grayscale(1);">👤</div> Dekoy</div>
-                    <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">💖</div> Toyota_pikmi</div>
-                    <div class="reason-cell">Оскорбления</div>
-                    <div class="status-badge" style="color: var(--text-muted);"><span class="status-icon">🔓</span> Разбанен</div>
-                    <div class="time-cell">⏱️ 2 часа</div>
-                    <div class="time-cell">📅 18.03.2026</div>
-                </div>
-
-            </div>
-        </div>
-    
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('tournaments', this)">
-            <div class="nav-icon">🏆</div>
-            <div class="nav-text">Игры</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('news', this)">
-            <div class="nav-icon">📰</div>
-            <div class="nav-text">Лента</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('profile', this)">
-            <div class="nav-icon">👤</div>
-            <div class="nav-text">Профиль</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('tribunal', this)">
-            <div class="nav-icon">🔨</div>
-            <div class="nav-text">Баны</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('chat', this)">
-            <div class="nav-icon">💬</div>
-            <div class="nav-text">Чат</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('admin', this)">
-            <div class="nav-icon">👑</div>
-            <div class="nav-text">Админ</div>
-        </div>
-    </div>
-
-    <div id="modal-apply" class="modal-overlay">
-        <div class="modal-header">
-            <h2 class="card-title" style="margin:0;">Подача заявки</h2>
-            <button class="close-btn" onclick="closeModal('modal-apply')">×</button>
-        </div>
-        <div class="card" style="border: none; padding: 0;">
-            <div class="form-group">
-                <label class="form-label">Название клана</label>
-                <input type="text" class="form-input" placeholder="Например: Wolves E-Sports">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Тег клана</label>
-                <input type="text" class="form-input" placeholder="Например: WLV">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Капитан (Ник и ID)</label>
-                <input type="text" class="form-input" placeholder="PlayerName - ID 123456">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Основной состав (Остальные 4 игрока)</label>
-                <textarea class="form-input" rows="4" placeholder="Игрок 2 - ID...&#10;Игрок 3 - ID...&#10;Игрок 4 - ID...&#10;Игрок 5 - ID..."></textarea>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Запасные (По желанию, до 2 чел.)</label>
-                <textarea class="form-input" rows="2" placeholder="Запасной 1 - ID..."></textarea>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Ссылка на связь (VK/TG капитана)</label>
-                <input type="text" class="form-input" placeholder="https://t.me/...">
-            </div>
-            <button class="btn btn-primary" onclick="closeModal('modal-apply')">Отправить заявку</button>
-        </div>
-    </div>
-
-    <div id="modal-admin-bracket" class="modal-overlay">
-        <div class="modal-header">
-            <h2 class="card-title" style="margin:0;">Управление турниром</h2>
-            <button class="close-btn" onclick="closeModal('modal-admin-bracket')">×</button>
-        </div>
-        
-        <div class="card" style="background: transparent; padding: 0; border: none; margin-bottom: 20px;">
-            <div class="form-row">
-                <div class="form-group" style="flex: 1;">
-                    <label class="form-label">Размер сетки</label>
-                    <select class="form-select">
-                        <option>8 команд</option>
-                        <option selected>16 команд</option>
-                        <option>32 команды</option>
-                        <option>64 команды</option>
-                    </select>
-                </div>
-                <div class="form-group" style="flex: 1;">
-                    <label class="form-label">Формат матчей</label>
-                    <select class="form-select">
-                        <option>BO1 (1 карта)</option>
-                        <option selected>BO3 (3 карты)</option>
-                        <option>BO5 (5 карт)</option>
-                    </select>
-                </div>
-            </div>
-            <button class="btn btn-outline" style="margin-bottom: 15px;">Сгенерировать сетку</button>
-        </div>
-
-        <h3 class="form-label" style="font-size: 14px; color: #fff;">Текущая сетка (Нажмите для ред. счета)</h3>
-        <div class="bracket-container">
-            <div class="bracket-round">
-                <div class="match-card" onclick="openModal('modal-edit-match')">
-                    <div class="match-team winner"><span>[WLV] Wolves</span><span class="match-score">2</span></div>
-                    <div class="match-team" style="border:none;"><span>[FCN] Falcons</span><span class="match-score">1</span></div>
-                </div>
-                <div class="match-card">
-                    <div class="match-team"><span>[EMP] Empire</span><span class="match-score">0</span></div>
-                    <div class="match-team winner" style="border:none;"><span>[NVY] Navi Y.</span><span class="match-score">2</span></div>
-                </div>
-            </div>
-            <div class="bracket-round">
-                <div class="match-card">
-                    <div class="match-team"><span>[WLV] Wolves</span><span class="match-score">-</span></div>
-                    <div class="match-team" style="border:none;"><span>[NVY] Navi Y.</span><span class="match-score">-</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal-edit-match" class="modal-overlay" style="z-index: 1010;">
-        <div class="modal-header">
-            <h2 class="card-title" style="margin:0;">Редактор матча</h2>
-            <button class="close-btn" onclick="closeModal('modal-edit-match')">×</button>
-        </div>
-        <div class="card" style="border: none; padding: 0;">
-            <div class="form-group">
-                <label class="form-label">Карта 1 (Например: Sandstone)</label>
-                <div class="form-row">
-                    <input type="text" class="form-input" placeholder="Название карты" value="Sandstone">
-                    <input type="number" class="form-input" style="width: 70px; text-align: center;" placeholder="Счет 1" value="10">
-                    <input type="number" class="form-input" style="width: 70px; text-align: center;" placeholder="Счет 2" value="8">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Карта 2 (Например: Province)</label>
-                <div class="form-row">
-                    <input type="text" class="form-input" placeholder="Название карты" value="Province">
-                    <input type="number" class="form-input" style="width: 70px; text-align: center;" placeholder="Счет 1" value="5">
-                    <input type="number" class="form-input" style="width: 70px; text-align: center;" placeholder="Счет 2" value="10">
-                </div>
-            </div>
-            <button class="btn btn-primary" onclick="closeModal('modal-edit-match')">Сохранить результат</button>
-        </div>
-    </div>
-
-    <div id="modal-ban-details" class="modal-overlay" style="z-index: 1020;">
-        <div class="modal-header" style="justify-content: center; position: relative;">
-            <h2 class="card-title" style="margin:0; font-size: 18px;">Подробнее</h2>
-            <button class="close-btn" style="position: absolute; right: 0; background: rgba(255,255,255,0.05); border-radius: 50%; width: 30px; height: 30px; font-size: 16px; display: flex; justify-content: center; align-items: center;" onclick="closeModal('modal-ban-details')">×</button>
-        </div>
-        
-        <div class="detail-list">
-            <div class="detail-item">
-                <div class="detail-label">ID Блокировки</div>
-                <div class="detail-value">111533</div>
-            </div>
-            <div class="detail-item" style="align-items: flex-start;">
-                <div class="detail-label" style="margin-top: 5px;">Причина</div>
-                <div class="detail-value" style="text-align: right; max-width: 60%;">Игрок отказался от проверки</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">Нарушитель</div>
-                <div class="detail-value"><div class="mini-ava">👴</div> Luck1shenko</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">Администратор</div>
-                <div class="detail-value"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Processin...</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">Дата бана</div>
-                <div class="detail-value">18.03.2026, 20:18</div>
-            </div>
-            <div class="detail-item">
-                <div class="detail-label">Дата разбана</div>
-                <div class="detail-value">17.05.2026, 21:18</div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-        }
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-    </script>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
 
+        // МАГИЯ АВТОРИЗАЦИИ: Заменяем кнопку на профиль, если есть данные ТГ
+        if(tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            let userName = tg.initDataUnsafe.user.first_name;
+            
+            // Скрываем кнопку входа, показываем профиль
+            document.getElementById("btn-login").style.display = "none";
+            document.getElementById("user-profile-btn").style.display = "flex";
+            
+            // Вписываем имя
+            document.getElementById("mini-name").innerText = userName;
+            document.getElementById("mini-ava").innerText = userName.charAt(0);
+            document.getElementById("full-profile-name").innerText = userName;
+        }
+
+        // Переключение вкладок
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(n => n.classList.remove('active'));
             
             let targetTab = document.getElementById('tab-' + tabId);
             if(targetTab) targetTab.classList.add('active');
-            element.classList.add('active');
+            if(element) element.classList.add('active');
             
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
         }
