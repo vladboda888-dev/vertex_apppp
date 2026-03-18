@@ -538,6 +538,146 @@
         .action-btn:active {
             color: var(--neon-blue);
             }
+        /* 12. УЛЬТРА-ПРОФИЛЬ: ГРАФИКИ И КЛАН */
+        
+        /* Статус аккаунта */
+        .account-status {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 5;
+        }
+
+        .status-clean {
+            color: #00ffaa;
+            background: rgba(0, 255, 170, 0.1);
+            border: 1px solid rgba(0, 255, 170, 0.4);
+            box-shadow: 0 0 10px rgba(0, 255, 170, 0.2);
+        }
+
+        .status-banned {
+            color: #ff2a2a;
+            background: rgba(255, 42, 42, 0.1);
+            border: 1px solid #ff2a2a;
+            box-shadow: 0 0 10px rgba(255, 42, 42, 0.4);
+        }
+
+        /* Блок Клана */
+        .clan-block {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(90deg, rgba(0, 87, 255, 0.15) 0%, transparent 100%);
+            border-left: 3px solid var(--neon-blue);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .clan-avatar {
+            width: 40px;
+            height: 40px;
+            background: #0f0f1a;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+
+        .clan-details .clan-tag {
+            font-size: 14px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .clan-details .clan-role {
+            font-size: 10px;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* Неоновый график (Histogram) */
+        .chart-box {
+            background: rgba(10, 15, 30, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .chart-title {
+            font-size: 12px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 120px; /* Высота графика */
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 8px;
+        }
+
+        .chart-bar-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            position: relative;
+        }
+
+        .chart-bar {
+            width: 100%;
+            max-width: 30px;
+            background: linear-gradient(0deg, var(--dark-blue) 0%, var(--neon-blue) 100%);
+            border-radius: 4px 4px 0 0;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+            position: relative;
+            /* Анимация роста графика */
+            animation: growBar 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            transform-origin: bottom;
+        }
+
+        @keyframes growBar {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
+        }
+
+        .chart-value {
+            position: absolute;
+            top: -20px;
+            font-size: 10px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .chart-label {
+            font-size: 9px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -612,32 +752,96 @@
         </div>
 
         <div id="tab-profile" class="tab">
-            <h1 class="page-title">Боец</h1>
+            <h1 class="page-title">Профиль</h1>
+            
             <div class="profile-header">
-                <div class="avatar-box"><div class="avatar-img">👤</div></div>
+                <div class="account-status status-clean">🟢 Аккаунт чист</div>
+                
+                <div class="avatar-box">
+                    <div class="avatar-img">👤</div>
+                </div>
                 <div class="profile-info">
-                    <div class="profile-name" id="profile-username">Игрок</div>
-                    <div class="profile-tag">КЛАН: [VRTX]</div>
+                    <div class="profile-name" id="profile-username">Загрузка...</div>
+                    <div class="profile-tag">ID: 8493021</div>
                 </div>
             </div>
+
+            <div class="clan-block">
+                <div class="clan-avatar">🐺</div>
+                <div class="clan-details">
+                    <div class="clan-tag">Wolves E-Sports [WLV]</div>
+                    <div class="clan-role">Основатель / Капитан</div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" style="color: var(--neon-blue);">68%</div>
+                    <div class="stat-label">Винрейт</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">1.45</div>
+                    <div class="stat-label">K/D Рейтинг</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">124</div>
+                    <div class="stat-label">Матчей</div>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <div class="chart-title">📊 Динамика K/D (Последние игры)</div>
+                <div class="chart-container">
+                    
+                    <div class="chart-bar-wrapper">
+                        <div class="chart-bar" style="height: 40%;">
+                            <div class="chart-value">0.8</div>
+                        </div>
+                        <div class="chart-label">Матч 1</div>
+                    </div>
+
+                    <div class="chart-bar-wrapper">
+                        <div class="chart-bar" style="height: 60%;">
+                            <div class="chart-value">1.2</div>
+                        </div>
+                        <div class="chart-label">Матч 2</div>
+                    </div>
+
+                    <div class="chart-bar-wrapper">
+                        <div class="chart-bar" style="height: 50%;">
+                            <div class="chart-value">1.0</div>
+                        </div>
+                        <div class="chart-label">Матч 3</div>
+                    </div>
+
+                    <div class="chart-bar-wrapper">
+                        <div class="chart-bar" style="height: 90%;">
+                            <div class="chart-value">1.8</div>
+                        </div>
+                        <div class="chart-label">Матч 4</div>
+                    </div>
+
+                    <div class="chart-bar-wrapper">
+                        <div class="chart-bar" style="height: 100%; background: linear-gradient(0deg, #ff8c00, #ffd700); box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);">
+                            <div class="chart-value" style="color: #ffd700;">2.1</div>
+                        </div>
+                        <div class="chart-label">Матч 5</div>
+                    </div>
+
+                </div>
+            </div>
+
             <div class="trophy-showcase">
                 <div class="trophy-title">🌟 Витрина наград</div>
-                <div class="trophy-icons"><span>🏆</span><span>🥇</span><span>🎖️</span></div>
+                <div class="trophy-icons">
+                    <span>🏆</span>
+                    <span>🥇</span>
+                    <span>🎖️</span>
+                </div>
             </div>
-            <div class="stats-grid">
-                <div class="stat-item"><div class="stat-value" style="color: var(--neon-blue);">68%</div><div class="stat-label">Винрейт</div></div>
-                <div class="stat-item"><div class="stat-value">1.45</div><div class="stat-label">K/D Рейтинг</div></div>
-                <div class="stat-item"><div class="stat-value">24</div><div class="stat-label">Матчей</div></div>
-            </div>
+
             <button class="card-btn btn-outline" style="margin-top: 10px;" onclick="if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light')">⚙️ Настройки профиля</button>
         </div>
-
-        <div id="tab-tribunal" class="tab"></div>
-        <div id="tab-apply" class="tab"></div>
-        <div id="tab-chat" class="tab"></div>
-        <div id="tab-admin" class="tab"></div>
-
-    </div>
 
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('tournaments', this)"><div class="nav-icon">🏆</div><div class="nav-text">Игры</div></div>
