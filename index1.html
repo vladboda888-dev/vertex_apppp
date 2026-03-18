@@ -316,29 +316,18 @@
             <div class="card">
                 <div style="font-size: 14px; font-weight: 800; margin-bottom: 15px; color: #fff; text-transform: uppercase; text-align: center;">Статистика игрока</div>
                 <div class="stat-grid" style="grid-template-columns: repeat(2, 1fr);">
-                    
                     <div class="stat-box">
                         <div class="stat-lbl" style="color: var(--light-blue);">K/D Ratio</div>
                         <div class="stat-val" style="color: var(--light-blue); font-size: 24px; margin: 5px 0;">1.34</div>
-                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 10px;">
-                            <span>Avg. Kills:</span> <span style="color:#fff;">23.3</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 4px;">
-                            <span>Avg. Deaths:</span> <span style="color:#fff;">18.5</span>
-                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 10px;"><span>Avg. Kills:</span> <span style="color:#fff;">23.3</span></div>
+                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 4px;"><span>Avg. Deaths:</span> <span style="color:#fff;">18.5</span></div>
                     </div>
-
                     <div class="stat-box">
                         <div class="stat-lbl" style="color: var(--light-blue);">Winrate</div>
                         <div class="stat-val" style="font-size: 24px; margin: 5px 0;">52.7%</div>
-                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 10px;">
-                            <span>Матчей:</span> <span style="color:#fff;">4167</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 4px;">
-                            <span>Побед:</span> <span style="color:#fff;">2196</span>
-                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 10px;"><span>Матчей:</span> <span style="color:#fff;">4167</span></div>
+                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 4px;"><span>Побед:</span> <span style="color:#fff;">2196</span></div>
                     </div>
-
                 </div>
             </div>
 
@@ -359,22 +348,10 @@
         <div id="tab-checks" class="tab">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h1 class="page-title" style="margin: 0;">Проверки</h1>
-                <button class="btn btn-primary" style="width: auto; padding: 8px 15px; font-size: 11px;" onclick="openModal('modal-call-check')">+ Вызвать игрока</button>
+                <button class="btn btn-primary" style="width: auto; padding: 8px 15px; font-size: 11px;" onclick="openModal('modal-active-check')">+ Вызвать игрока</button>
             </div>
-
-            <div class="check-header">
-                <div>Дата</div><div>Модератор</div><div>Подозреваемый</div><div>Дискорд</div><div>Вердикт</div>
-            </div>
-
+            <div class="check-header"><div>Дата</div><div>Модератор</div><div>Подозреваемый</div><div>Дискорд</div><div>Вердикт</div></div>
             <div style="display: flex; flex-direction: column;">
-                <div class="check-row">
-                    <div class="time-cell" style="font-size: 10px;">16.08.24<br>16:14</div>
-                    <div class="user-cell"><div class="mini-ava">🤖</div> ERROR_404</div>
-                    <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🥷</div> [CHITS] GAN...</div>
-                    <div style="color: var(--text-muted); font-size: 10px;">pyps_za_ka...</div>
-                    <div><span class="verdict-badge verdict-clean">✔️ Нарушений нет</span></div>
-                </div>
-
                 <div class="check-row" onclick="openModal('modal-active-check')">
                     <div class="time-cell" style="font-size: 10px;">Сейчас<br>Активно</div>
                     <div class="user-cell"><div class="mini-ava">👑</div> Токеро</div>
@@ -382,28 +359,13 @@
                     <div style="color: var(--text-muted); font-size: 10px;">Ожидание...</div>
                     <div><span class="verdict-badge verdict-wait">⏳ Идет проверка</span></div>
                 </div>
-
-                <div class="check-row">
-                    <div class="time-cell" style="font-size: 10px;">15.08.24<br>08:26</div>
-                    <div class="user-cell"><div class="mini-ava">👑</div> Токеро</div>
-                    <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🇷🇺</div> RUS_BOY</div>
-                    <div style="color: var(--text-muted); font-size: 10px;">eqsta</div>
-                    <div><span class="verdict-badge verdict-ban">🔒 Отказ от проверки</span></div>
-                </div>
             </div>
         </div>
 
         <div id="tab-tribunal" class="tab">
             <h1 class="page-title" style="margin-bottom: 10px;">Трибунал</h1>
-            
-            <div class="sub-tabs">
-                <button class="sub-tab active">Баны</button>
-                <button class="sub-tab">Муты</button>
-            </div>
-
-            <div class="table-header">
-                <div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Срок</div><div>Дата</div>
-            </div>
+            <div class="sub-tabs"><button class="sub-tab active">Баны</button><button class="sub-tab">Муты</button></div>
+            <div class="table-header"><div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Срок</div><div>Дата</div></div>
             <div class="ban-row">
                 <div class="user-cell"><div class="mini-ava">🤡</div> 1_SuS_1</div>
                 <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Proc...</div>
@@ -414,45 +376,11 @@
             </div>
         </div>
 
-        <div id="tab-rules" class="tab">
-            <h1 class="page-title">Правила</h1>
-            
-            <div style="background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; margin-bottom: 15px; overflow: hidden;">
-                <div style="display: flex; align-items: center; gap: 10px; padding: 15px; font-weight: 800; color: #fff; border-bottom: 1px solid var(--border-light); background: rgba(255,255,255,0.02);">
-                    <span style="font-size: 18px; font-weight: 900; color: var(--light-blue);">1.1</span> Читы и стороннее ПО
-                </div>
-                <div style="padding: 15px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
-                    Использование, хранение активных или замороженных подписок на читы и прочее ПО, которое предоставляет преимущество над другими пользователями платформы. Запрещено модифицировать файлы игры.
-                </div>
-                <div style="padding: 12px 15px; background: rgba(251, 191, 36, 0.05); color: var(--gold); font-size: 11px; font-weight: 800; border-top: 1px solid rgba(251, 191, 36, 0.1);">
-                    Наказание: перманентная блокировка аккаунта (Бан навсегда).
-                </div>
-            </div>
+        <div id="tab-rules" class="tab"><h1 class="page-title">Правила</h1><div class="card" style="text-align: center; color: var(--text-muted);">Правила загружаются...</div></div>
+        <div id="tab-chat" class="tab"><h1 class="page-title">Чат</h1><div class="card" style="text-align: center; color: var(--text-muted);">Чат загружается...</div></div>
+        <div id="tab-admin" class="tab"><h1 class="page-title">Управление</h1><div class="card" style="text-align: center; color: var(--text-muted);">Панель администратора</div></div>
 
-            <div style="background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; margin-bottom: 15px; overflow: hidden;">
-                <div style="display: flex; align-items: center; gap: 10px; padding: 15px; font-weight: 800; color: #fff; border-bottom: 1px solid var(--border-light); background: rgba(255,255,255,0.02);">
-                    <span style="font-size: 18px; font-weight: 900; color: var(--light-blue);">1.2</span> Отказ от проверки
-                </div>
-                <div style="padding: 15px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
-                    Выход с сервера после вызова на проверку, отказ от проверки на читы в голосовом или текстовом чате, непредоставление администратору своих контактных данных Discord в течение 180 секунд.
-                </div>
-                <div style="padding: 12px 15px; background: rgba(251, 191, 36, 0.05); color: var(--gold); font-size: 11px; font-weight: 800; border-top: 1px solid rgba(251, 191, 36, 0.1);">
-                    Наказание: бан на 60 дней.
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-chat" class="tab">
-            <h1 class="page-title">Чат</h1>
-            <div class="card" style="text-align: center; color: var(--text-muted);">Чат загружается...</div>
-        </div>
-
-        <div id="tab-admin" class="tab">
-            <h1 class="page-title">Управление</h1>
-            <div class="card" style="text-align: center; color: var(--text-muted);">Панель администратора</div>
-        </div>
-
-        div id="modal-active-check" class="modal-overlay" style="z-index: 1030;">
+    </div> <div id="modal-active-check" class="modal-overlay">
         <div class="modal-header">
             <h2 class="card-title" style="margin:0; font-size: 20px;">Проверка игрока</h2>
             <button class="close-btn" onclick="closeModal('modal-active-check')">×</button>
@@ -482,7 +410,7 @@
         </div>
     </div>
 
-    </div> <script>
+    <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
@@ -496,33 +424,22 @@
             document.getElementById("full-profile-name").innerText = userName;
         }
 
-        // Надежное переключение вкладок
         function switchTab(tabId, element) {
-            // 1. Скрываем абсолютно все вкладки
-            let allTabs = document.querySelectorAll('.tab');
-            allTabs.forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(n => n.classList.remove('active'));
             
-            // 2. Снимаем выделение со всех кнопок меню
-            let allLinks = document.querySelectorAll('.tab-link');
-            allLinks.forEach(n => n.classList.remove('active'));
-            
-            // 3. Ищем нужную вкладку по ID и показываем ее
             let targetTab = document.getElementById('tab-' + tabId);
             if(targetTab) {
                 targetTab.classList.add('active');
             }
-            
-            // 4. Подсвечиваем нажатую кнопку
             if(element) {
                 element.classList.add('active');
             }
-            
             if(tg.HapticFeedback) {
                 tg.HapticFeedback.impactOccurred('light');
             }
         }
 
-        // Функции для открытия и закрытия всплывающих окон
         function openModal(id) {
             document.getElementById(id).classList.add('active');
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
