@@ -278,10 +278,58 @@
         
         /* Скрытие списков для Банов/Мутов */
         .list-hidden { display: none; }
+
+        /* =========================================
+           22. ЛЕНТА НОВОСТЕЙ И АДМИН-ПАНЕЛЬ
+           ========================================= */
+        .admin-post-creator { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; padding: 15px; margin-bottom: 20px; }
+        .post-textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); border-radius: 8px; color: #fff; padding: 12px; resize: none; outline: none; font-size: 13px; margin-bottom: 10px; font-family: inherit; }
+        .post-textarea:focus { border-color: var(--light-blue); }
+        .creator-actions { display: flex; justify-content: space-between; align-items: center; }
+        .attach-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border-light); color: var(--text-muted); padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .attach-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+        .news-post { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; margin-bottom: 20px; overflow: hidden; }
+        .post-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .post-author { display: flex; align-items: center; gap: 10px; }
+        .post-content { padding: 15px; font-size: 13px; color: #e2e8f0; line-height: 1.5; }
+        .post-img { width: 100%; height: 200px; object-fit: cover; background: #000; display: flex; justify-content: center; align-items: center; color: var(--text-muted); font-size: 24px; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+        .post-footer { padding: 12px 15px; display: flex; gap: 15px; }
+        .interact-btn { background: transparent; border: none; color: var(--text-muted); font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .interact-btn:hover, .interact-btn.active { color: var(--danger-red); }
+        .interact-btn-comment:hover { color: var(--light-blue); }
+        
+        .comments-section { background: rgba(0,0,0,0.2); padding: 15px; border-top: 1px solid var(--border-light); display: none; }
+        .comment-item { display: flex; gap: 10px; margin-bottom: 12px; }
+        .comment-text { background: rgba(255,255,255,0.05); padding: 10px 12px; border-radius: 12px; font-size: 12px; color: #cbd5e1; border-top-left-radius: 0; flex-grow: 1; }
+
+        /* =========================================
+           23. КНОПКИ РАЗБАНА И ТОЧНЫЕ ТАБЛИЦЫ
+           ========================================= */
+        .btn-unban { background: rgba(16, 185, 129, 0.1); color: var(--success-green); border: 1px solid rgba(16, 185, 129, 0.3); padding: 6px 12px; border-radius: 20px; font-size: 9px; font-weight: 800; cursor: pointer; text-transform: uppercase; transition: all 0.2s; display: flex; justify-content: center; align-items: center; }
+        .btn-unban:hover { background: var(--success-green); color: #fff; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+
+        .table-header-ext { display: grid; grid-template-columns: 2fr 1.5fr 2fr 1fr 1.5fr 1.5fr 1fr; padding: 0 15px 10px; font-size: 10px; font-weight: 700; color: var(--text-muted); border-bottom: 1px solid var(--border-light); margin-bottom: 10px; text-transform: uppercase; }
+        .ban-row-ext { display: grid; grid-template-columns: 2fr 1.5fr 2fr 1fr 1.5fr 1.5fr 1fr; align-items: center; background: var(--bg-panel); padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
+
+        .check-header-ext { display: grid; grid-template-columns: 1.5fr 1.5fr 1.5fr 1.5fr 1fr 1fr; padding: 0 15px 10px; font-size: 10px; font-weight: 700; color: var(--text-muted); border-bottom: 1px solid var(--border-light); margin-bottom: 10px; text-transform: uppercase; }
+        .check-row-ext { display: grid; grid-template-columns: 1.5fr 1.5fr 1.5fr 1.5fr 1fr 1fr; align-items: center; background: var(--bg-panel); padding: 12px 15px; border-radius: 12px; margin-bottom: 8px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
+
+        /* =========================================
+           24. ДОПОЛНЕНИЯ ДЛЯ ПРОФИЛЯ
+           ========================================= */
+        .profile-socials { display: flex; gap: 10px; margin-top: 15px; }
+        .social-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-light); padding: 10px; border-radius: 8px; color: #fff; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .social-btn:hover { background: rgba(255,255,255,0.1); border-color: var(--light-blue); }
+        
+        .pref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .pref-item { background: rgba(0,0,0,0.2); border: 1px solid var(--border-light); padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 12px; }
+        .pref-icon { font-size: 24px; }
+        .pref-info-title { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 2px; }
+        .pref-info-val { font-size: 14px; font-weight: 900; color: #fff; }
     </style>
 </head>
 <body>
-    
     <header class="top-navbar">
         <div class="nav-left">
             <div class="nav-logo">V</div>
@@ -315,19 +363,72 @@
     <div class="content-area">
         
         <div id="tab-tournaments" class="tab active">
-            <h1 class="page-title">Турниры</h1>
+            <h1 class="page-title">События</h1>
             <div class="card">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 15px;"><span class="badge badge-active">🟢 Открыто</span><span style="font-weight: 800; color: var(--gold);">🏆 5000G</span></div>
                 <div style="font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 5px;">VERTEX MAJOR</div>
                 <div style="font-size: 12px; color: var(--light-blue); font-weight: 600; text-transform: uppercase; margin-bottom: 15px;">Главный турнир сезона - 5v5</div>
                 <div style="display: flex; gap: 10px;">
-                    <button class="btn btn-primary" style="flex: 2;" onclick="openModal('modal-apply')">Подать заявку</button>
+                    <button class="btn btn-primary" style="flex: 2;">Подать заявку</button>
                     <button class="btn btn-outline" style="flex: 1; font-size: 11px;">📊 Сетка матчей</button>
                 </div>
             </div>
         </div>
 
-        <div id="tab-news" class="tab"><h1 class="page-title">Лента</h1><div class="card" style="text-align: center; color: var(--text-muted);">Новости загружаются...</div></div>
+        <div id="tab-news" class="tab">
+            <h1 class="page-title">Лента событий</h1>
+            
+            <div class="admin-post-creator">
+                <div style="font-size: 12px; font-weight: 800; color: var(--gold); text-transform: uppercase; margin-bottom: 10px;">👑 Панель управления лентой</div>
+                <textarea class="post-textarea" rows="3" placeholder="Напишите новость для игроков..."></textarea>
+                <div class="creator-actions">
+                    <button class="attach-btn">📎 Загрузить фото/баннер</button>
+                    <button class="btn btn-primary" style="width: auto; padding: 8px 20px;">Опубликовать</button>
+                </div>
+            </div>
+
+            <div class="news-post">
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="mini-ava" style="background: var(--light-blue); color: #000; border-radius: 50%;">V</div>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 800; color: #fff;">Vertex Admin</div>
+                            <div style="font-size: 10px; color: var(--text-muted);">Сегодня, 14:30</div>
+                        </div>
+                    </div>
+                    <div class="role-badge role-owner">Официально</div>
+                </div>
+                <div class="post-content">
+                    Приветствуем всех участников! 🔥<br><br>
+                    Мы рады объявить об открытии регистрации на VERTEX MAJOR. Призовой фонд увеличен до 5000G! Собирайте команду, тренируйте раскидки и подавайте заявку. Будет жарко!
+                </div>
+                <div class="post-img">🖼️ Место для красивого баннера (1000x400)</div>
+                <div class="post-footer">
+                    <button class="interact-btn active" onclick="if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light')">❤️ 154</button>
+                    <button class="interact-btn interact-btn-comment" onclick="toggleComments('comment-block-1')">💬 2 Комментария</button>
+                </div>
+                <div class="comments-section" id="comment-block-1" style="display: block;">
+                    <div class="comment-item">
+                        <div class="mini-ava" style="border-radius: 50%;">💀</div>
+                        <div class="comment-text">
+                            <div style="font-weight: 800; color: #fff; margin-bottom: 4px;">S1mple_fan</div>
+                            Уже регаем команду, ждите мощный камбэк!
+                        </div>
+                    </div>
+                    <div class="comment-item">
+                        <div class="mini-ava" style="border-radius: 50%;">😎</div>
+                        <div class="comment-text">
+                            <div style="font-weight: 800; color: #fff; margin-bottom: 4px;">ProSniper</div>
+                            Надеюсь, пинг серверов будет нормальным в этот раз.
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <input type="text" class="form-input" placeholder="Написать комментарий..." style="padding: 10px; font-size: 12px;">
+                        <button class="btn btn-primary" style="width: auto; padding: 0 15px;">➤</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="tab-profile" class="tab">
             <h1 class="page-title">Мой Профиль</h1>
@@ -362,6 +463,26 @@
                 </div>
             </div>
 
+            <div class="card">
+                <div style="font-size: 14px; font-weight: 800; margin-bottom: 15px; color: #fff; text-transform: uppercase; text-align: center;">Статистика и предпочтения</div>
+                <div class="pref-grid">
+                    <div class="pref-item">
+                        <div class="pref-icon">🔫</div>
+                        <div><div class="pref-info-title">Сигнатурка</div><div class="pref-info-val">AKR / M4A1</div></div>
+                    </div>
+                    <div class="pref-item">
+                        <div class="pref-icon">🗺️</div>
+                        <div><div class="pref-info-title">Лучшая карта</div><div class="pref-info-val">Sandstone (65% Win)</div></div>
+                    </div>
+                </div>
+
+                <div class="profile-socials">
+                    <button class="social-btn">🟣 Discord</button>
+                    <button class="social-btn">🔵 Telegram</button>
+                    <button class="social-btn">🎮 Steam ID</button>
+                </div>
+            </div>
+
             <div class="admin-role-box">
                 <div style="font-size: 12px; font-weight: 800; color: var(--gold); text-transform: uppercase; margin-bottom: 10px;">Управление ролями (Панель Владельца)</div>
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
@@ -382,27 +503,21 @@
                 <button class="btn btn-primary" style="width: auto; padding: 8px 15px; font-size: 11px;" onclick="openModal('modal-active-check')">+ Вызвать игрока</button>
             </div>
             
-            <div class="check-header" style="grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr 1fr 0.5fr;">
-                <div>Дата</div><div>Модератор</div><div>Подозреваемый</div><div>Дискорд</div><div>Вердикт</div><div></div>
+            <div class="check-header-ext">
+                <div>Точная дата</div><div>Модератор</div><div>Подозреваемый</div><div>Дискорд</div><div>Вердикт</div><div>Действия</div>
             </div>
 
             <div style="display: flex; flex-direction: column;">
-                <div class="check-row" style="grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr 1fr 0.5fr;">
-                    <div class="time-cell" style="font-size: 10px;">16.08.24<br>16:14:15</div>
+                <div class="check-row-ext">
+                    <div class="time-cell" style="font-size: 10px; color: #fff; font-weight: 700;">16.08.2026<br><span style="color: var(--text-muted);">16:14:15</span></div>
                     <div class="user-cell"><div class="mini-ava">🤖</div> ERROR_404</div>
                     <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🥷</div> [CHITS] GAN...</div>
                     <div style="color: var(--text-muted); font-size: 10px; display: flex; align-items: center; gap: 5px;">pyps_za_ka... <span>📋</span></div>
                     <div><span class="verdict-badge verdict-clean">✔️ Нарушений нет</span></div>
-                    <div style="display: flex; justify-content: flex-end;"><button class="check-action-btn">💬</button></div>
-                </div>
-
-                <div class="check-row" style="grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr 1fr 0.5fr;" onclick="openModal('modal-active-check')">
-                    <div class="time-cell" style="font-size: 10px;">Сейчас<br>Активно</div>
-                    <div class="user-cell"><div class="mini-ava">👑</div> Токеро</div>
-                    <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🐶</div> [Skeeet] Мил...</div>
-                    <div style="color: var(--text-muted); font-size: 10px;">Не получен</div>
-                    <div><span class="verdict-badge verdict-wait">⏳ Ожидание</span></div>
-                    <div style="display: flex; justify-content: flex-end;"><button class="check-action-btn">💬</button></div>
+                    <div style="display: flex; justify-content: flex-end; gap: 5px;">
+                        <button class="check-action-btn" title="Смотреть логи">📄</button>
+                        <button class="check-action-btn" title="Чат проверки">💬</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -416,67 +531,37 @@
             </div>
 
             <div id="list-bans">
-                <div class="table-header"><div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Срок</div><div>Дата</div></div>
-                <div class="ban-row">
+                <div class="table-header-ext"><div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Точный срок</div><div>Дата выдачи</div><div>Действие</div></div>
+                <div class="ban-row-ext">
                     <div class="user-cell"><div class="mini-ava">🤡</div> 1_SuS_1</div>
                     <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Proc...</div>
                     <div class="reason-cell">Оскорбление родных</div>
                     <div class="status-badge"><span class="status-icon" style="color: var(--danger-red);">🔒</span> Забанен</div>
-                    <div class="time-cell">⏱️ 8 часов</div>
-                    <div class="time-cell">📅 18.03.2026</div>
+                    <div class="time-cell" style="color: #fff; font-weight: 700;">8 часов<br><span style="font-size: 9px; color: var(--text-muted);">Осталось: 05:21:10</span></div>
+                    <div class="time-cell" style="font-size: 10px;">18.03.2026<br>20:10:00</div>
+                    <div><button class="btn-unban">Разбанить</button></div>
                 </div>
             </div>
 
             <div id="list-mutes" class="list-hidden">
-                <div class="table-header"><div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Срок</div><div>Дата</div></div>
-                <div class="ban-row">
+                <div class="table-header-ext"><div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Точный срок</div><div>Дата выдачи</div><div>Действие</div></div>
+                <div class="ban-row-ext">
                     <div class="user-cell"><div class="mini-ava">🔇</div> ToxicBoy</div>
                     <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👑</div> Токеро</div>
                     <div class="reason-cell">Спам в чате</div>
                     <div class="status-badge"><span class="status-icon" style="color: var(--gold);">🔇</span> Мут чата</div>
-                    <div class="time-cell">⏱️ 2 часа</div>
-                    <div class="time-cell">📅 18.03.2026</div>
+                    <div class="time-cell" style="color: #fff; font-weight: 700;">2 часа<br><span style="font-size: 9px; color: var(--text-muted);">Осталось: 01:15:00</span></div>
+                    <div class="time-cell" style="font-size: 10px;">18.03.2026<br>21:00:15</div>
+                    <div><button class="btn-unban">Размутить</button></div>
                 </div>
             </div>
         </div>
 
         <div id="tab-rules" class="tab">
-            
-            <div id="rules-main-view">
-                <h1 class="page-title">Правила Турниров</h1>
-                <div style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Выберите турнир, чтобы прочитать его свод правил и регламент.</div>
-                
-                <div class="rules-grid">
-                    <div class="rule-tour-card" onclick="openRuleDetails('major')">
-                        <div style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 5px;">VERTEX MAJOR</div>
-                        <div style="font-size: 11px; color: var(--light-blue); text-transform: uppercase; font-weight: 700;">Официальный регламент сезона</div>
-                    </div>
-                    <div class="rule-tour-card" onclick="openRuleDetails('weekend')">
-                        <div style="font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 5px;">WEEKEND CUP #4</div>
-                        <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Регламент турнира выходного дня</div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="rules-detail-view" class="rule-detail-view">
-                <button class="back-btn" onclick="backToRules()">◀ Назад к списку</button>
-                <h1 class="page-title" style="font-size: 24px;" id="rule-detail-title">Правила: VERTEX MAJOR</h1>
-                
-                <div style="background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; margin-bottom: 15px; overflow: hidden;">
-                    <div style="display: flex; align-items: center; gap: 10px; padding: 15px; font-weight: 800; color: #fff; border-bottom: 1px solid var(--border-light); background: rgba(255,255,255,0.02);">
-                        <span style="font-size: 18px; font-weight: 900; color: var(--light-blue);">1.1</span> Читы и стороннее ПО
-                    </div>
-                    <div style="padding: 15px; font-size: 12px; color: var(--text-muted); line-height: 1.5;">
-                        Использование, хранение активных или замороженных подписок на читы и прочее ПО запрещено.
-                    </div>
-                    <div style="padding: 12px 15px; background: rgba(251, 191, 36, 0.05); color: var(--gold); font-size: 11px; font-weight: 800; border-top: 1px solid rgba(251, 191, 36, 0.1);">
-                        Наказание: перманентная блокировка аккаунта (Бан навсегда).
-                    </div>
-                </div>
-            </div>
-
+            <h1 class="page-title">Правила</h1>
+            <div class="card" style="text-align: center; color: var(--text-muted);">Правила турниров</div>
         </div>
-
+        
         <div id="tab-chat" class="tab"><h1 class="page-title">Чат</h1><div class="card" style="text-align: center; color: var(--text-muted);">Чат загружается...</div></div>
         <div id="tab-admin" class="tab"><h1 class="page-title">Управление</h1><div class="card" style="text-align: center; color: var(--text-muted);">Панель администратора</div></div>
 
@@ -524,6 +609,7 @@
             document.getElementById("full-profile-name").innerText = userName;
         }
 
+        // Переключение главных вкладок
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-link').forEach(n => n.classList.remove('active'));
@@ -540,16 +626,7 @@
             }
         }
 
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-        }
-        
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-
-        // Переключение Баны / Муты
+        // Переключение Баны/Муты
         function switchSubTab(type) {
             document.getElementById('btn-sub-bans').classList.remove('active');
             document.getElementById('btn-sub-mutes').classList.remove('active');
@@ -562,23 +639,23 @@
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
         }
 
-        // Открытие правил конкретного турнира
-        function openRuleDetails(tourId) {
-            document.getElementById('rules-main-view').style.display = 'none';
-            document.getElementById('rules-detail-view').style.display = 'block';
-            
-            if(tourId === 'major') {
-                document.getElementById('rule-detail-title').innerText = 'Правила: VERTEX MAJOR';
-            } else {
-                document.getElementById('rule-detail-title').innerText = 'Правила: WEEKEND CUP';
-            }
+        // Открытие/закрытие модалок
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
         }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
 
-        // Возврат к списку турниров в правилах
-        function backToRules() {
-            document.getElementById('rules-detail-view').style.display = 'none';
-            document.getElementById('rules-main-view').style.display = 'block';
+        // Скрытие комментариев в ленте
+        function toggleComments(id) {
+            let el = document.getElementById(id);
+            if (el.style.display === 'none' || el.style.display === '') {
+                el.style.display = 'block';
+            } else {
+                el.style.display = 'none';
+            }
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
         }
     </script>
