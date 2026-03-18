@@ -6,205 +6,88 @@
     <title>Vertex Tournaments</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Главные цвета и переменные (Неоновый киберспорт) */
+        /* 1. ГЛАВНЫЕ ЦВЕТА (Черно-синий стиль) */
         :root {
-            --bg-main: #09090b; /* Глубокий темный фон */
-            --bg-panel: rgba(24, 24, 29, 0.7); /* Полупрозрачные панели */
-            --accent: #ff2a2a; /* Неоновый красный */
-            --accent-glow: rgba(255, 42, 42, 0.4);
+            --bg-deep: #05050a; /* Очень глубокий темный цвет, почти черный */
+            --bg-panel: rgba(10, 15, 30, 0.6); /* Стеклянные синие панели */
+            --neon-blue: #00f0ff; /* Яркий кибер-синий для свечения */
+            --dark-blue: #0057ff; /* Насыщенный синий для акцентов */
             --text-main: #ffffff;
-            --text-muted: #8a8a93;
-            --border-color: rgba(255, 255, 255, 0.05);
+            --text-muted: #8b9bb4; /* Серо-синий текст */
+            --glass-border: rgba(0, 240, 255, 0.15); /* Прозрачная синяя рамка */
         }
 
+        /* 2. БАЗОВЫЕ НАСТРОЙКИ */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* 3. КРАСИВЫЙ ФОН С ПОДСВЕТКОЙ */
         body {
-            background-color: var(--bg-main);
+            background-color: var(--bg-deep);
             color: var(--text-main);
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            /* Два больших синих неоновых пятна на фоне для объема */
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(255, 42, 42, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 50% 100%, rgba(255, 42, 42, 0.05) 0%, transparent 50%);
+                radial-gradient(circle at 10% 0%, rgba(0, 87, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 100%, rgba(0, 240, 255, 0.1) 0%, transparent 40%);
         }
-
-        /* Красивая шапка */
-        header {
-            padding: 20px 15px 15px;
+        /* 4. СТИЛИ ДЛЯ ШАПКИ (Header) */
+        .top-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(180deg, var(--bg-main) 0%, transparent 100%);
+            padding: 20px 20px 15px;
+            background: linear-gradient(180deg, rgba(5,5,10,0.9) 0%, transparent 100%);
             z-index: 10;
         }
 
-        .header-title {
-            font-size: 24px;
+        /* 5. ЛОГОТИП VERTEX */
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--dark-blue));
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900;
+            font-size: 18px;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        .logo-text {
+            font-size: 22px;
             font-weight: 800;
-            text-transform: uppercase;
             letter-spacing: 2px;
-            background: linear-gradient(90deg, #fff, #ff2a2a);
+            text-transform: uppercase;
+            /* Текст с синим переливом */
+            background: linear-gradient(90deg, #fff, var(--neon-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        /* Контейнер для контента с плавной прокруткой */
-        .content-area {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 0 15px 20px;
-            padding-bottom: 80px; /* Отступ для нижнего меню */
-        }
-
-        /* Анимация появления вкладок */
-        .tab {
-            display: none;
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-        .tab.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Нижнее меню (Стеклянное) */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            background: var(--bg-panel);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 5px;
-            z-index: 100;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            text-decoration: none;
-            width: 14%;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .nav-icon {
-            font-size: 22px;
-            margin-bottom: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-text {
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        /* Активная кнопка в меню */
-        .nav-item.active {
-            color: var(--accent);
-        }
-        .nav-item.active .nav-icon {
-            transform: translateY(-3px) scale(1.1);
-            text-shadow: 0 0 15px var(--accent);
         }
     </style>
 </head>
 <body>
-
-    <header>
-        <div class="header-title" id="top-title">Турниры</div>
+    <header class="top-header">
+        <div class="logo-box">
+            <div class="logo-icon">V</div>
+            <div class="logo-text">Vertex</div>
+        </div>
     </header>
-
-    <div class="content-area">
-        
-        <div id="tab-tournaments" class="tab active">
-            <h2 style="color: var(--text-muted); text-align: center; margin-top: 50px;">Тут будет крутая сетка турниров</h2>
-        </div>
-        
-        <div id="tab-news" class="tab"></div>
-        <div id="tab-profile" class="tab"></div>
-        <div id="tab-tribunal" class="tab"></div>
-        <div id="tab-apply" class="tab"></div>
-        <div id="tab-chat" class="tab"></div>
-        <div id="tab-admin" class="tab"></div>
-    </div>
-
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('tournaments', 'Турниры', this)">
-            <div class="nav-icon">🏆</div>
-            <div class="nav-text">Игры</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('news', 'Новости', this)">
-            <div class="nav-icon">📰</div>
-            <div class="nav-text">Лента</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('profile', 'Профиль', this)">
-            <div class="nav-icon">👤</div>
-            <div class="nav-text">Боец</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('tribunal', 'Трибунал', this)">
-            <div class="nav-icon">🔨</div>
-            <div class="nav-text">Баня</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('apply', 'Заявка', this)">
-            <div class="nav-icon">📝</div>
-            <div class="nav-text">Заявка</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('chat', 'Чат', this)">
-            <div class="nav-icon">💬</div>
-            <div class="nav-text">Чат</div>
-        </div>
-        <div class="nav-item" onclick="switchTab('admin', 'Управление', this)">
-            <div class="nav-icon">👑</div>
-            <div class="nav-text">Админ</div>
-        </div>
-    </div>
-
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-
-        function switchTab(tabId, title, element) {
-            // Убираем активность со всех вкладок
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
-            // Включаем нужную вкладку
-            document.getElementById('tab-' + tabId).classList.add('active');
-            element.classList.add('active');
-            
-            // Меняем заголовок с анимацией
-            const titleEl = document.getElementById('top-title');
-            titleEl.style.opacity = 0;
-            setTimeout(() => {
-                titleEl.innerText = title;
-                titleEl.style.opacity = 1;
-            }, 150);
-        }
-    </script>
-</body>
+    </body>
 </html>
