@@ -327,6 +327,29 @@
         .pref-icon { font-size: 24px; }
         .pref-info-title { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 2px; }
         .pref-info-val { font-size: 14px; font-weight: 900; color: #fff; }
+
+        /* =========================================
+           25. НОВЫЕ СТИЛИ (Профиль, Корзина, Чат проверки)
+           ========================================= */
+        /* Статусы профиля */
+        .profile-status-badges { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; z-index: 5; }
+        .badge-grey { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-muted); padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-green { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--success-green); padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.1); }
+        .badge-red { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--danger-red); padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.1); }
+
+        /* Кнопка удаления (Корзина) */
+        .btn-trash { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: var(--text-muted); width: 34px; height: 34px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .btn-trash:hover { background: rgba(239, 68, 68, 0.2); color: var(--danger-red); border-color: rgba(239, 68, 68, 0.4); }
+
+        /* Дизайн модалки чата */
+        .modal-content-wrap { width: 100%; max-width: 900px; margin: 0 auto; }
+        .chat-container { background: #0a0c13; border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; height: 350px; }
+        .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .chat-message { font-size: 13px; line-height: 1.5; background: rgba(255,255,255,0.02); padding: 10px 15px; border-radius: 8px; border-left: 2px solid var(--danger-red); }
+        .chat-input-area { display: flex; gap: 10px; padding: 15px; background: rgba(0, 0, 0, 0.4); border-top: 1px solid var(--border-light); align-items: center; }
+        .chat-input { flex-grow: 1; background: transparent; border: none; color: #fff; font-size: 13px; outline: none; }
+        .chat-send-btn { background: linear-gradient(135deg, var(--light-blue), var(--dark-blue)); border: none; color: #fff; width: 40px; height: 40px; border-radius: 8px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); font-size: 16px; }
+        .chat-send-btn:hover { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -396,7 +419,10 @@
                             <div style="font-size: 10px; color: var(--text-muted);">Сегодня, 14:30</div>
                         </div>
                     </div>
-                    <div class="role-badge role-owner">Официально</div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="role-badge role-owner">Официально</div>
+                        <button class="btn-trash" title="Удалить пост">🗑️</button>
+                    </div>
                 </div>
                 <div class="post-content">
                     Приветствуем всех участников! 🔥<br><br>
@@ -435,6 +461,14 @@
             
             <div class="profile-banner"></div>
             <div class="profile-header-new" style="justify-content: flex-start; gap: 20px;">
+                <div class="profile-header-new" style="justify-content: flex-start; gap: 20px;">
+                
+                <div class="profile-status-badges">
+                    <div class="badge-grey">Без наказания</div>
+                    <div class="badge-green">✔️ Чист</div>
+                    
+                    </div>
+
                 <div class="profile-avatar-large">👻</div>
                 <div class="profile-info-new" style="flex-grow: 1;">
                     <div style="font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 4px;" id="full-profile-name">PlayerName</div>
@@ -565,33 +599,33 @@
         <div id="tab-chat" class="tab"><h1 class="page-title">Чат</h1><div class="card" style="text-align: center; color: var(--text-muted);">Чат загружается...</div></div>
         <div id="tab-admin" class="tab"><h1 class="page-title">Управление</h1><div class="card" style="text-align: center; color: var(--text-muted);">Панель администратора</div></div>
 
-    </div> <div id="modal-active-check" class="modal-overlay">
-        <div class="modal-header">
-            <h2 class="card-title" style="margin:0; font-size: 20px;">Проверка игрока</h2>
-            <button class="close-btn" onclick="closeModal('modal-active-check')">×</button>
-        </div>
-        
-        <div style="text-align: center; color: var(--text-muted); font-size: 12px; margin-bottom: 10px;">Осталось времени на предоставление Discord:</div>
-        <div class="check-timer-box">
-            <div class="timer-text">09:58</div>
-        </div>
-
-        <div class="card" style="padding: 0; display: flex; flex-direction: column; height: 300px; background: #000;">
-            <div style="flex-grow: 1; padding: 15px; overflow-y: auto;">
-                <div style="margin-bottom: 10px;">
-                    <span style="color: var(--danger-red); font-weight: 800; font-size: 12px;">Админ Токеро:</span>
-                    <span style="color: #fff; font-size: 12px;">Вы вызваны на проверку. У вас 10 минут, чтобы скинуть свой Discord. Выход с платформы = БАН.</span>
+    <div id="modal-active-check" class="modal-overlay">
+        <div class="modal-content-wrap">
+            <div class="modal-header">
+                <h2 style="font-size: 20px; font-weight: 900; color: #fff;">Проверка игрока</h2>
+                <button class="close-btn" onclick="closeModal('modal-active-check')">×</button>
+            </div>
+            
+            <div style="text-align: center; color: var(--text-muted); font-size: 12px; margin-bottom: 5px;">Осталось времени на предоставление Discord:</div>
+            <div style="font-size: 36px; font-family: monospace; font-weight: 900; color: var(--danger-red); text-align: center; margin-bottom: 20px; letter-spacing: 2px;">09:58</div>
+            
+            <div class="chat-container">
+                <div class="chat-messages">
+                    <div class="chat-message">
+                        <span style="color: var(--danger-red); font-weight: 800;">Админ Токеро:</span> 
+                        <span style="color: #fff;">Вы вызваны на проверку. У вас 10 минут, чтобы скинуть свой Discord. Выход с платформы = БАН.</span>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" placeholder="Введите ваш Discord...">
+                    <button class="chat-send-btn">➤</button>
                 </div>
             </div>
-            <div style="padding: 10px; border-top: 1px solid var(--border-light); display: flex; gap: 10px;">
-                <input type="text" class="form-input" placeholder="Введите ваш Discord..." style="margin-bottom: 0;">
-                <button class="btn btn-primary" style="width: auto; padding: 0 15px;">➤</button>
-            </div>
-        </div>
 
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <button class="btn" style="flex: 1; background: rgba(16, 185, 129, 0.1); color: var(--success-green); border: 1px solid var(--success-green);">✔️ Чист</button>
-            <button class="btn" style="flex: 1; background: rgba(239, 68, 68, 0.1); color: var(--danger-red); border: 1px solid var(--danger-red);">🔒 Забанить</button>
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <button class="btn" style="flex: 1; background: rgba(16, 185, 129, 0.1); color: var(--success-green); border: 1px solid var(--success-green);">✔️ ЧИСТ</button>
+                <button class="btn" style="flex: 1; background: rgba(239, 68, 68, 0.1); color: var(--danger-red); border: 1px solid var(--danger-red);">🔒 ЗАБАНИТЬ</button>
+            </div>
         </div>
     </div>
 
