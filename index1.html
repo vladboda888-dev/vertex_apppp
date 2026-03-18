@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertex Tournaments</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Строгий темный стиль с красным неоном */
+        :root {
+            --bg-color: #0f0f13;
+            --panel-bg: #1c1c24;
+            --text-main: #ffffff;
+            --text-muted: #8e8e93;
+            --accent-red: #e62e2e;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        /* Шапка */
+        header {
+            background-color: var(--panel-bg);
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border-bottom: 2px solid var(--accent-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        /* Контейнер для вкладок */
+        .content {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+        /* Скрываем все вкладки по умолчанию */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        /* Нижняя панель навигации (7 кнопок) */
+        .navbar {
+            display: flex;
+            background-color: var(--panel-bg);
+            padding: 10px 5px;
+            overflow-x: auto; /* Скролл, если кнопки не влезают */
+            border-top: 1px solid #333;
+        }
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 12px;
+            padding: 10px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+        .nav-btn.active {
+            color: var(--accent-red);
+            font-weight: bold;
+        }
+        
+        /* Элементы дизайна (карточки турниров и т.д.) */
+        .card {
+            background-color: var(--panel-bg);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-red);
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header-title">Турниры</header>
+
+    <div class="content">
+        <div id="tab-tournaments" class="tab-content active">
+            <div class="card">
+                <h3>🏆 5v5 Standoff Major</h3>
+                <p style="color: var(--text-muted);">Статус: Регистрация открыта</p>
+                <p>Призовой: 5000G</p>
+            </div>
+        </div>
+
+        <div id="tab-news" class="tab-content">
+            <div class="card">
+                <h3>📢 Обновление платформы</h3>
+                <p>Мы запустили новый интерфейс! Скоро будут первые турниры.</p>
+            </div>
+        </div>
+
+        <div id="tab-profile" class="tab-content">
+            <h2 id="user-name">Загрузка профиля...</h2>
+            <div class="card">
+                <p>Матчей сыграно: 0</p>
+                <p>MVP медалей: 0</p>
+                <p>Статус: Игрок</p>
+            </div>
+        </div>
+
+        <div id="tab-ban" class="tab-content">
+            <div class="card" style="border-left-color: #555;">
+                <h3 style="color: var(--accent-red);">Tribunal</h3>
+                <p>Список забаненных игроков пуст. Все играют честно.</p>
+            </div>
+        </div>
+
+        <div id="tab-apply" class="tab-content">
+            <div class="card">
+                <h3>Подать заявку на турнир</h3>
+                <p style="color: var(--text-muted);">Тут будет форма для организаторов.</p>
+            </div>
+        </div>
+
+        <div id="tab-chat" class="tab-content">
+            <div class="card">
+                <p>Global Chat (Live)</p>
+            </div>
+        </div>
+
+        <div id="tab-admin" class="tab-content">
+            <div class="card" style="border-left-color: gold;">
+                <h3 style="color: gold;">👑 Панель Владельца</h3>
+                <p>Управление заявками, турнирами и админами.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <button class="nav-btn active" onclick="switchTab('tournaments', 'Турниры')">Турниры</button>
+        <button class="nav-btn" onclick="switchTab('news', 'Новости')">Новости</button>
+        <button class="nav-btn" onclick="switchTab('profile', 'Профиль')">Профиль</button>
+        <button class="nav-btn" onclick="switchTab('ban', 'Трибунал')">Баня</button>
+        <button class="nav-btn" onclick="switchTab('apply', 'Заявки')">Заявки</button>
+        <button class="nav-btn" onclick="switchTab('chat', 'Чат')">Чат</button>
+        <button class="nav-btn" onclick="switchTab('admin', 'Админ Панель')">Админ</button>
+    </div>
+
+    <script>
+        // Инициализация Web App
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Открываем на весь экран
+        
+        // Подгружаем имя юзера в профиль
+        if(tg.initDataUnsafe.user) {
+            document.getElementById("user-name").innerText = tg.initDataUnsafe.user.first_name;
+        }
+
+        // Логика переключения вкладок
+        function switchTab(tabId, title) {
+            // Скрываем все вкладки
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            
+            // Показываем нужную
+            document.getElementById('tab-' + tabId).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Меняем заголовок
+            document.getElementById('header-title').innerText = title;
+        }
+    </script>
+</body>
+                                                                                    </html>
