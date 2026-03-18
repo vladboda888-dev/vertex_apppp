@@ -45,12 +45,12 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         
-        /* Нижняя панель навигации (7 кнопок) */
+        /* Нижняя панель навигации */
         .navbar {
             display: flex;
             background-color: var(--panel-bg);
             padding: 10px 5px;
-            overflow-x: auto; /* Скролл, если кнопки не влезают */
+            overflow-x: auto;
             border-top: 1px solid #333;
         }
         .nav-btn {
@@ -68,13 +68,26 @@
             font-weight: bold;
         }
         
-        /* Элементы дизайна (карточки турниров и т.д.) */
+        /* Элементы дизайна */
         .card {
             background-color: var(--panel-bg);
             border-radius: 12px;
             padding: 15px;
             margin-bottom: 15px;
             border-left: 4px solid var(--accent-red);
+        }
+
+        /* Кнопка действия в админке */
+        .action-btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -84,10 +97,10 @@
 
     <div class="content">
         <div id="tab-tournaments" class="tab-content active">
-            <div class="card">
-                <h3>🏆 5v5 Standoff Major</h3>
-                <p style="color: var(--text-muted);">Статус: Регистрация открыта</p>
-                <p>Призовой: 5000G</p>
+            <div id="tournament-list">
+                <div class="card">
+                    <h3>Поиск активных турниров...</h3>
+                </div>
             </div>
         </div>
 
@@ -129,8 +142,11 @@
 
         <div id="tab-admin" class="tab-content">
             <div class="card" style="border-left-color: gold;">
-                <h3 style="color: gold;">👑 Панель Владельца</h3>
-                <p>Управление заявками, турнирами и админами.</p>
+                <h3 style="color: gold;">👑 Управление</h3>
+                <button class="action-btn" onclick="openCreateForm()">➕ Создать турнир</button>
+                <div id="admin-stats" style="margin-top: 10px; font-size: 14px;">
+                    <p>Всего игроков: <span id="stat-users">...</span></p>
+                </div>
             </div>
         </div>
     </div>
@@ -148,7 +164,7 @@
     <script>
         // Инициализация Web App
         let tg = window.Telegram.WebApp;
-        tg.expand(); // Открываем на весь экран
+        tg.expand();
         
         // Подгружаем имя юзера в профиль
         if(tg.initDataUnsafe.user) {
@@ -157,17 +173,35 @@
 
         // Логика переключения вкладок
         function switchTab(tabId, title) {
-            // Скрываем все вкладки
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
             
-            // Показываем нужную
             document.getElementById('tab-' + tabId).classList.add('active');
             event.target.classList.add('active');
             
-            // Меняем заголовок
             document.getElementById('header-title').innerText = title;
+        }
+
+        // Функция отправки данных боту
+        function sendToBot(data) {
+            tg.sendData(JSON.stringify(data));
+        }
+
+        // Функция создания турнира через админку
+        function openCreateForm() {
+            let name = prompt("Введите название турнира:");
+            let prize = prompt("Введите призовой фонд:");
+            
+            if(name && prize) {
+                sendToBot({
+                    action: "create_tournament",
+                    name: name,
+                    prize: prize
+                });
+                tg.close(); // Закрываем Web App после отправки
+            }
         }
     </script>
 </body>
-                                                                                    </html>
+</html>
+
