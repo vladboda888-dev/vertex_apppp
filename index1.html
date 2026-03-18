@@ -6,375 +6,229 @@
     <title>Vertex Tournaments</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* ГЛАВНЫЕ ЦВЕТА И НАСТРОЙКИ */
+        /* =========================================
+           1. ПРЕМИАЛЬНАЯ ПАЛИТРА (Строгий темно-синий)
+           ========================================= */
         :root {
-            --bg-deep: #05050a; 
-            --bg-panel: rgba(10, 15, 30, 0.6); 
-            --neon-blue: #00f0ff; 
-            --dark-blue: #0057ff; 
-            --text-main: #ffffff;
-            --text-muted: #8b9bb4; 
+            --bg-main: #0b0f19; /* Очень глубокий темно-синий фон */
+            --bg-panel: #131b2c; /* Цвет карточек (чуть светлее фона) */
+            --bg-panel-hover: #1e293b;
+            --accent-blue: #3b82f6; /* Благородный синий */
+            --accent-light: #60a5fa; /* Светло-синий для свечений */
+            --text-main: #f8fafc; /* Чистый белый текст */
+            --text-muted: #94a3b8; /* Спокойный серый текст */
+            --border-light: rgba(255, 255, 255, 0.05);
+            --border-active: rgba(59, 130, 246, 0.3);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            background-color: var(--bg-deep); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden;
-            background-image: radial-gradient(circle at 10% 0%, rgba(0, 87, 255, 0.15) 0%, transparent 40%), radial-gradient(circle at 90% 100%, rgba(0, 240, 255, 0.1) 0%, transparent 40%);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        /* ШАПКА И ЛОГОТИП */
-        .top-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 20px 15px; background: linear-gradient(180deg, rgba(5,5,10,0.9) 0%, transparent 100%); z-index: 10; }
-        .logo-box { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { width: 36px; height: 36px; background: rgba(0, 87, 255, 0.15); border: 1px solid rgba(0, 240, 255, 0.5); border-radius: 10px; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 20px; color: #fff; box-shadow: 0 0 20px rgba(0, 240, 255, 0.5), inset 0 0 10px rgba(0, 87, 255, 0.6); backdrop-filter: blur(5px); animation: pulse-glow 2.5s infinite alternate; }
-        @keyframes pulse-glow { 0% { box-shadow: 0 0 10px rgba(0, 240, 255, 0.3), inset 0 0 5px rgba(0, 87, 255, 0.4); } 100% { box-shadow: 0 0 25px rgba(0, 240, 255, 0.8), inset 0 0 15px rgba(0, 87, 255, 0.8); } }
-        .logo-text { font-size: 24px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; background: linear-gradient(to right, #ffffff 20%, var(--neon-blue) 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(0, 240, 255, 0.3); }
+        /* =========================================
+           2. СТРОГАЯ ШАПКА
+           ========================================= */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--bg-main);
+            border-bottom: 1px solid var(--border-light);
+            z-index: 10;
+        }
 
-        /* УЛЬТРА-МЕНЮ */
-        .bottom-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 450px; height: 75px; background: rgba(8, 12, 22, 0.85); backdrop-filter: blur(25px); border-top: 1px solid rgba(0, 240, 255, 0.3); border-bottom: 1px solid rgba(0, 240, 255, 0.05); border-radius: 40px; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), inset 0 2px 20px rgba(0, 240, 255, 0.1); z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; color: var(--text-muted); cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; z-index: 2; }
-        .nav-icon { font-size: 24px; transition: all 0.4s ease; filter: grayscale(100%) opacity(0.6); }
-        .nav-text { position: absolute; bottom: -15px; font-size: 9px; font-weight: 800; text-transform: uppercase; opacity: 0; color: var(--neon-blue); transition: all 0.3s ease; white-space: nowrap; }
-        .nav-item.active { background: linear-gradient(135deg, rgba(0, 87, 255, 0.4), rgba(0, 240, 255, 0.1)); box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 87, 255, 0.4); transform: translateY(-8px); }
-        .nav-item.active .nav-icon { transform: scale(1.1); filter: grayscale(0%) opacity(1); text-shadow: 0 0 15px var(--neon-blue); }
-        .nav-item.active .nav-text { opacity: 1; transform: translateY(5px); }
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-        /* КОНТЕНТ И ВКЛАДКИ */
-        .content-area { flex-grow: 1; overflow-y: auto; padding: 15px 20px 110px; }
-        .tab { display: none; animation: cosmicFade 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .tab.active { display: block; }
-        @keyframes cosmicFade { from { opacity: 0; transform: scale(0.95) translateY(20px); filter: blur(5px); } to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
-        .page-title { font-size: 32px; font-weight: 900; margin-bottom: 25px; text-transform: uppercase; background: linear-gradient(90deg, #fff, var(--neon-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 25px rgba(0, 240, 255, 0.4); }
+        .logo-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent-blue));
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
 
-        /* КАРТОЧКИ ТУРНИРОВ */
-        .tournament-card { background: linear-gradient(145deg, rgba(15, 20, 35, 0.7) 0%, rgba(5, 10, 15, 0.9) 100%); border: 1px solid rgba(0, 240, 255, 0.2); border-radius: 20px; padding: 20px; margin-bottom: 25px; position: relative; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 2px 20px rgba(0, 240, 255, 0.05); overflow: hidden; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .status-badge { font-size: 11px; font-weight: 900; padding: 6px 14px; border-radius: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .status-open { background: rgba(0, 240, 255, 0.1); color: var(--neon-blue); border: 1px solid var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); }
-        .status-live { background: rgba(255, 42, 42, 0.1); color: #ff2a2a; border: 1px solid #ff2a2a; box-shadow: 0 0 15px rgba(255, 42, 42, 0.3); animation: pulse-red 2s infinite; }
-        .prize-pool { font-size: 18px; font-weight: 900; color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); background: rgba(255, 215, 0, 0.1); padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(255, 215, 0, 0.3); }
-        .card-title { font-size: 24px; font-weight: 900; color: #fff; letter-spacing: 1px; margin-bottom: 5px; }
-        .card-subtitle { font-size: 12px; color: var(--neon-blue); font-weight: 600; margin-bottom: 15px; text-transform: uppercase; }
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 15px; }
-        .stat-item { text-align: center; }
-        .stat-value { font-size: 15px; font-weight: 900; color: #fff; margin-bottom: 3px; }
-        .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        .slots-container { margin-bottom: 20px; }
-        .slots-header { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); font-weight: 700; margin-bottom: 5px; text-transform: uppercase; }
-        .progress-bg { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); border-radius: 3px; }
-        .card-btn { width: 100%; padding: 16px; border: none; border-radius: 12px; background: linear-gradient(90deg, var(--dark-blue), var(--neon-blue)); color: #fff; font-weight: 900; font-size: 15px; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; box-shadow: 0 8px 25px rgba(0, 87, 255, 0.5); transition: all 0.3s ease; }
-        .card-btn:active { transform: scale(0.96); }
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #fff;
+        }
 
-        /* ИСПРАВЛЕННАЯ КНОПКА ОРГАНИЗАТОРА (Встроена гармонично) */
-        .organizer-panel { display: flex; justify-content: space-between; align-items: center; background: rgba(0, 240, 255, 0.05); border: 1px solid rgba(0, 240, 255, 0.2); padding: 10px 15px; border-radius: 12px; margin-bottom: 15px; }
-        .organizer-label { font-size: 10px; color: var(--neon-blue); text-transform: uppercase; font-weight: 800; }
-        .organizer-btn { background: rgba(0, 240, 255, 0.15); border: 1px solid var(--neon-blue); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); transition: all 0.3s; }
-        .organizer-btn:active { transform: scale(0.95); }
+        /* Область для контента */
+        .content-area {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px 20px 100px; /* Отступ под меню */
+        }
 
-        /* ПРОФИЛЬ, КЛАН, ГРАФИКИ, АЧИВКИ */
-        .profile-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; padding: 20px; background: linear-gradient(145deg, rgba(15, 20, 35, 0.5) 0%, rgba(5, 10, 15, 0.8) 100%); border-radius: 20px; border: 1px solid rgba(0, 240, 255, 0.15); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); position: relative; }
-        .account-status { position: absolute; top: 15px; right: 15px; font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; }
-        .status-clean { color: #00ffaa; background: rgba(0, 255, 170, 0.1); border: 1px solid rgba(0, 255, 170, 0.4); }
-        .avatar-box { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--neon-blue); padding: 3px; box-shadow: 0 0 20px rgba(0, 240, 255, 0.4); }
-        .avatar-img { width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, #1a1a2e, #0f0f1a); display: flex; justify-content: center; align-items: center; font-size: 30px; }
-        .profile-name { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 6px; }
-        .profile-tag { font-size: 11px; color: var(--neon-blue); background: rgba(0, 240, 255, 0.1); padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(0, 240, 255, 0.3); display: inline-block; font-weight: 800; }
-        
-        .clan-block { display: flex; align-items: center; gap: 15px; background: linear-gradient(90deg, rgba(0, 87, 255, 0.15) 0%, transparent 100%); border-left: 3px solid var(--neon-blue); padding: 12px 15px; border-radius: 8px; margin-bottom: 25px; cursor: pointer; }
-        .clan-avatar { width: 40px; height: 40px; background: #0f0f1a; border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 18px; }
-        .clan-details .clan-tag { font-size: 14px; font-weight: 900; color: #fff; }
-        .clan-details .clan-role { font-size: 10px; color: var(--neon-blue); text-transform: uppercase; font-weight: 700; }
+        .tab {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
 
-        .chart-box { background: rgba(10, 15, 30, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 20px; margin-bottom: 25px; }
-        .chart-title { font-size: 12px; color: #fff; text-transform: uppercase; font-weight: 800; margin-bottom: 20px; }
-        .chart-container { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; padding-bottom: 5px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); gap: 8px; }
-        .chart-bar-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; position: relative; }
-        .chart-bar { width: 100%; max-width: 30px; background: linear-gradient(0deg, var(--dark-blue) 0%, var(--neon-blue) 100%); border-radius: 4px 4px 0 0; position: relative; animation: growBar 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; transform-origin: bottom; }
-        @keyframes growBar { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-        .chart-value { position: absolute; top: -20px; font-size: 10px; font-weight: 900; color: #fff; }
-        .chart-label { font-size: 9px; color: var(--text-muted); margin-top: 8px; text-transform: uppercase; font-weight: 700; }
+        .tab.active {
+            display: block;
+        }
 
-        .achievements-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 12px; font-weight: 800; color: #fff; text-transform: uppercase; }
-        .achievements-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
-        .achiv-item { background: linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(10, 15, 30, 0.6) 100%); border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 12px; padding: 12px 15px; display: flex; align-items: center; gap: 15px; position: relative; }
-        .achiv-item::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: #ffd700; box-shadow: 0 0 15px #ffd700; }
-        .achiv-icon { font-size: 26px; filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5)); }
-        .achiv-info { flex-grow: 1; }
-        .achiv-title { font-size: 14px; font-weight: 900; color: #fff; }
-        .achiv-desc { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
-        .achiv-empty { border: 1px dashed rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; color: rgba(255, 255, 255, 0.2); font-size: 10px; font-weight: 800; text-transform: uppercase; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* КЛИКАБЕЛЬНЫЕ ИМЕНА И НОВОСТИ */
-        .clickable-name { color: var(--neon-blue); text-decoration: underline; text-decoration-color: rgba(0, 240, 255, 0.3); cursor: pointer; }
-        .news-card { background: rgba(15, 20, 35, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); }
-        .news-img { width: 100%; height: 160px; background: linear-gradient(135deg, #1a1a2e, #0f0f1a); display: flex; justify-content: center; align-items: center; font-size: 40px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .news-content { padding: 18px; }
-        .news-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .news-clan-tag { color: #fff; font-weight: 800; font-size: 12px; background: var(--dark-blue); padding: 4px 10px; border-radius: 6px; }
-        .news-date { font-size: 10px; color: var(--text-muted); }
-        .news-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
-        .news-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px; }
-        .news-footer { display: flex; gap: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 12px; }
-        .action-btn { background: transparent; border: none; color: var(--text-muted); display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; cursor: pointer; }
-        
-        /* МОДАЛЬНЫЕ ОКНА (НАЛОЖЕНИЯ) */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 10, 0.95); backdrop-filter: blur(20px); z-index: 1000; display: none; flex-direction: column; overflow-y: auto; padding: 20px; padding-bottom: 50px; animation: cosmicFade 0.3s ease; }
-        .modal-overlay.active { display: flex; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .close-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; width: 35px; height: 35px; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
-        
-        /* ВСЕ 7 КАРТ И СЕТКА */
-        .map-selector-title { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; margin-bottom: 10px; margin-top: 15px;}
-        .map-pool { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
-        .map-card { min-width: 100px; height: 60px; border-radius: 10px; position: relative; display: flex; align-items: flex-end; padding: 8px; border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; }
-        .map-card.selected { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
-        .map-name { color: #fff; font-size: 10px; font-weight: 900; z-index: 2; text-shadow: 0 2px 5px #000; text-transform: uppercase; }
-        
-        .map-sandstone { background: linear-gradient(to top, rgba(0,0,0,0.9), transparent), linear-gradient(45deg, #b06a2b, #e0c080); }
-        .map-province { background: linear-gradient(to top, rgba(0,0,0,0.9), transparent), linear-gradient(45deg, #2b453a, #5c8a6f); }
-        .map-rust { background: linear-gradient(to top, rgba(0,0,0,0.9), transparent), linear-gradient(45deg, #6e2c2c, #a85732); }
-        .map-breeze { background: linear-gradient(to top, rgba(0,0,0,0.9), transparent), linear-gradient(45deg, #1f4068, #4fa3d1); }
-        .map-hanami { background: linear-gradient(to top, rgba(0,0,0,0.9), transparent), linear-gradient(45deg, #a13d74, #e68ebf); }
-        .map-dune { background: linear-gradient(to top, rgba(0,0,0,0.9), transparent), linear-gradient(45deg, #8b6b4a, #d4b88c); }
-        .map-zone7 { background: linear-gradient(to top, rgba(0,0,0,0.9), transparent), linear-gradient(45deg, #2a2d34, #4a5568); }
+        /* =========================================
+           3. МИНИМАЛИСТИЧНОЕ НИЖНЕЕ МЕНЮ
+           ========================================= */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 450px;
+            height: 65px;
+            background: rgba(19, 27, 44, 0.85); /* Полупрозрачная панель */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
 
-        .editor-box { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px; }
-        .input-dark { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(0, 240, 255, 0.3); color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 10px; outline: none; font-weight: bold; }
-        .score-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .score-input { width: 60px; background: #111; border: 1px solid var(--neon-blue); color: #fff; text-align: center; padding: 8px; font-weight: 900; font-size: 16px; border-radius: 6px; }
-        
-        /* Визуальная сетка (Bracket Tree) */
-        .bracket-tree { display: flex; gap: 30px; overflow-x: auto; padding-bottom: 20px; margin-top: 15px; }
-        .bracket-round { display: flex; flex-direction: column; gap: 20px; justify-content: center; min-width: 200px; }
-        .bracket-match { background: linear-gradient(145deg, rgba(15, 20, 35, 0.8), rgba(5, 10, 15, 0.9)); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; position: relative; }
-        .bracket-match.active-match { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); cursor: pointer; }
-        .b-team { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; font-size: 12px; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .b-team.winner { color: #00ffaa; }
-        .b-score { background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 100%;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-icon {
+            font-size: 22px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-text {
+            font-size: 10px;
+            font-weight: 600;
+            margin-top: 4px;
+            transition: all 0.3s ease;
+            opacity: 0; /* Скрыт по умолчанию для чистоты */
+            position: absolute;
+            bottom: 8px;
+        }
+
+        /* Активное состояние кнопки */
+        .nav-item.active {
+            color: var(--accent-light);
+        }
+
+        .nav-item.active .nav-icon {
+            transform: translateY(-8px);
+            color: var(--accent-light);
+            filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.4));
+        }
+
+        .nav-item.active .nav-text {
+            opacity: 1;
+        }
+
+        /* Маленькая элегантная точка под активной вкладкой */
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent-light);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active::after {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
+
     <header class="top-header">
-        <div class="logo-box"><div class="logo-icon">V</div><div class="logo-text">Vertex</div></div>
+        <div class="logo-box">
+            <div class="logo-icon">V</div>
+            <div class="logo-text">Vertex</div>
+        </div>
     </header>
 
     <div class="content-area">
-        
         <div id="tab-tournaments" class="tab active">
-            <h1 class="page-title">События</h1>
-            
-            <div class="tournament-card">
-                <div class="card-content">
-                    <div class="organizer-panel">
-                        <span class="organizer-label">Ваш турнир</span>
-                        <button class="organizer-btn" onclick="openModal('modal-bracket')">⚙️ Настроить Сетку</button>
-                    </div>
-                    
-                    <div class="card-header">
-                        <span class="status-badge status-open">Открыто</span>
-                        <span class="prize-pool">🏆 5000G</span>
-                    </div>
-                    <div class="card-title">VERTEX MAJOR</div>
-                    <div class="card-subtitle">Главный турнир сезона - 5v5</div>
-                    <div class="stats-grid">
-                        <div class="stat-item"><div class="stat-value">20:00</div><div class="stat-label">Сегодня</div></div>
-                        <div class="stat-item"><div class="stat-value">Defuse</div><div class="stat-label">Режим</div></div>
-                        <div class="stat-item"><div class="stat-value">BO3</div><div class="stat-label">Формат</div></div>
-                    </div>
-                    <div class="slots-container">
-                        <div class="slots-header"><span>Занято мест</span><span style="color: #fff;">12 / 16</span></div>
-                        <div class="progress-bg"><div class="progress-fill" style="width: 75%;"></div></div>
-                    </div>
-                    <button class="card-btn" onclick="openModal('modal-apply')">Подать заявку</button>
-                </div>
-            </div>
-
-            <div class="tournament-card" style="border: 1px solid rgba(255, 42, 42, 0.3);">
-                <div class="card-content">
-                    <div class="card-header">
-                        <span class="status-badge status-live">🔴 LIVE</span>
-                        <span class="prize-pool" style="color: #ff2a2a; border-color: rgba(255, 42, 42, 0.3); background: rgba(255, 42, 42, 0.1);">🏆 2000G</span>
-                    </div>
-                    <div class="card-title">NIGHT CUP 2v2</div>
-                    <div class="card-subtitle" style="color: #ff2a2a;">Гранд-Финал</div>
-                    <div class="stats-grid" style="grid-template-columns: 1fr; text-align: center;">
-                        <div class="stat-value" style="font-size: 18px;"><span class="clickable-name" onclick="openModal('modal-player')">Horizon</span> <span style="color: var(--text-muted); font-size: 14px;">VS</span> <span class="clickable-name">Empire</span></div>
-                        <div class="stat-label">Карта: Sandstone (Счет: 8-6)</div>
-                    </div>
-                    <button class="card-btn" style="background: rgba(255, 42, 42, 0.1); border: 1px solid #ff2a2a; color: #ff2a2a;">Смотреть Стрим</button>
-                </div>
-            </div>
+            <h2 style="color: var(--text-muted); text-align: center; margin-top: 50px;">Загрузка турниров...</h2>
         </div>
-
-        <div id="tab-news" class="tab">
-            <h1 class="page-title">Лента</h1>
-            <div class="news-card">
-                <div class="news-img">🎮</div>
-                <div class="news-content">
-                    <div class="news-header"><span class="news-clan-tag">ОБНОВЛЕНИЕ</span><span class="news-date">Сегодня, 15:30</span></div>
-                    <div class="news-title">Открытие турнирной платформы!</div>
-                    <div class="news-text">Регистрируйте команды, участвуйте в турнирах. Сезон открыт! 🔥</div>
-                    <div class="news-footer">
-                        <button class="action-btn">❤️ 124</button>
-                        <button class="action-btn" onclick="openModal('modal-chat')">💬 12 Комментариев</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-profile" class="tab">
-            <h1 class="page-title">Профиль</h1>
-            <div class="profile-header">
-                <div class="account-status status-clean">🟢 Аккаунт чист</div>
-                <div class="avatar-box"><div class="avatar-img">👤</div></div>
-                <div class="profile-info">
-                    <div class="profile-name" id="profile-username">Загрузка...</div>
-                    <div class="profile-tag">ID: 8493021</div>
-                </div>
-            </div>
-            <div class="clan-block" onclick="openModal('modal-chat')">
-                <div class="clan-avatar">🐺</div>
-                <div class="clan-details">
-                    <div class="clan-tag">Wolves E-Sports [WLV]</div>
-                    <div class="clan-role">Основатель / Капитан (Чат Клана)</div>
-                </div>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-item"><div class="stat-value" style="color: var(--neon-blue);">68%</div><div class="stat-label">Винрейт</div></div>
-                <div class="stat-item"><div class="stat-value">1.45</div><div class="stat-label">K/D</div></div>
-                <div class="stat-item"><div class="stat-value">124</div><div class="stat-label">Матчей</div></div>
-            </div>
-            <div class="achievements-header"><span>🌟 Достижения</span><span style="color: var(--neon-blue);">2 / 10 СЛОТОВ</span></div>
-            <div class="achievements-list">
-                <div class="achiv-item"><div class="achiv-icon">🏆</div><div class="achiv-info"><div class="achiv-title">MVP Турнира</div><div class="achiv-desc">VERTEX MAJOR 5v5</div></div></div>
-                <div class="achiv-empty"><span>+</span> Пустой слот</div>
-            </div>
-        </div>
-
+        <div id="tab-news" class="tab"></div>
+        <div id="tab-profile" class="tab"></div>
         <div id="tab-tribunal" class="tab"></div>
-        <div id="tab-apply" class="tab"></div>
         <div id="tab-chat" class="tab"></div>
         <div id="tab-admin" class="tab"></div>
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('tournaments', this)"><div class="nav-icon">🏆</div><div class="nav-text">Игры</div></div>
-        <div class="nav-item" onclick="switchTab('news', this)"><div class="nav-icon">📰</div><div class="nav-text">Лента</div></div>
-        <div class="nav-item" onclick="switchTab('profile', this)"><div class="nav-icon">👤</div><div class="nav-text">Профиль</div></div>
-        <div class="nav-item" onclick="switchTab('tribunal', this)"><div class="nav-icon">🔨</div><div class="nav-text">Баны</div></div>
-        <div class="nav-item" onclick="switchTab('chat', this)"><div class="nav-icon">💬</div><div class="nav-text">Чат</div></div>
-        <div class="nav-item" onclick="switchTab('admin', this)"><div class="nav-icon">👑</div><div class="nav-text">Админ</div></div>
-    </div>
-
-    <div id="modal-bracket" class="modal-overlay">
-        <div class="modal-header">
-            <h2 class="page-title" style="margin: 0; font-size: 24px;">Турнирная Сетка</h2>
-            <button class="close-btn" onclick="closeModal('modal-bracket')">×</button>
+        <div class="nav-item active" onclick="switchTab('tournaments', this)">
+            <div class="nav-icon">🏆</div>
+            <div class="nav-text">Игры</div>
         </div>
-
-        <div class="map-selector-title">Сетка Плей-офф (Нажмите на матч для редактирования)</div>
-        <div class="bracket-tree">
-            <div class="bracket-round">
-                <div class="bracket-match active-match" onclick="openModal('modal-match-edit')">
-                    <div class="b-team winner"><span>Wolves [WLV]</span><span class="b-score">2</span></div>
-                    <div class="b-team" style="border:none;"><span>Navi Youth</span><span class="b-score">0</span></div>
-                </div>
-                <div class="bracket-match">
-                    <div class="b-team"><span>Falcons</span><span class="b-score">1</span></div>
-                    <div class="b-team" style="border:none;"><span>Empire</span><span class="b-score">2</span></div>
-                </div>
-            </div>
-            <div class="bracket-round">
-                <div class="bracket-match active-match" style="border-color: #ffd700;" onclick="openModal('modal-match-edit')">
-                    <div class="b-team"><span>Wolves [WLV]</span><span class="b-score">-</span></div>
-                    <div class="b-team" style="border:none;"><span>Empire</span><span class="b-score">-</span></div>
-                </div>
-            </div>
+        <div class="nav-item" onclick="switchTab('news', this)">
+            <div class="nav-icon">📰</div>
+            <div class="nav-text">Лента</div>
         </div>
-    </div>
-
-    <div id="modal-match-edit" class="modal-overlay" style="z-index: 1005;">
-        <div class="modal-header">
-            <h2 class="page-title" style="margin: 0; font-size: 20px;">Редактор Матча</h2>
-            <button class="close-btn" onclick="closeModal('modal-match-edit')">×</button>
+        <div class="nav-item" onclick="switchTab('profile', this)">
+            <div class="nav-icon">👤</div>
+            <div class="nav-text">Профиль</div>
         </div>
-        
-        <div class="editor-box">
-            <div class="map-selector-title">Команды</div>
-            <input type="text" class="input-dark" value="Wolves [WLV]">
-            <input type="text" class="input-dark" value="Empire">
-            
-            <div class="map-selector-title">Пул Карт (Все 7 карт)</div>
-            <div class="map-pool">
-                <div class="map-card map-sandstone selected"><div class="map-name">Sandstone</div></div>
-                <div class="map-card map-province selected"><div class="map-name">Province</div></div>
-                <div class="map-card map-rust"><div class="map-name">Rust</div></div>
-                <div class="map-card map-breeze"><div class="map-name">Breeze</div></div>
-                <div class="map-card map-hanami selected"><div class="map-name">Hanami</div></div>
-                <div class="map-card map-dune"><div class="map-name">Dune</div></div>
-                <div class="map-card map-zone7"><div class="map-name">Zone 7</div></div>
-            </div>
-
-            <div class="map-selector-title">Точный счет по картам (BO3)</div>
-            <div class="score-row">
-                <span style="font-weight: bold; font-size: 14px;">Sandstone</span>
-                <div><input type="number" class="score-input" value="10"> - <input type="number" class="score-input" value="8"></div>
-            </div>
-            <div class="score-row">
-                <span style="font-weight: bold; font-size: 14px;">Province</span>
-                <div><input type="number" class="score-input" value="5"> - <input type="number" class="score-input" value="10"></div>
-            </div>
-            <div class="score-row">
-                <span style="font-weight: bold; font-size: 14px;">Hanami</span>
-                <div><input type="number" class="score-input" placeholder="0"> - <input type="number" class="score-input" placeholder="0"></div>
-            </div>
+        <div class="nav-item" onclick="switchTab('tribunal', this)">
+            <div class="nav-icon">🔨</div>
+            <div class="nav-text">Баны</div>
         </div>
-        <button class="card-btn" onclick="closeModal('modal-match-edit')">Сохранить результат</button>
-    </div>
-
-    <div id="modal-apply" class="modal-overlay">
-        <div class="modal-header">
-            <h2 class="page-title" style="margin: 0; font-size: 24px;">Заявка</h2>
-            <button class="close-btn" onclick="closeModal('modal-apply')">×</button>
+        <div class="nav-item" onclick="switchTab('chat', this)">
+            <div class="nav-icon">💬</div>
+            <div class="nav-text">Чат</div>
         </div>
-        <div class="editor-box">
-            <div class="map-selector-title">Название команды</div>
-            <input type="text" class="input-dark" placeholder="Введите тег и название">
-            <div class="map-selector-title">ID Игроков (через запятую)</div>
-            <input type="text" class="input-dark" placeholder="123456, 654321...">
+        <div class="nav-item" onclick="switchTab('admin', this)">
+            <div class="nav-icon">👑</div>
+            <div class="nav-text">Админ</div>
         </div>
-        <button class="card-btn" onclick="closeModal('modal-apply')">Отправить заявку</button>
-    </div>
-
-    <div id="modal-chat" class="modal-overlay">
-        <div class="modal-header">
-            <h2 class="page-title" style="margin: 0; font-size: 24px;">Чат</h2>
-            <button class="close-btn" onclick="closeModal('modal-chat')">×</button>
-        </div>
-        <div class="editor-box" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-end;">
-            <div style="margin-bottom: 15px;">
-                <span class="news-clan-tag">Admin</span> <span style="font-size: 12px; color: #fff;">Привет всем участникам!</span>
-            </div>
-            <div style="margin-bottom: 15px;">
-                <span class="clickable-name" onclick="openModal('modal-player')">Horizon</span> <span style="font-size: 12px; color: #fff;">Когда сетка будет готова?</span>
-            </div>
-            <input type="text" class="input-dark" placeholder="Написать сообщение..." style="margin-bottom: 0;">
-        </div>
-    </div>
-
-    <div id="modal-player" class="modal-overlay" style="z-index: 1010;">
-        <div class="modal-header">
-            <h2 class="page-title" style="margin: 0; font-size: 24px;">Игрок</h2>
-            <button class="close-btn" onclick="closeModal('modal-player')">×</button>
-        </div>
-        <div class="profile-header">
-            <div class="avatar-box"><div class="avatar-img">🔥</div></div>
-            <div class="profile-info">
-                <div class="profile-name">Horizon</div>
-                <div class="profile-tag">K/D: 1.80</div>
-            </div>
-        </div>
-        <button class="card-btn btn-outline" onclick="closeModal('modal-player')">Пригласить в клан</button>
     </div>
 
     <script>
@@ -382,26 +236,15 @@
         tg.expand();
         tg.ready();
 
-        if(tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            document.getElementById("profile-username").innerText = tg.initDataUnsafe.user.first_name;
-        }
-
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
             let targetTab = document.getElementById('tab-' + tabId);
             if(targetTab) targetTab.classList.add('active');
             element.classList.add('active');
+            
             if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-        }
-
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
         }
     </script>
 </body>
