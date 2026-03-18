@@ -90,24 +90,26 @@
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
         }
-        /* 6. ПРЕМИУМ МЕНЮ (Floating Glass Nav) */
+        /* 6. УЛЬТРА-ПРЕМИУМ МЕНЮ (Капсула) */
         .bottom-nav {
             position: fixed;
-            bottom: 25px; /* Висит в воздухе, а не прилипает к краю */
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 92%; /* Немного не достает до краев экрана */
-            max-width: 500px;
-            height: 65px;
-            background: rgba(5, 10, 20, 0.65);
-            backdrop-filter: blur(25px); /* Сильное размытие фона */
+            width: 95%;
+            max-width: 450px;
+            height: 75px;
+            background: rgba(8, 12, 22, 0.85);
+            backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(0, 240, 255, 0.15);
-            border-radius: 20px;
+            border-top: 1px solid rgba(0, 240, 255, 0.3);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.05);
+            border-radius: 40px; /* Делаем форму плавной капсулы */
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 87, 255, 0.2);
+            padding: 0 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), inset 0 2px 20px rgba(0, 240, 255, 0.1);
             z-index: 100;
         }
 
@@ -116,67 +118,50 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             color: var(--text-muted);
-            width: 14%;
-            height: 100%;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Пружинистая анимация */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
+            z-index: 2;
         }
 
         .nav-icon {
-            font-size: 22px;
-            margin-bottom: 0;
+            font-size: 24px;
             transition: all 0.4s ease;
-            filter: grayscale(100%) opacity(0.5); /* Серые пока неактивны */
+            filter: grayscale(100%) opacity(0.6);
         }
 
         .nav-text {
-            font-size: 9px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
             position: absolute;
-            bottom: 6px;
+            bottom: -15px;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            opacity: 0;
+            color: var(--neon-blue);
+            transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
-        /* 7. АНИМАЦИЯ НАЖАТИЯ МЕНЮ */
+        /* 7. АНИМАЦИЯ НАЖАТИЯ (Неоновый пузырь) */
         .nav-item.active {
-            color: #fff;
+            background: linear-gradient(135deg, rgba(0, 87, 255, 0.4), rgba(0, 240, 255, 0.1));
+            box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 87, 255, 0.4);
+            transform: translateY(-8px); /* Иконка вылетает вверх из капсулы */
         }
 
         .nav-item.active .nav-icon {
-            transform: translateY(-12px) scale(1.2); /* Выпрыгивает вверх */
+            transform: scale(1.1);
             filter: grayscale(0%) opacity(1);
             text-shadow: 0 0 15px var(--neon-blue);
         }
 
         .nav-item.active .nav-text {
             opacity: 1;
-            transform: translateY(0);
-            color: var(--neon-blue);
-        }
-
-        /* Светящаяся полоска над активной кнопкой */
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 3px;
-            background: var(--neon-blue);
-            box-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--dark-blue);
-            transition: width 0.3s ease;
-            border-radius: 0 0 4px 4px;
-        }
-
-        .nav-item.active::before {
-            width: 50%;
+            transform: translateY(5px);
         }
 
         /* 8. СТИЛИ ОБЛАСТИ КОНТЕНТА */
@@ -200,54 +185,60 @@
             from { opacity: 0; transform: scale(0.95) translateY(20px); filter: blur(5px); }
             to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
-        /* 9. ВНУТРЕННОСТИ: ТУРНИРЫ (Карточки) */
+        /* 9. УЛЬТРА-ПРЕМИУМ КАРТОЧКИ ТУРНИРОВ */
         .page-title {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 900;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(0, 87, 255, 0.8);
-            letter-spacing: 1px;
+            background: linear-gradient(90deg, #fff, var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
         }
 
         .tournament-card {
-            background: rgba(10, 15, 30, 0.4); /* Стеклянный фон */
-            border: 1px solid rgba(0, 240, 255, 0.15); /* Тонкая синяя рамка */
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 20px;
+            background: linear-gradient(145deg, rgba(15, 20, 35, 0.7) 0%, rgba(5, 10, 15, 0.9) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
             position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 2px 20px rgba(0, 240, 255, 0.05);
             overflow: hidden;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
-        /* Неоновая полоска слева от карточки */
-        .tournament-card::before {
+        /* Внутреннее свечение карточки (Абстрактный блик) */
+        .tournament-card::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--neon-blue);
-            box-shadow: 0 0 15px var(--neon-blue);
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(0, 87, 255, 0.3) 0%, transparent 70%);
+            filter: blur(30px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1; /* Чтобы текст был поверх блика */
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
 
-        /* Статусы турнира */
         .status-badge {
-            font-size: 10px;
-            font-weight: 800;
-            padding: 5px 12px;
-            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 6px 14px;
+            border-radius: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -255,72 +246,124 @@
         .status-open {
             background: rgba(0, 240, 255, 0.1);
             color: var(--neon-blue);
-            border: 1px solid rgba(0, 240, 255, 0.4);
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
         }
 
         .status-live {
-            background: rgba(255, 42, 42, 0.15);
+            background: rgba(255, 42, 42, 0.1);
             color: #ff2a2a;
-            border: 1px solid rgba(255, 42, 42, 0.5);
-            animation: pulse-red 2s infinite; /* Эффект пульсации для Live матчей */
-        }
-
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 5px rgba(255, 42, 42, 0.2); }
-            50% { box-shadow: 0 0 15px rgba(255, 42, 42, 0.6); }
-            100% { box-shadow: 0 0 5px rgba(255, 42, 42, 0.2); }
+            border: 1px solid #ff2a2a;
+            box-shadow: 0 0 15px rgba(255, 42, 42, 0.3);
+            animation: pulse-red 2s infinite;
         }
 
         .prize-pool {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 900;
-            color: #ffd700; /* Золотой цвет для голды */
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            color: #ffd700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            background: rgba(255, 215, 0, 0.1);
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
 
         .card-title {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 900;
-            margin-bottom: 8px;
             color: #fff;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .card-subtitle {
+            font-size: 12px;
+            color: var(--neon-blue);
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        /* Красивая сетка характеристик турнира */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 15px;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .card-info {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 18px;
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 600;
+        /* Прогресс-бар мест */
+        .slots-container {
+            margin-bottom: 20px;
         }
 
+        .slots-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .progress-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+            border-radius: 3px;
+        }
+
+        /* Кнопка действия */
         .card-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border: none;
             border-radius: 12px;
             background: linear-gradient(90deg, var(--dark-blue), var(--neon-blue));
             color: #fff;
-            font-weight: 800;
-            font-size: 14px;
+            font-weight: 900;
+            font-size: 15px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0, 87, 255, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 87, 255, 0.5);
             transition: all 0.3s ease;
         }
 
         .card-btn:active {
-            transform: scale(0.97); /* Кнопка красиво прожимается */
-        }
-
-        /* Кнопка для просмотра сетки (прозрачная) */
-        .btn-outline {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: none;
+            transform: scale(0.96);
         }
     </style>
 </head>
@@ -379,37 +422,60 @@
             <h1 class="page-title">События</h1>
             
             <div class="tournament-card">
-                <div class="card-header">
-                    <span class="status-badge status-open">Набор</span>
-                    <span class="prize-pool">🏆 5000G</span>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="status-badge status-open">Открыто</span>
+                        <span class="prize-pool">🏆 5000G</span>
+                    </div>
+                    
+                    <div class="card-title">VERTEX MAJOR</div>
+                    <div class="card-subtitle">Главный турнир сезона - 5v5</div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value">20:00</div>
+                            <div class="stat-label">Сегодня</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">Defuse</div>
+                            <div class="stat-label">Режим</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">BO3</div>
+                            <div class="stat-label">Формат</div>
+                        </div>
+                    </div>
+
+                    <div class="slots-container">
+                        <div class="slots-header">
+                            <span>Занято мест</span>
+                            <span style="color: #fff;">12 / 16</span>
+                        </div>
+                        <div class="progress-bg">
+                            <div class="progress-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+
+                    <button class="card-btn" onclick="if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium')">Подать заявку</button>
                 </div>
-                <div class="card-title">VERTEX MAJOR 5v5</div>
-                <div class="card-info">
-                    <div class="info-item">🗺️ Sandstone</div>
-                    <div class="info-item">👥 Команд: 12/16</div>
-                </div>
-                <button class="card-btn" onclick="if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium')">Регистрация</button>
             </div>
 
-            <div class="tournament-card" style="border-left-color: #ff2a2a;">
-                <div class="card-header">
-                    <span class="status-badge status-live">🔴 LIVE (Финал)</span>
-                    <span class="prize-pool">🏆 2000G</span>
-                </div>
-                <div class="card-title">NIGHT CUP 2v2</div>
-                <div class="card-info">
-                    <div class="info-item">⚔️ Horizon vs Empire</div>
-                </div>
-                <button class="card-btn btn-outline" onclick="if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium')">Смотреть сетку</button>
-            </div>
-            
-            <div class="tournament-card" style="border-left-color: #555; opacity: 0.7;">
-                <div class="card-header">
-                    <span class="status-badge" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #ccc;">Завершен</span>
-                </div>
-                <div class="card-title" style="color: #ccc;">DUEL MASTERS 1v1</div>
-                <div class="card-info">
-                    <div class="info-item">Победитель: 🥇 s1mple_pro</div>
+            <div class="tournament-card" style="border: 1px solid rgba(255, 42, 42, 0.3);">
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="status-badge status-live">🔴 LIVE</span>
+                        <span class="prize-pool" style="color: #ff2a2a; border-color: rgba(255, 42, 42, 0.3); background: rgba(255, 42, 42, 0.1); text-shadow: 0 0 15px rgba(255,42,42,0.6);">🏆 2000G</span>
+                    </div>
+                    
+                    <div class="card-title">NIGHT CUP 2v2</div>
+                    <div class="card-subtitle" style="color: #ff2a2a;">Гранд-Финал</div>
+
+                    <div class="stats-grid" style="grid-template-columns: 1fr; text-align: center;">
+                        <div class="stat-value" style="font-size: 18px;">Horizon <span style="color: var(--text-muted); font-size: 14px;">VS</span> Empire</div>
+                        <div class="stat-label">Карта: Sandstone</div>
+                    </div>
+
+                    <button class="card-btn" style="background: rgba(255, 42, 42, 0.1); border: 1px solid #ff2a2a; box-shadow: none; color: #ff2a2a;" onclick="if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium')">Смотреть Стрим</button>
                 </div>
             </div>
     </div>
