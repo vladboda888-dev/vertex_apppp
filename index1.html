@@ -6,18 +6,19 @@
     <title>Vertex Tournaments</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* 1. ПРЕМИАЛЬНАЯ ПАЛИТРА (Черно-светло-синий) */
+        /* 1. ПРЕМИАЛЬНАЯ ПАЛИТРА (Настоящий синий цвет) */
         :root {
-            --bg-main: #07090f; /* Очень глубокий черный с синим отливом */
-            --bg-panel: #11141d; /* Цвет карточек */
+            --bg-main: #07090f; 
+            --bg-panel: #11141d; 
             --bg-hover: #1a1e2b;
-            --light-blue: #00d2ff; /* Красивый светло-синий акцент */
-            --dark-blue: #3a7bd5;
+            --light-blue: #3b82f6; /* Благородный синий, без голубого неона */
+            --dark-blue: #1e3a8a;  /* Глубокий темно-синий */
             --text-main: #f8fafc;
             --text-muted: #8b92a5;
             --border-light: rgba(255, 255, 255, 0.05);
             --danger-red: #ef4444;
-            --gold: #ffd700;
+            --success-green: #10b981;
+            --gold: #fbbf24;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -105,6 +106,22 @@
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
         .btn-primary { background: linear-gradient(90deg, var(--dark-blue), var(--light-blue)); box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2); }
         .btn-outline { background: transparent; border: 1px solid var(--border-light); color: var(--text-muted); }
+
+        .achievements-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 12px; font-weight: 800; color: #fff; text-transform: uppercase; margin-top: 20px; }
+        .achiv-count { color: var(--light-blue); }
+        .achievements-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
+        
+        .achiv-item { background: linear-gradient(90deg, rgba(59, 130, 246, 0.05) 0%, rgba(17, 20, 29, 0.6) 100%); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; padding: 12px 15px; display: flex; align-items: center; gap: 15px; position: relative; overflow: hidden; }
+        .achiv-item::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--light-blue); box-shadow: 0 0 10px var(--light-blue); }
+        .achiv-item.gold::before { background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+        .achiv-item.gold { background: linear-gradient(90deg, rgba(251, 191, 36, 0.05) 0%, rgba(17, 20, 29, 0.6) 100%); border-color: rgba(251, 191, 36, 0.15); }
+        
+        .achiv-icon { font-size: 26px; }
+        .achiv-info { flex-grow: 1; }
+        .achiv-title { font-size: 14px; font-weight: 900; color: #fff; margin-bottom: 2px; }
+        .achiv-desc { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .achiv-empty { border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; color: rgba(255, 255, 255, 0.2); font-size: 10px; font-weight: 800; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -164,34 +181,86 @@
         <div id="tab-profile" class="tab">
             <h1 class="page-title">Мой Профиль</h1>
             
-            <div class="card" style="display: flex; gap: 15px; align-items: center;">
-                <div style="width: 60px; height: 60px; background: var(--bg-main); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 24px; border: 1px solid var(--border-light);">👻</div>
+            <div class="card" style="display: flex; gap: 15px; align-items: center; position: relative;">
+                <div style="position: absolute; top: 15px; right: 15px; font-size: 9px; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 1px; color: var(--success-green); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);">🟢 Чист</div>
+                
+                <div style="width: 70px; height: 70px; background: var(--bg-hover); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 30px; border: 2px solid var(--light-blue);">👻</div>
+                
                 <div>
-                    <div style="font-size: 20px; font-weight: 800; color: #fff;" id="full-profile-name">Player</div>
-                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">ID: 9481023</div>
-                    <div class="role-badge role-owner">👑 Владелец проекта</div>
+                    <div style="font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 2px;" id="full-profile-name">PlayerName</div>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 700;">ID: 9481023</div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start;">
+                        <div class="role-badge role-owner">👑 Владелец проекта</div>
+                        <div class="role-badge" style="background: rgba(59, 130, 246, 0.1); color: var(--light-blue); border: 1px solid rgba(59, 130, 246, 0.3);">⚙️ Организатор (Weekend Cup)</div>
+                        </div>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; border-left: 3px solid var(--light-blue);">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 40px; height: 40px; background: var(--bg-main); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 18px; border: 1px solid var(--border-light);">🐺</div>
+                    <div>
+                        <div style="font-size: 14px; font-weight: 900; color: #fff;">[WLV] Wolves E-Sports</div>
+                        <div style="font-size: 10px; color: var(--light-blue); text-transform: uppercase; font-weight: 700;">Создатель / Выдает роли</div>
                     </div>
+                </div>
+                <button class="btn btn-outline" style="width: auto; padding: 6px 12px; font-size: 11px;">Настроить</button>
             </div>
 
             <div class="card">
-                <div style="font-size: 14px; font-weight: 700; margin-bottom: 10px;">Общая статистика</div>
+                <div style="font-size: 14px; font-weight: 800; margin-bottom: 10px; color: #fff; text-transform: uppercase;">Общая статистика</div>
                 <div class="stat-grid">
-                    <div class="stat-box"><div class="stat-val" style="color: var(--accent-light);">1.45</div><div class="stat-lbl">K/D Ratio</div></div>
+                    <div class="stat-box"><div class="stat-val" style="color: var(--light-blue);">1.45</div><div class="stat-lbl">K/D Ratio</div></div>
                     <div class="stat-box"><div class="stat-val">68%</div><div class="stat-lbl">Винрейт</div></div>
                     <div class="stat-box"><div class="stat-val">124</div><div class="stat-lbl">Матчей</div></div>
                 </div>
 
-                <div style="font-size: 12px; font-weight: 700; margin-top: 20px; color: var(--text-muted);">ИСТОРИЯ K/D (5 МАТЧЕЙ)</div>
+                <div style="font-size: 11px; font-weight: 800; margin-top: 20px; color: var(--text-muted); text-transform: uppercase;">История K/D (Последние 5 игр)</div>
                 <div class="chart-wrapper">
                     <div class="bar-container"><div class="bar-val">0.8</div><div class="bar" style="height: 40%;"></div><div class="bar-lbl">M1</div></div>
                     <div class="bar-container"><div class="bar-val">1.2</div><div class="bar" style="height: 60%;"></div><div class="bar-lbl">M2</div></div>
                     <div class="bar-container"><div class="bar-val">1.0</div><div class="bar" style="height: 50%;"></div><div class="bar-lbl">M3</div></div>
-                    <div class="bar-container"><div class="bar-val">2.1</div><div class="bar best" style="height: 100%;"></div><div class="bar-lbl" style="color: var(--accent-light);">MVP</div></div>
+                    <div class="bar-container"><div class="bar-val">2.1</div><div class="bar best" style="height: 100%;"></div><div class="bar-lbl" style="color: var(--light-blue);">MVP</div></div>
                     <div class="bar-container"><div class="bar-val">1.5</div><div class="bar" style="height: 75%;"></div><div class="bar-lbl">M5</div></div>
                 </div>
             </div>
+
+            <div class="achievements-header">
+                <span>🌟 Достижения</span>
+                <span class="achiv-count">3 / 10 СЛОТОВ</span>
+            </div>
             
-            <button class="btn btn-outline">Настройки аккаунта</button>
+            <div class="achievements-list">
+                <div class="achiv-item gold">
+                    <div class="achiv-icon">🏆</div>
+                    <div class="achiv-info">
+                        <div class="achiv-title">Победитель Major</div>
+                        <div class="achiv-desc">VERTEX SPRING MAJOR 5v5</div>
+                    </div>
+                </div>
+
+                <div class="achiv-item">
+                    <div class="achiv-icon">🎯</div>
+                    <div class="achiv-info">
+                        <div class="achiv-title">Лучший снайпер турнира</div>
+                        <div class="achiv-desc">WEEKEND CUP #4</div>
+                    </div>
+                </div>
+
+                <div class="achiv-item">
+                    <div class="achiv-icon">🛡️</div>
+                    <div class="achiv-info">
+                        <div class="achiv-title">Непробиваемый (Клатч 1v4)</div>
+                        <div class="achiv-desc">NIGHT CUP 2v2</div>
+                    </div>
+                </div>
+
+                <div class="achiv-empty"><span>+</span> Пустой слот</div>
+                <div class="achiv-empty"><span>+</span> Пустой слот</div>
+            </div>
+            
+            <button class="btn btn-outline" style="margin-top: 10px;">Настройки аккаунта</button>
         </div>
 
         <div id="tab-shop" class="tab"><h1 class="page-title">Магазин</h1></div>
