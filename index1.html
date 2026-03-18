@@ -433,35 +433,6 @@
             <div class="card" style="text-align: center; color: var(--text-muted);">Панель администратора</div>
         </div>
 
-        <div id="modal-active-check" class="modal-overlay" style="z-index: 1030;">
-        <div class="modal-header">
-            <h2 class="card-title" style="margin:0; font-size: 20px;">Проверка игрока</h2>
-            <button class="close-btn" onclick="closeModal('modal-active-check')">×</button>
-        </div>
-        
-        <div style="text-align: center; color: var(--text-muted); font-size: 12px; margin-bottom: 10px;">Осталось времени на предоставление Discord:</div>
-        <div class="check-timer-box">
-            <div class="timer-text">09:58</div>
-        </div>
-
-        <div class="card" style="padding: 0; display: flex; flex-direction: column; height: 300px; background: #000;">
-            <div style="flex-grow: 1; padding: 15px; overflow-y: auto;">
-                <div style="margin-bottom: 10px;">
-                    <span style="color: var(--danger-red); font-weight: 800; font-size: 12px;">Админ Токеро:</span>
-                    <span style="color: #fff; font-size: 12px;">Вы вызваны на проверку. У вас 10 минут, чтобы скинуть свой Discord. Выход с платформы = БАН.</span>
-                </div>
-            </div>
-            <div style="padding: 10px; border-top: 1px solid var(--border-light); display: flex; gap: 10px;">
-                <input type="text" class="form-input" placeholder="Введите ваш Discord..." style="margin-bottom: 0;">
-                <button class="btn btn-primary" style="width: auto; padding: 0 15px;">➤</button>
-            </div>
-        </div>
-
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <button class="btn" style="flex: 1; background: rgba(16, 185, 129, 0.1); color: var(--success-green); border: 1px solid var(--success-green);">✔️ Чист</button>
-            <button class="btn" style="flex: 1; background: rgba(239, 68, 68, 0.1); color: var(--danger-red); border: 1px solid var(--danger-red);">🔒 Забанить</button>
-        </div>
-    </div>
 
     </div> <script>
         let tg = window.Telegram.WebApp;
@@ -503,5 +474,34 @@
             }
         }
     </script>
+    <div id="modal-active-check" class="modal-overlay" style="z-index: 1030;">
+        <div class="modal-header">
+            <h2 class="card-title" style="margin:0; font-size: 20px;">Проверка игрока</h2>
+            <button class="close-btn" onclick="closeModal('modal-active-check')">×</button>
+        </div>
+        
+        <div style="text-align: center; color: var(--text-muted); font-size: 12px; margin-bottom: 10px;">Осталось времени на предоставление Discord:</div>
+        <div class="check-timer-box">
+            <div class="timer-text">09:58</div>
+        </div>
+
+        <div class="card" style="padding: 0; display: flex; flex-direction: column; height: 300px; background: #000;">
+            <div style="flex-grow: 1; padding: 15px; overflow-y: auto;">
+                <div style="margin-bottom: 10px;">
+                    <span style="color: var(--danger-red); font-weight: 800; font-size: 12px;">Админ Токеро:</span>
+                    <span style="color: #fff; font-size: 12px;">Вы вызваны на проверку. У вас 10 минут, чтобы скинуть свой Discord. Выход с платформы = БАН.</span>
+                </div>
+            </div>
+            <div style="padding: 10px; border-top: 1px solid var(--border-light); display: flex; gap: 10px;">
+                <input type="text" class="form-input" placeholder="Введите ваш Discord..." style="margin-bottom: 0;">
+                <button class="btn btn-primary" style="width: auto; padding: 0 15px;">➤</button>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button class="btn" style="flex: 1; background: rgba(16, 185, 129, 0.1); color: var(--success-green); border: 1px solid var(--success-green);">✔️ Чист</button>
+            <button class="btn" style="flex: 1; background: rgba(239, 68, 68, 0.1); color: var(--danger-red); border: 1px solid var(--danger-red);">🔒 Забанить</button>
+        </div>
+    </div>
 </body>
 </html>
