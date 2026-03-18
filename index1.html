@@ -200,6 +200,128 @@
             from { opacity: 0; transform: scale(0.95) translateY(20px); filter: blur(5px); }
             to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
+        /* 9. ВНУТРЕННОСТИ: ТУРНИРЫ (Карточки) */
+        .page-title {
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(0, 87, 255, 0.8);
+            letter-spacing: 1px;
+        }
+
+        .tournament-card {
+            background: rgba(10, 15, 30, 0.4); /* Стеклянный фон */
+            border: 1px solid rgba(0, 240, 255, 0.15); /* Тонкая синяя рамка */
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Неоновая полоска слева от карточки */
+        .tournament-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        /* Статусы турнира */
+        .status-badge {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-open {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--neon-blue);
+            border: 1px solid rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+
+        .status-live {
+            background: rgba(255, 42, 42, 0.15);
+            color: #ff2a2a;
+            border: 1px solid rgba(255, 42, 42, 0.5);
+            animation: pulse-red 2s infinite; /* Эффект пульсации для Live матчей */
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 5px rgba(255, 42, 42, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(255, 42, 42, 0.6); }
+            100% { box-shadow: 0 0 5px rgba(255, 42, 42, 0.2); }
+        }
+
+        .prize-pool {
+            font-size: 16px;
+            font-weight: 900;
+            color: #ffd700; /* Золотой цвет для голды */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .card-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 18px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .card-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--dark-blue), var(--neon-blue));
+            color: #fff;
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 87, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .card-btn:active {
+            transform: scale(0.97); /* Кнопка красиво прожимается */
+        }
+
+        /* Кнопка для просмотра сетки (прозрачная) */
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: none;
+        }
     </style>
 </head>
 <body>
@@ -233,11 +355,11 @@
         </div>
         <div class="nav-item" onclick="switchTab('profile', this)">
             <div class="nav-icon">👤</div>
-            <div class="nav-text">Боец</div>
+            <div class="nav-text">Профиль</div>
         </div>
         <div class="nav-item" onclick="switchTab('tribunal', this)">
             <div class="nav-icon">🔨</div>
-            <div class="nav-text">Баня</div>
+            <div class="nav-text">Баны</div>
         </div>
         <div class="nav-item" onclick="switchTab('apply', this)">
             <div class="nav-icon">📝</div>
@@ -251,6 +373,45 @@
             <div class="nav-icon">👑</div>
             <div class="nav-text">Админ</div>
         </div>
+    </div>
+
+    <div id="tab-tournaments" class="tab active">
+            <h1 class="page-title">События</h1>
+            
+            <div class="tournament-card">
+                <div class="card-header">
+                    <span class="status-badge status-open">Набор</span>
+                    <span class="prize-pool">🏆 5000G</span>
+                </div>
+                <div class="card-title">VERTEX MAJOR 5v5</div>
+                <div class="card-info">
+                    <div class="info-item">🗺️ Sandstone</div>
+                    <div class="info-item">👥 Команд: 12/16</div>
+                </div>
+                <button class="card-btn" onclick="if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium')">Регистрация</button>
+            </div>
+
+            <div class="tournament-card" style="border-left-color: #ff2a2a;">
+                <div class="card-header">
+                    <span class="status-badge status-live">🔴 LIVE (Финал)</span>
+                    <span class="prize-pool">🏆 2000G</span>
+                </div>
+                <div class="card-title">NIGHT CUP 2v2</div>
+                <div class="card-info">
+                    <div class="info-item">⚔️ Horizon vs Empire</div>
+                </div>
+                <button class="card-btn btn-outline" onclick="if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium')">Смотреть сетку</button>
+            </div>
+            
+            <div class="tournament-card" style="border-left-color: #555; opacity: 0.7;">
+                <div class="card-header">
+                    <span class="status-badge" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #ccc;">Завершен</span>
+                </div>
+                <div class="card-title" style="color: #ccc;">DUEL MASTERS 1v1</div>
+                <div class="card-info">
+                    <div class="info-item">Победитель: 🥇 s1mple_pro</div>
+                </div>
+            </div>
     </div>
 
     <script>
