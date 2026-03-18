@@ -122,6 +122,111 @@
         .achiv-desc { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         
         .achiv-empty { border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; color: rgba(255, 255, 255, 0.2); font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+        /* =========================================
+           15. НОВЫЙ ПРОФИЛЬ (Стиль Faceit)
+           ========================================= */
+        .profile-banner {
+            height: 140px;
+            /* Градиент, имитирующий фон карты. Потом сможешь вставить реальную картинку (url) */
+            background: linear-gradient(to bottom, rgba(11, 20, 29, 0.2), var(--bg-panel)), linear-gradient(45deg, #1e3a8a, #07090f);
+            border-radius: 12px 12px 0 0;
+            border: 1px solid var(--border-light);
+            border-bottom: none;
+            position: relative;
+        }
+        
+        .profile-header-new {
+            background: var(--bg-panel);
+            padding: 0 20px 20px;
+            border-radius: 0 0 12px 12px;
+            border: 1px solid var(--border-light);
+            border-top: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar-wrap {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+            margin-top: -50px; /* Аватарка налазит на баннер */
+        }
+
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+            background: var(--bg-main);
+            border: 4px solid var(--bg-panel);
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 45px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 2;
+            position: relative;
+        }
+
+        .profile-info-new { padding-bottom: 5px; }
+        .dropdown-arrow { font-size: 10px; margin-left: 4px; opacity: 0.7; transition: transform 0.2s; }
+
+        /* Панель выдачи ролей (Для владельца) */
+        .admin-role-box {
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            background: rgba(251, 191, 36, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        /* =========================================
+           16. ПОДКАТЕГОРИИ (Баны / Муты)
+           ========================================= */
+        .sub-tabs {
+            display: flex; gap: 8px; margin-bottom: 20px;
+            background: rgba(0,0,0,0.3); padding: 5px;
+            border-radius: 10px; width: fit-content;
+            border: 1px solid var(--border-light);
+        }
+        .sub-tab {
+            background: transparent; border: none; color: var(--text-muted);
+            padding: 8px 20px; border-radius: 6px; font-size: 12px; font-weight: 800;
+            cursor: pointer; transition: all 0.2s; text-transform: uppercase;
+        }
+        .sub-tab.active {
+            background: var(--bg-hover); color: var(--text-main);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* =========================================
+           17. ТАБЛИЦА ПРОВЕРОК НА ЧИТЫ
+           ========================================= */
+        .check-header {
+            display: grid; grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr 1fr;
+            padding: 0 15px 10px; font-size: 10px; font-weight: 700; color: var(--text-muted);
+            border-bottom: 1px solid var(--border-light); margin-bottom: 10px; text-transform: uppercase;
+        }
+        .check-row {
+            display: grid; grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr 1fr;
+            align-items: center; background: var(--bg-panel); padding: 12px 15px;
+            border-radius: 12px; margin-bottom: 8px; font-size: 11px; font-weight: 600;
+            border: 1px solid transparent; cursor: pointer; transition: background 0.2s;
+        }
+        .check-row:active { background: var(--bg-hover); border-color: var(--border-light); }
+        
+        .verdict-badge { padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; }
+        .verdict-clean { background: rgba(16, 185, 129, 0.1); color: var(--success-green); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .verdict-ban { background: rgba(239, 68, 68, 0.1); color: var(--danger-red); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .verdict-wait { background: rgba(251, 191, 36, 0.1); color: var(--gold); border: 1px solid rgba(251, 191, 36, 0.3); animation: pulse-wait 2s infinite; }
+        @keyframes pulse-wait { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+        /* Таймер проверки */
+        .check-timer-box { background: var(--bg-main); border: 1px solid var(--border-light); padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
+        .timer-text { font-size: 32px; font-weight: 900; color: var(--danger-red); font-family: monospace; letter-spacing: 2px; }
     </style>
 </head>
 <body>
@@ -133,10 +238,6 @@
                 <span class="logo-title">Vertex</span>
                 <span class="logo-sub">TOURNAMENT</span>
             </div>
-            <div class="stats-column">
-                <div class="stat-pill stat-pill-admin">👑 Админов: 23</div>
-                <div class="stat-pill stat-pill-player">🎮 Игроков: 233</div>
-            </div>
         </div>
         
         <button id="btn-login" class="login-btn">✈️ Войти (TG)</button>
@@ -144,6 +245,7 @@
         <div id="user-profile-btn" class="user-mini-profile" onclick="switchTab('profile', document.getElementById('tab-link-profile'))">
             <div class="user-mini-ava" id="mini-ava">V</div>
             <span class="user-mini-name" id="mini-name">Загрузка...</span>
+            <span class="dropdown-arrow">▼</span>
         </div>
     </header>
 
@@ -151,6 +253,7 @@
         <div class="tab-link active" onclick="switchTab('tournaments', this)">🏆 Турниры</div>
         <div class="tab-link" onclick="switchTab('news', this)">📰 Лента</div>
         <div class="tab-link" onclick="switchTab('profile', this)">👤 Профиль</div>
+        <div class="tab-link" onclick="switchTab('checks', this)">🛡️ Проверки</div>
         <div class="tab-link" onclick="switchTab('tribunal', this)">🔨 Баны</div>
         <div class="tab-link" onclick="switchTab('rules', this)">📄 Правила</div>
         <div class="tab-link" onclick="switchTab('chat', this)">💬 Чат</div>
@@ -162,21 +265,10 @@
         
         <div id="tab-tournaments" class="tab active">
             <h1 class="page-title">События</h1>
-            
             <div class="card">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                    <span class="badge badge-active">🟢 Открыто</span>
-                    <span style="font-weight: 800; color: var(--gold);">🏆 5000G</span>
-                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;"><span class="badge badge-active">🟢 Открыто</span><span style="font-weight: 800; color: var(--gold);">🏆 5000G</span></div>
                 <div style="font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 5px;">VERTEX MAJOR</div>
                 <div style="font-size: 12px; color: var(--light-blue); font-weight: 600; text-transform: uppercase; margin-bottom: 15px;">Главный турнир сезона - 5v5</div>
-                
-                <div class="stat-grid" style="margin-bottom: 15px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); border-radius: 12px;">
-                    <div class="stat-box" style="border: none; background: transparent;"><div class="stat-val">20:00</div><div class="stat-lbl">Сегодня</div></div>
-                    <div class="stat-box" style="border: none; background: transparent; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); border-radius: 0;"><div class="stat-val">Defuse</div><div class="stat-lbl">Режим</div></div>
-                    <div class="stat-box" style="border: none; background: transparent;"><div class="stat-val">BO3</div><div class="stat-lbl">Формат</div></div>
-                </div>
-
                 <div style="display: flex; gap: 10px;">
                     <button class="btn btn-primary" style="flex: 2;">Подать заявку</button>
                     <button class="btn btn-outline" style="flex: 1; font-size: 11px;">📊 Сетка матчей</button>
@@ -184,33 +276,112 @@
             </div>
         </div>
 
-        <div id="tab-news" class="tab">
-            <h1 class="page-title">Лента</h1>
-            <div class="card" style="text-align: center; color: var(--text-muted);">Новости загружаются...</div>
-        </div>
+        <div id="tab-news" class="tab"><h1 class="page-title">Лента</h1><div class="card" style="text-align: center; color: var(--text-muted);">Новости загружаются...</div></div>
 
         <div id="tab-profile" class="tab">
             <h1 class="page-title">Мой Профиль</h1>
-            <div class="card" style="display: flex; gap: 15px; align-items: center; position: relative;">
-                <div style="position: absolute; top: 15px; right: 15px; font-size: 9px; font-weight: 900; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; color: var(--success-green); background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);">🟢 Чист</div>
-                <div style="width: 70px; height: 70px; background: var(--bg-hover); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 30px; border: 2px solid var(--light-blue);">👻</div>
-                <div>
-                    <div style="font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 2px;" id="full-profile-name">PlayerName</div>
-                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 700;">ID: 9481023</div>
-                    <div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start;">
+            
+            <div class="profile-banner"></div>
+            <div class="profile-header-new">
+                <div class="profile-avatar-wrap">
+                    <div class="profile-avatar-large">👻</div>
+                    <div class="profile-info-new">
+                        <div style="font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 2px;" id="full-profile-name">PlayerName</div>
+                        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 700;">ID: 9481023</div>
                         <div class="role-badge role-owner">👑 Владелец проекта</div>
                     </div>
+                </div>
+                <button class="btn btn-outline" style="width: auto; padding: 6px 12px; font-size: 11px;">⚙️ Настройки</button>
+            </div>
+
+            <div class="card">
+                <div style="font-size: 14px; font-weight: 800; margin-bottom: 15px; color: #fff; text-transform: uppercase; text-align: center;">Статистика игрока</div>
+                <div class="stat-grid" style="grid-template-columns: repeat(2, 1fr);">
+                    
+                    <div class="stat-box">
+                        <div class="stat-lbl" style="color: var(--light-blue);">K/D Ratio</div>
+                        <div class="stat-val" style="color: var(--light-blue); font-size: 24px; margin: 5px 0;">1.34</div>
+                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 10px;">
+                            <span>Avg. Kills:</span> <span style="color:#fff;">23.3</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 4px;">
+                            <span>Avg. Deaths:</span> <span style="color:#fff;">18.5</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-box">
+                        <div class="stat-lbl" style="color: var(--light-blue);">Winrate</div>
+                        <div class="stat-val" style="font-size: 24px; margin: 5px 0;">52.7%</div>
+                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 10px;">
+                            <span>Матчей:</span> <span style="color:#fff;">4167</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-top: 4px;">
+                            <span>Побед:</span> <span style="color:#fff;">2196</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="admin-role-box">
+                <div style="font-size: 12px; font-weight: 800; color: var(--gold); text-transform: uppercase; margin-bottom: 10px;">Управление ролями (Панель Владельца)</div>
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <select class="form-select" style="flex: 1; padding: 10px; font-size: 12px;">
+                        <option>Выдать роль: Игрок</option>
+                        <option>Выдать роль: Организатор</option>
+                        <option>Выдать роль: Администратор</option>
+                    </select>
+                </div>
+                <input type="text" class="form-input" placeholder="Название турнира (если Организатор)" style="padding: 10px; font-size: 12px; margin-bottom: 10px;">
+                <button class="btn" style="background: rgba(251, 191, 36, 0.2); color: var(--gold); border: 1px solid var(--gold);">Применить роль</button>
+            </div>
+        </div>
+
+        <div id="tab-checks" class="tab">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 class="page-title" style="margin: 0;">Проверки</h1>
+                <button class="btn btn-primary" style="width: auto; padding: 8px 15px; font-size: 11px;" onclick="openModal('modal-call-check')">+ Вызвать игрока</button>
+            </div>
+
+            <div class="check-header">
+                <div>Дата</div><div>Модератор</div><div>Подозреваемый</div><div>Дискорд</div><div>Вердикт</div>
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <div class="check-row">
+                    <div class="time-cell" style="font-size: 10px;">16.08.24<br>16:14</div>
+                    <div class="user-cell"><div class="mini-ava">🤖</div> ERROR_404</div>
+                    <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🥷</div> [CHITS] GAN...</div>
+                    <div style="color: var(--text-muted); font-size: 10px;">pyps_za_ka...</div>
+                    <div><span class="verdict-badge verdict-clean">✔️ Нарушений нет</span></div>
+                </div>
+
+                <div class="check-row" onclick="openModal('modal-active-check')">
+                    <div class="time-cell" style="font-size: 10px;">Сейчас<br>Активно</div>
+                    <div class="user-cell"><div class="mini-ava">👑</div> Токеро</div>
+                    <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🐶</div> [Skeeet] Мил...</div>
+                    <div style="color: var(--text-muted); font-size: 10px;">Ожидание...</div>
+                    <div><span class="verdict-badge verdict-wait">⏳ Идет проверка</span></div>
+                </div>
+
+                <div class="check-row">
+                    <div class="time-cell" style="font-size: 10px;">15.08.24<br>08:26</div>
+                    <div class="user-cell"><div class="mini-ava">👑</div> Токеро</div>
+                    <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🇷🇺</div> RUS_BOY</div>
+                    <div style="color: var(--text-muted); font-size: 10px;">eqsta</div>
+                    <div><span class="verdict-badge verdict-ban">🔒 Отказ от проверки</span></div>
                 </div>
             </div>
         </div>
 
         <div id="tab-tribunal" class="tab">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h1 class="page-title" style="margin: 0;">Баны</h1>
-                <div style="background: var(--bg-panel); padding: 8px 12px; border-radius: 8px; font-size: 12px; color: var(--text-muted); border: 1px solid var(--border-light); display: flex; align-items: center; gap: 6px;">
-                    <span>🔍</span> Поиск по нику...
-                </div>
+            <h1 class="page-title" style="margin-bottom: 10px;">Трибунал</h1>
+            
+            <div class="sub-tabs">
+                <button class="sub-tab active">Баны</button>
+                <button class="sub-tab">Муты</button>
             </div>
+
             <div class="table-header">
                 <div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Срок</div><div>Дата</div>
             </div>
@@ -218,7 +389,7 @@
                 <div class="user-cell"><div class="mini-ava">🤡</div> 1_SuS_1</div>
                 <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Proc...</div>
                 <div class="reason-cell">Оскорбление родных</div>
-                <div class="status-badge"><span class="status-icon">🔒</span> Забанен</div>
+                <div class="status-badge"><span class="status-icon" style="color: var(--danger-red);">🔒</span> Забанен</div>
                 <div class="time-cell">⏱️ 8 часов</div>
                 <div class="time-cell">📅 18.03.2026</div>
             </div>
@@ -261,6 +432,36 @@
             <h1 class="page-title">Управление</h1>
             <div class="card" style="text-align: center; color: var(--text-muted);">Панель администратора</div>
         </div>
+
+        <div id="modal-active-check" class="modal-overlay" style="z-index: 1030;">
+        <div class="modal-header">
+            <h2 class="card-title" style="margin:0; font-size: 20px;">Проверка игрока</h2>
+            <button class="close-btn" onclick="closeModal('modal-active-check')">×</button>
+        </div>
+        
+        <div style="text-align: center; color: var(--text-muted); font-size: 12px; margin-bottom: 10px;">Осталось времени на предоставление Discord:</div>
+        <div class="check-timer-box">
+            <div class="timer-text">09:58</div>
+        </div>
+
+        <div class="card" style="padding: 0; display: flex; flex-direction: column; height: 300px; background: #000;">
+            <div style="flex-grow: 1; padding: 15px; overflow-y: auto;">
+                <div style="margin-bottom: 10px;">
+                    <span style="color: var(--danger-red); font-weight: 800; font-size: 12px;">Админ Токеро:</span>
+                    <span style="color: #fff; font-size: 12px;">Вы вызваны на проверку. У вас 10 минут, чтобы скинуть свой Discord. Выход с платформы = БАН.</span>
+                </div>
+            </div>
+            <div style="padding: 10px; border-top: 1px solid var(--border-light); display: flex; gap: 10px;">
+                <input type="text" class="form-input" placeholder="Введите ваш Discord..." style="margin-bottom: 0;">
+                <button class="btn btn-primary" style="width: auto; padding: 0 15px;">➤</button>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button class="btn" style="flex: 1; background: rgba(16, 185, 129, 0.1); color: var(--success-green); border: 1px solid var(--success-green);">✔️ Чист</button>
+            <button class="btn" style="flex: 1; background: rgba(239, 68, 68, 0.1); color: var(--danger-red); border: 1px solid var(--danger-red);">🔒 Забанить</button>
+        </div>
+    </div>
 
     </div> <script>
         let tg = window.Telegram.WebApp;
