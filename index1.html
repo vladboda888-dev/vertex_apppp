@@ -9,16 +9,17 @@
         /* =========================================
            1. ПРЕМИАЛЬНАЯ ПАЛИТРА (Строгий темно-синий)
            ========================================= */
+        /* 1. ПРЕМИАЛЬНАЯ ПАЛИТРА (Стиль Faceit) */
         :root {
-            --bg-main: #0b0f19; /* Очень глубокий темно-синий фон */
-            --bg-panel: #131b2c; /* Цвет карточек (чуть светлее фона) */
-            --bg-panel-hover: #1e293b;
-            --accent-blue: #3b82f6; /* Благородный синий */
-            --accent-light: #60a5fa; /* Светло-синий для свечений */
-            --text-main: #f8fafc; /* Чистый белый текст */
-            --text-muted: #94a3b8; /* Спокойный серый текст */
+            --bg-main: #12141d; /* Темный матовый фон */
+            --bg-panel: #1a1d29; /* Цвет плашек и карточек */
+            --bg-hover: #222634; /* Цвет при наведении */
+            --accent-blue: #4f46e5; /* Фирменный синий/фиолетовый */
+            --text-main: #f8fafc;
+            --text-muted: #8b92a5;
             --border-light: rgba(255, 255, 255, 0.05);
-            --border-active: rgba(59, 130, 246, 0.3);
+            --danger-red: #ef4444;
+            --success-green: #10b981;
         }
 
         * {
@@ -229,6 +230,60 @@
         .match-team { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .match-team.winner { color: var(--accent-light); }
         .match-score { background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 4px; }
+
+        /* =========================================
+           7. ТАБЛИЦА БАНОВ (Стиль как на скрине)
+           ========================================= */
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 2fr 1fr 1fr 1.5fr;
+            padding: 0 15px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 10px;
+        }
+
+        .ban-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 2fr 1fr 1fr 1.5fr;
+            align-items: center;
+            background: var(--bg-panel);
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .ban-row:active {
+            background: var(--bg-hover);
+            border-color: var(--border-light);
+        }
+
+        /* Элементы внутри строки бана */
+        .user-cell { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; }
+        .mini-ava { width: 24px; height: 24px; border-radius: 6px; background: #333; display: flex; justify-content: center; align-items: center; font-size: 12px; }
+        .admin-cell { display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
+        .reason-cell { color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .status-badge { display: flex; align-items: center; gap: 4px; color: var(--danger-red); }
+        .status-icon { font-size: 10px; }
+        
+        .time-cell { display: flex; align-items: center; gap: 4px; color: var(--text-muted); }
+
+        /* =========================================
+           8. МОДАЛКА ПОДРОБНОСТЕЙ БАНА
+           ========================================= */
+        .detail-list { display: flex; flex-direction: column; gap: 2px; background: var(--bg-panel); border-radius: 12px; overflow: hidden; }
+        .detail-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--border-light); }
+        .detail-item:last-child { border-bottom: none; }
+        .detail-label { color: var(--text-muted); font-size: 13px; font-weight: 600; }
+        .detail-value { color: #fff; font-size: 14px; font-weight: 700; text-align: right; display: flex; align-items: center; gap: 8px; }
     </style>
 </head>
 <body>
@@ -309,6 +364,64 @@
         <div id="tab-admin" class="tab"><h1 class="page-title">Админ-панель</h1><div class="card"><div style="color: var(--text-muted); text-align: center;">Доступно только создателям</div></div></div>
     </div>
 
+    <div id="tab-tribunal" class="tab">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 class="page-title" style="margin: 0;">Баны</h1>
+                <div style="background: var(--bg-panel); padding: 8px 12px; border-radius: 8px; font-size: 12px; color: var(--text-muted); border: 1px solid var(--border-light); display: flex; align-items: center; gap: 6px;">
+                    <span>🔍</span> Поиск по нику / ID...
+                </div>
+            </div>
+
+            <div class="table-header">
+                <div>Игрок</div>
+                <div>Админ</div>
+                <div>Причина</div>
+                <div>Статус</div>
+                <div>Срок</div>
+                <div>Дата бана</div>
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                
+                <div class="ban-row" onclick="openModal('modal-ban-details')">
+                    <div class="user-cell"><div class="mini-ava">🤡</div> 1_SuS_1</div>
+                    <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Proc...</div>
+                    <div class="reason-cell">Оскорбление родных</div>
+                    <div class="status-badge"><span class="status-icon">🔒</span> Забанен</div>
+                    <div class="time-cell">⏱️ 8 часов</div>
+                    <div class="time-cell">📅 18.03.2026</div>
+                </div>
+
+                <div class="ban-row" onclick="openModal('modal-ban-details')">
+                    <div class="user-cell"><div class="mini-ava">🐱</div> KOT LEOPOLYD</div>
+                    <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">🕶️</div> lenivskiy</div>
+                    <div class="reason-cell">Оскорбление родных</div>
+                    <div class="status-badge"><span class="status-icon">🔒</span> Забанен</div>
+                    <div class="time-cell">⏱️ 8 часов</div>
+                    <div class="time-cell">📅 18.03.2026</div>
+                </div>
+
+                <div class="ban-row" onclick="openModal('modal-ban-details')">
+                    <div class="user-cell"><div class="mini-ava">👴</div> Luck1shenko</div>
+                    <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Proc...</div>
+                    <div class="reason-cell">Игрок отказался от проверки</div>
+                    <div class="status-badge"><span class="status-icon">🔒</span> Забанен</div>
+                    <div class="time-cell">⏱️ 2 месяца</div>
+                    <div class="time-cell">📅 18.03.2026</div>
+                </div>
+
+                <div class="ban-row">
+                    <div class="user-cell"><div class="mini-ava" style="filter: grayscale(1);">👤</div> Dekoy</div>
+                    <div class="admin-cell"><div class="mini-ava" style="border-radius: 50%;">💖</div> Toyota_pikmi</div>
+                    <div class="reason-cell">Оскорбления</div>
+                    <div class="status-badge" style="color: var(--text-muted);"><span class="status-icon">🔓</span> Разбанен</div>
+                    <div class="time-cell">⏱️ 2 часа</div>
+                    <div class="time-cell">📅 18.03.2026</div>
+                </div>
+
+            </div>
+        </div>
+    
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('tournaments', this)">
             <div class="nav-icon">🏆</div>
@@ -443,6 +556,40 @@
                 </div>
             </div>
             <button class="btn btn-primary" onclick="closeModal('modal-edit-match')">Сохранить результат</button>
+        </div>
+    </div>
+
+    <div id="modal-ban-details" class="modal-overlay" style="z-index: 1020;">
+        <div class="modal-header" style="justify-content: center; position: relative;">
+            <h2 class="card-title" style="margin:0; font-size: 18px;">Подробнее</h2>
+            <button class="close-btn" style="position: absolute; right: 0; background: rgba(255,255,255,0.05); border-radius: 50%; width: 30px; height: 30px; font-size: 16px; display: flex; justify-content: center; align-items: center;" onclick="closeModal('modal-ban-details')">×</button>
+        </div>
+        
+        <div class="detail-list">
+            <div class="detail-item">
+                <div class="detail-label">ID Блокировки</div>
+                <div class="detail-value">111533</div>
+            </div>
+            <div class="detail-item" style="align-items: flex-start;">
+                <div class="detail-label" style="margin-top: 5px;">Причина</div>
+                <div class="detail-value" style="text-align: right; max-width: 60%;">Игрок отказался от проверки</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Нарушитель</div>
+                <div class="detail-value"><div class="mini-ava">👴</div> Luck1shenko</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Администратор</div>
+                <div class="detail-value"><div class="mini-ava" style="border-radius: 50%;">👧</div> Rosplat Processin...</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Дата бана</div>
+                <div class="detail-value">18.03.2026, 20:18</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Дата разбана</div>
+                <div class="detail-value">17.05.2026, 21:18</div>
+            </div>
         </div>
     </div>
 
