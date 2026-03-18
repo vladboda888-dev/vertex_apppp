@@ -787,8 +787,6 @@
                     
                     <div class="card-header">
                         <span class="status-badge status-open">Открыто</span>
-                    <div class="card-header">
-                        <span class="status-badge status-open">Открыто</span>
                         <span class="prize-pool">🏆 5000G</span>
                     </div>
                     <div class="card-title">VERTEX MAJOR</div>
@@ -883,42 +881,11 @@
             <div class="chart-box">
                 <div class="chart-title">📊 Динамика K/D (Последние игры)</div>
                 <div class="chart-container">
-                    
-                    <div class="chart-bar-wrapper">
-                        <div class="chart-bar" style="height: 40%;">
-                            <div class="chart-value">0.8</div>
-                        </div>
-                        <div class="chart-label">Матч 1</div>
-                    </div>
-
-                    <div class="chart-bar-wrapper">
-                        <div class="chart-bar" style="height: 60%;">
-                            <div class="chart-value">1.2</div>
-                        </div>
-                        <div class="chart-label">Матч 2</div>
-                    </div>
-
-                    <div class="chart-bar-wrapper">
-                        <div class="chart-bar" style="height: 50%;">
-                            <div class="chart-value">1.0</div>
-                        </div>
-                        <div class="chart-label">Матч 3</div>
-                    </div>
-
-                    <div class="chart-bar-wrapper">
-                        <div class="chart-bar" style="height: 90%;">
-                            <div class="chart-value">1.8</div>
-                        </div>
-                        <div class="chart-label">Матч 4</div>
-                    </div>
-
-                    <div class="chart-bar-wrapper">
-                        <div class="chart-bar" style="height: 100%; background: linear-gradient(0deg, #ff8c00, #ffd700); box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);">
-                            <div class="chart-value" style="color: #ffd700;">2.1</div>
-                        </div>
-                        <div class="chart-label">Матч 5</div>
-                    </div>
-
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 40%;"><div class="chart-value">0.8</div></div><div class="chart-label">Матч 1</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 60%;"><div class="chart-value">1.2</div></div><div class="chart-label">Матч 2</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 50%;"><div class="chart-value">1.0</div></div><div class="chart-label">Матч 3</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 90%;"><div class="chart-value">1.8</div></div><div class="chart-label">Матч 4</div></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 100%; background: linear-gradient(0deg, #ff8c00, #ffd700); box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);"><div class="chart-value" style="color: #ffd700;">2.1</div></div><div class="chart-label">Матч 5</div></div>
                 </div>
             </div>
 
@@ -948,8 +915,12 @@
                     <span>+</span> Пустой слот достижения
                 </div>
             </div>
+        </div> <div id="tab-tribunal" class="tab"></div>
+        <div id="tab-apply" class="tab"></div>
+        <div id="tab-chat" class="tab"></div>
+        <div id="tab-admin" class="tab"></div>
 
-    <div class="bottom-nav">
+    </div> <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('tournaments', this)"><div class="nav-icon">🏆</div><div class="nav-text">Игры</div></div>
         <div class="nav-item" onclick="switchTab('news', this)"><div class="nav-icon">📰</div><div class="nav-text">Лента</div></div>
         <div class="nav-item" onclick="switchTab('profile', this)"><div class="nav-icon">👤</div><div class="nav-text">Боец</div></div>
@@ -967,19 +938,11 @@
 
         <div class="map-selector-title">Выбор карт (BO3 Формат)</div>
         <div class="map-pool">
-            <div class="map-card map-sandstone selected">
-                <div class="map-name">Sandstone</div>
-            </div>
-            <div class="map-card map-province selected">
-                <div class="map-name">Province</div>
-            </div>
-            <div class="map-card map-rust">
-                <div class="map-name">Rust</div>
-            </div>
-            <div class="map-card map-breeze">
-                <div class="map-name">Breeze</div>
-            </div>
-            </div>
+            <div class="map-card map-sandstone selected"><div class="map-name">Sandstone</div></div>
+            <div class="map-card map-province selected"><div class="map-name">Province</div></div>
+            <div class="map-card map-rust"><div class="map-name">Rust</div></div>
+            <div class="map-card map-breeze"><div class="map-name">Breeze</div></div>
+        </div>
 
         <div class="map-selector-title">Управление матчами</div>
         
@@ -1018,18 +981,15 @@
         }
 
         function switchTab(tabId, element) {
-            // Прячем все вкладки и снимаем активность с кнопок
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             
-            // Показываем нужную вкладку и активируем кнопку
             let targetTab = document.getElementById('tab-' + tabId);
             if(targetTab) {
                 targetTab.classList.add('active');
             }
             element.classList.add('active');
             
-            // Вибрация
             if(tg.HapticFeedback) {
                 tg.HapticFeedback.impactOccurred('light');
             }
