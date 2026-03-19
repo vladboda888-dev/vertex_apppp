@@ -1222,15 +1222,6 @@
             document.getElementById('list-' + type).classList.remove('list-hidden');
         }
 
-        // Открытие/закрытие модалок
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
-        }
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-
         // Скрытие комментариев в ленте
         function toggleComments(id) {
             let el = document.getElementById(id);
@@ -1247,26 +1238,43 @@
             document.getElementById('rules-main-view').style.display = 'block';
         }
 
-        // Функция открытия окна
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.style.display = 'flex'; // Используем flex для центрирования
+        // Универсальная функция открытия окон
+        function openModal(id) {
+            let modal = document.getElementById(id);
+            if (!modal) return;
+    
+            // Если это старый тип модалки (профили, проверки)
+            if (modal.classList.contains('modal-overlay')) {
+                modal.classList.add('active');
+            } 
+            // Если это новый тип модалки (админ-панель)
+            else if (modal.classList.contains('custom-modal-overlay')) {
+                modal.style.display = 'flex';
             }
-        }
+    
+             // Вибрация для телефона
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+       }
 
-        // Функция закрытия окна
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
+        // Универсальная функция закрытия окон
+        function closeModal(id) {
+            let modal = document.getElementById(id);
+            if (!modal) return;
+    
+            if (modal.classList.contains('modal-overlay')) {
+                modal.classList.remove('active');
+            } else if (modal.classList.contains('custom-modal-overlay')) {
                 modal.style.display = 'none';
             }
         }
 
-         // Закрытие при клике на темный фон вне окошка
+        // Закрытие при клике на темный фон для ВСЕХ типов окон
         window.onclick = function(event) {
             if (event.target.classList.contains('custom-modal-overlay')) {
-                event.target.style.display = "none";
+                 event.target.style.display = "none";
+            }
+            if (event.target.classList.contains('modal-overlay')) {
+                event.target.classList.remove('active');
             }
         }
 
