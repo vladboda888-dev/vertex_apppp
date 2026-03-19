@@ -562,14 +562,41 @@
         
         <div id="tab-tournaments" class="tab active">
             <h1 class="page-title">События</h1>
+    
             <div class="card">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;"><span class="badge badge-active">🟢 Открыто</span><span style="font-weight: 800; color: var(--gold);">🏆 5000G</span></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <span class="badge badge-active">🟢 Регистрация</span>
+                    <span style="font-weight: 800; color: var(--gold);">🏆 5000G</span>
+                </div>
                 <div style="font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 5px;">VERTEX MAJOR</div>
                 <div style="font-size: 12px; color: var(--light-blue); font-weight: 600; text-transform: uppercase; margin-bottom: 15px;">Главный турнир сезона - 5v5</div>
                 <div style="display: flex; gap: 10px;">
-                    <button class="btn btn-primary" style="flex: 2;">Подать заявку</button>
+                    <button class="btn btn-primary" style="flex: 2;" onclick="openModal('modal-apply-tournament')">Подать заявку</button>
                     <button class="btn btn-outline" style="flex: 1; font-size: 11px;">📊 Сетка матчей</button>
+                </div>
+            </div>
+
+            <div class="card" style="border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.05); box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <span class="badge badge-live" style="animation: pulse-wait 2s infinite;">🔴 LIVE</span>
+                    <span style="font-weight: 800; color: var(--danger-red);">ШОУ-МАТЧ</span>
+                </div>
+                <div style="font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 5px;">СТРИМЕРЫ vs АДМИНЫ</div>
+        
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; margin-top: 10px;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid var(--border-light);">
+                        <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Начало матча</div>
+                        <div style="color: #fff; font-weight: 800; font-size: 14px;">Сегодня, 20:00</div>
                     </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; border: 1px solid var(--border-light);">
+                        <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase;">Карты (BO3)</div>
+                        <div style="color: #fff; font-weight: 800; font-size: 14px;">Sand, Prov, Zone</div>
+                    </div>
+                </div>
+        
+                <button class="btn" style="background: #ef4444; color: white; font-size: 14px; text-shadow: 0 2px 5px rgba(0,0,0,0.3); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);" onclick="window.open('https://youtube.com', '_blank')">
+                    ▶ СМОТРЕТЬ СТРИМ
+                </button>
             </div>
         </div>
 
@@ -1171,9 +1198,55 @@
                     <option value="moderator">Модератор чата</option>
                     <option value="admin">Администратор (Полные права)</option>
                 </select>
-                 <button onclick="submitAdminAction('staff')" style="background: var(--gold, #fbbf24); color: #000;">Назначить</button>
+                <button onclick="submitAdminAction('staff')" style="background: var(--gold, #fbbf24); color: #000;">Назначить</button>
             </div>
         </div>
+
+        <div id="modal-apply-tournament" class="custom-modal-overlay">
+            <div class="custom-modal-box" style="width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto;">
+                <span class="close-modal" onclick="closeModal('modal-apply-tournament')">×</span>
+                <h3 style="margin-top:0; color: var(--light-blue);">📋 Заявка на турнир</h3>
+        
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 15px;">
+                    Капитан определен автоматически: <strong style="color: white;">@ВашТелеграм</strong>
+                </div>
+
+                <input type="text" class="form-input" placeholder="Тэг команды (напр. NAVI)">
+                <input type="text" class="form-input" placeholder="Полное название команды">
+                <input type="text" class="form-input" placeholder="Ссылка на соц.сеть (VK, TG канал)">
+   
+                <h4 style="margin: 15px 0 5px; font-size: 12px; color: var(--gold);">ОСНОВНОЙ СОСТАВ (5 ИГРОКОВ)</h4>
+                <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 10px;">Формат: Ник / ID / Устройство</div>
+          
+               <div style="display: flex; gap: 5px; margin-bottom: 8px;">
+                   <input type="text" class="form-input" placeholder="Никнейм" style="flex: 2; margin-bottom: 0;">
+                   <input type="number" class="form-input" placeholder="SO2 ID" style="flex: 2; margin-bottom: 0;">
+                   <select class="form-input" style="flex: 1.5; margin-bottom: 0; padding: 5px;">
+                       <option value="phone">Тел</option>
+                       <option value="ipad">Планшет</option>
+                       <option value="pc">ПК</option>
+                   </select>
+                </div>
+                <div style="text-align: center; font-size: 10px; color: #555;">+ еще 4 поля для игроков...</div>
+
+                <h4 style="margin: 15px 0 5px; font-size: 12px; color: #94a3b8;">РЕЗЕРВ (2 ИГРОКА)</h4>
+                <div style="display: flex; gap: 5px; margin-bottom: 8px;">
+                    <input type="text" class="form-input" placeholder="Никнейм" style="flex: 2; margin-bottom: 0;">
+                    <input type="number" class="form-input" placeholder="SO2 ID" style="flex: 2; margin-bottom: 0;">
+                    <select class="form-input" style="flex: 1.5; margin-bottom: 0; padding: 5px;">
+                        <option value="phone">Тел</option>
+                    </select>
+                </div>
+
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-top: 15px; border: 1px dashed var(--border-light);">
+                    <h4 style="margin: 0 0 10px; font-size: 11px; color: #fff;">❓ Доп. вопросы турнира:</h4>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 5px;">1. Какой средний пинг у команды?</div>
+                    <input type="text" class="form-input" placeholder="Ответ...">
+                </div>
+
+                <button class="btn btn-primary" style="margin-top: 20px;">Отправить заявку</button>
+            </div>
+                </div>
 
     <script>
         let tg = window.Telegram.WebApp;
