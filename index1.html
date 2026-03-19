@@ -442,6 +442,80 @@
         .owner-btn { background: linear-gradient(145deg, rgba(251, 191, 36, 0.05), transparent); border-color: rgba(251, 191, 36, 0.2); }
         .owner-btn:hover { border-color: var(--gold); background: rgba(251, 191, 36, 0.1); }
         .owner-btn .admin-btn-title { color: var(--gold); }
+
+        /* Стили для кнопок и панелей админки */
+        .admin-controls-wrapper { background: #2a2a2a; padding: 20px; border-radius: 8px; margin-bottom: 20px; color: #fff; font-family: sans-serif;}
+        .admin-btn { padding: 10px 15px; margin: 5px 5px 5px 0; cursor: pointer; background: #4CAF50; color: white; border: none; border-radius: 4px; font-weight: bold;}
+        .admin-btn:hover { background: #45a049; }
+
+        /* Затемнение фона при открытии модалки */
+        .custom-modal-overlay {
+            display: none; /* Скрыто по умолчанию */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(3px); /* Красивое размытие заднего фона */
+        }
+
+        /* Сама карточка модального окна */
+        .custom-modal-box {
+            background: #1e293b; /* Темно-синий/серый фон */
+            padding: 20px;
+            border-radius: 12px;
+            width: 320px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            font-family: inherit;
+        }
+
+         /* Элементы ввода */
+        .custom-modal-box input, .custom-modal-box select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 6px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .custom-modal-box input:focus, .custom-modal-box select:focus {
+            border-color: #3b82f6;
+        }
+
+        /* Кнопки в модалке */
+        .custom-modal-box button {
+            width: 100%;
+           padding: 12px;
+           background: #3b82f6;
+           color: white;
+           border: none;
+           border-radius: 6px;
+           cursor: pointer;
+           font-weight: bold;
+           font-size: 14px;
+           transition: opacity 0.2s;
+        }
+        .custom-modal-box button:hover {
+            opacity: 0.8;
+        }
+
+        /* Крестик закрытия */
+       .close-modal {
+           float: right;
+           cursor: pointer;
+           color: #94a3b8;
+           font-size: 24px;
+           line-height: 20px;
+       }
+       .close-modal:hover {
+           color: white;
+       }
     </style>
 </head>
 <body>
@@ -907,72 +981,125 @@
         </div>
 
         <div id="tab-admin" class="tab">
-            <h1 class="page-title">Управление</h1>
-            
-            <div class="card" style="border-color: rgba(59, 130, 246, 0.3);">
-                <div style="font-size: 14px; font-weight: 900; color: var(--light-blue); text-transform: uppercase; margin-bottom: 15px;">🛡️ Панель Администратора</div>
-                <div class="admin-grid">
-                    <div class="admin-btn">
-                        <div class="admin-btn-icon">👥</div>
-                        <div class="admin-btn-title">Игроки</div>
-                        <div class="admin-btn-desc">Поиск, статистика и профили игроков</div>
-                    </div>
-                    <div class="admin-btn">
-                        <div class="admin-btn-icon">🔨</div>
-                        <div class="admin-btn-title">Выдать Бан</div>
-                        <div class="admin-btn-desc">Блокировка аккаунта с указанием причины</div>
-                    </div>
-                    <div class="admin-btn">
-                        <div class="admin-btn-icon">🔇</div>
-                        <div class="admin-btn-title">Мут Чата</div>
-                        <div class="admin-btn-desc">Ограничение текстового чата</div>
-                    </div>
-                    <div class="admin-btn">
-                        <div class="admin-btn-icon">🎫</div>
-                        <div class="admin-btn-title">Тикеты</div>
-                        <div class="admin-btn-desc">Жалобы от игроков (2 новых)</div>
-                    </div>
-                </div>
+    <h1 class="page-title">Управление</h1>
+    
+    <div class="card" style="border-color: rgba(59, 130, 246, 0.3);">
+        <div style="font-size: 14px; font-weight: 900; color: var(--light-blue); text-transform: uppercase; margin-bottom: 15px;">🛡️ Панель Администратора</div>
+        <div class="admin-grid">
+            <div class="admin-btn">
+                <div class="admin-btn-icon">👥</div>
+                <div class="admin-btn-title">Игроки</div>
+                <div class="admin-btn-desc">Поиск, статистика и профили игроков</div>
             </div>
-
-            <div class="card" style="border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.02);">
-                <div style="font-size: 14px; font-weight: 900; color: var(--gold); text-transform: uppercase; margin-bottom: 15px;">👑 Системная Панель (Владелец)</div>
-                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 15px;">Эти функции управляют ядром платформы. Доступно только для @Zentrox_1.</div>
-                
-                <div class="admin-grid">
-                    <div class="admin-btn owner-btn">
-                        <div class="admin-btn-icon">🛠️</div>
-                        <div class="admin-btn-title">Вкладки сайта</div>
-                        <div class="admin-btn-desc">Включение и отключение разделов</div>
-                    </div>
-                    <div class="admin-btn owner-btn">
-                        <div class="admin-btn-icon">👮</div>
-                        <div class="admin-btn-title">Персонал</div>
-                        <div class="admin-btn-desc">Назначение админов и организаторов</div>
-                    </div>
-                    <div class="admin-btn owner-btn">
-                        <div class="admin-btn-icon">💰</div>
-                        <div class="admin-btn-title">Финансы</div>
-                        <div class="admin-btn-desc">Статистика доната и выдача Gold</div>
-                    </div>
-                    <div class="admin-btn owner-btn">
-                        <div class="admin-btn-icon">🏆</div>
-                        <div class="admin-btn-title">Глобал Турниры</div>
-                        <div class="admin-btn-desc">Создание Major ивентов и призов</div>
-                    </div>
-                    <div class="admin-btn owner-btn">
-                        <div class="admin-btn-icon">📢</div>
-                        <div class="admin-btn-title">Рассылка</div>
-                        <div class="admin-btn-desc">Системное уведомление всем игрокам</div>
-                    </div>
-                    <div class="admin-btn owner-btn">
-                        <div class="admin-btn-icon">⚙️</div>
-                        <div class="admin-btn-title">Ядро</div>
-                        <div class="admin-btn-desc">Глубокие настройки платформы</div>
-                    </div>
-                </div>
+            <div class="admin-btn" onclick="openModal('modal-ban')">
+                <div class="admin-btn-icon">🔨</div>
+                <div class="admin-btn-title">Выдать Бан</div>
+                <div class="admin-btn-desc">Блокировка аккаунта с указанием причины</div>
+            </div>
+            <div class="admin-btn" onclick="openModal('modal-mute')">
+                <div class="admin-btn-icon">🔇</div>
+                <div class="admin-btn-title">Мут Чата</div>
+                <div class="admin-btn-desc">Ограничение текстового чата</div>
+            </div>
+            <div class="admin-btn">
+                <div class="admin-btn-icon">🎫</div>
+                <div class="admin-btn-title">Тикеты</div>
+                <div class="admin-btn-desc">Жалобы от игроков (2 новых)</div>
             </div>
         </div>
+    </div>
+
+    <div class="card" style="border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.02);">
+        <div style="font-size: 14px; font-weight: 900; color: var(--gold); text-transform: uppercase; margin-bottom: 15px;">👑 Системная Панель (Владелец)</div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 15px;">Эти функции управляют ядром платформы. Доступно только для @Zentrox_1.</div>
+        
+        <div class="admin-grid">
+            <div class="admin-btn owner-btn">
+                <div class="admin-btn-icon">🛠️</div>
+                <div class="admin-btn-title">Вкладки сайта</div>
+                <div class="admin-btn-desc">Включение и отключение разделов</div>
+            </div>
+            <div class="admin-btn owner-btn" onclick="openModal('modal-staff')">
+                <div class="admin-btn-icon">👮</div>
+                <div class="admin-btn-title">Персонал</div>
+                <div class="admin-btn-desc">Назначение админов и организаторов</div>
+            </div>
+            <div class="admin-btn owner-btn" onclick="openModal('modal-finance')">
+                <div class="admin-btn-icon">💰</div>
+                <div class="admin-btn-title">Финансы</div>
+                <div class="admin-btn-desc">Статистика доната и выдача Gold</div>
+            </div>
+            <div class="admin-btn owner-btn">
+                <div class="admin-btn-icon">🏆</div>
+                <div class="admin-btn-title">Глобал Турниры</div>
+                <div class="admin-btn-desc">Создание Major ивентов и призов</div>
+            </div>
+            <div class="admin-btn owner-btn" onclick="openModal('modal-broadcast')">
+                <div class="admin-btn-icon">📢</div>
+                <div class="admin-btn-title">Рассылка</div>
+                <div class="admin-btn-desc">Системное уведомление всем игрокам</div>
+            </div>
+            <div class="admin-btn owner-btn">
+                <div class="admin-btn-icon">⚙️</div>
+                <div class="admin-btn-title">Ядро</div>
+                <div class="admin-btn-desc">Глубокие настройки платформы</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-ban" class="custom-modal-overlay">
+    <div class="custom-modal-box">
+        <span class="close-modal" onclick="closeModal('modal-ban')">×</span>
+        <h3 style="margin-top:0; color: #ef4444;">🔨 Выдать Бан</h3>
+        <input type="text" id="ban-user-id" placeholder="ID игрока (например, 1502)">
+        <input type="text" id="ban-reason" placeholder="Причина (читы, спам и т.д.)">
+        <select id="ban-time">
+            <option value="1">На 1 день</option>
+            <option value="7">На 7 дней</option>
+            <option value="30">На 30 дней</option>
+            <option value="perm">Навсегда</option>
+        </select>
+        <button onclick="submitAdminAction('ban')" style="background: #ef4444;">Заблокировать</button>
+    </div>
+</div>
+
+<div id="modal-mute" class="custom-modal-overlay">
+    <div class="custom-modal-box">
+        <span class="close-modal" onclick="closeModal('modal-mute')">×</span>
+        <h3 style="margin-top:0; color: #f97316;">🔇 Мут Чата</h3>
+        <input type="text" id="mute-user-id" placeholder="ID игрока">
+        <input type="text" id="mute-reason" placeholder="Причина мута">
+        <select id="mute-time">
+            <option value="1h">На 1 час</option>
+            <option value="24h">На 24 часа</option>
+        </select>
+        <button onclick="submitAdminAction('mute')" style="background: #f97316;">Выдать Мут</button>
+    </div>
+</div>
+
+<div id="modal-finance" class="custom-modal-overlay">
+    <div class="custom-modal-box" style="border-color: rgba(251, 191, 36, 0.5);">
+        <span class="close-modal" onclick="closeModal('modal-finance')">×</span>
+        <h3 style="margin-top:0; color: var(--gold, #fbbf24);">💰 Выдать Gold / VIP</h3>
+        <input type="text" id="fin-user-id" placeholder="ID игрока">
+        <select id="fin-action-type">
+            <option value="give_gold">Начислить Gold (баланс)</option>
+            <option value="give_vip">Выдать VIP статус</option>
+        </select>
+        <input type="text" id="fin-amount" placeholder="Количество Gold / Дней VIP">
+        <button onclick="submitAdminAction('finance')" style="background: var(--gold, #fbbf24); color: #000;">Подтвердить</button>
+    </div>
+</div>
+
+<div id="modal-broadcast" class="custom-modal-overlay">
+    <div class="custom-modal-box">
+        <span class="close-modal" onclick="closeModal('modal-broadcast')">×</span>
+        <h3 style="margin-top:0; color: #3b82f6;">📢 Системное уведомление</h3>
+        <textarea id="broadcast-text" rows="4" placeholder="Введите текст рассылки для всех пользователей..." style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid #334155; color: white; border-radius: 6px; margin-bottom: 10px; resize: none;"></textarea>
+        <button onclick="submitAdminAction('broadcast')">Отправить всем</button>
+    </div>
+</div>
 
     </div> <div id="modal-active-check" class="modal-overlay">
         <div class="modal-content-wrap">
@@ -1119,6 +1246,49 @@
             document.getElementById('rules-detail-view').style.display = 'none';
             document.getElementById('rules-main-view').style.display = 'block';
         }
+
+        // Функция открытия окна
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex'; // Используем flex для центрирования
+            }
+        }
+
+        // Функция закрытия окна
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+         // Закрытие при клике на темный фон вне окошка
+        window.onclick = function(event) {
+            if (event.target.classList.contains('custom-modal-overlay')) {
+                event.target.style.display = "none";
+            }
+        }
+
+        // Функция для сбора данных и отправки
+        function submitAdminAction(actionType) {
+            if (actionType === 'ban') {
+                const userId = document.getElementById('ban-user-id').value;
+                const reason = document.getElementById('ban-reason').value;
+                const time = document.getElementById('ban-time').value;
+                alert(`ID ${userId} забанен на ${time} по причине: ${reason}`);
+                closeModal('modal-ban');
+            } 
+            else if (actionType === 'finance') {
+                const userId = document.getElementById('fin-user-id').value;
+                const type = document.getElementById('fin-action-type').value;
+                const amount = document.getElementById('fin-amount').value;
+                alert(`Игроку ${userId} выполнено действие ${type} на значение ${amount}`);
+                closeModal('modal-finance');
+            }
+             // Здесь позже добавишь fetch запросы к твоему Python коду
+        }
+
     </script>
 </body>
 </html>
