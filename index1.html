@@ -443,10 +443,18 @@
         .owner-btn:hover { border-color: var(--gold); background: rgba(251, 191, 36, 0.1); }
         .owner-btn .admin-btn-title { color: var(--gold); }
 
-        /* Стили для кнопок и панелей админки */
-        .admin-controls-wrapper { background: #2a2a2a; padding: 20px; border-radius: 8px; margin-bottom: 20px; color: #fff; font-family: sans-serif;}
-        .admin-btn { padding: 10px 15px; margin: 5px 5px 5px 0; cursor: pointer; background: #4CAF50; color: white; border: none; border-radius: 4px; font-weight: bold;}
-        .admin-btn:hover { background: #45a049; }
+        /* Золотой баланс в профиле */
+        .gold-balance-pill { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(90deg, rgba(251, 191, 36, 0.15), rgba(251, 191, 36, 0.05)); border: 1px solid rgba(251, 191, 36, 0.4); color: var(--gold); padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: 900; box-shadow: 0 0 15px rgba(251, 191, 36, 0.15); margin-top: 10px; }
+
+        /* Стили для логов */
+        .log-list { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 5px; }
+        .log-list::-webkit-scrollbar { width: 4px; }
+        .log-list::-webkit-scrollbar-thumb { background: var(--light-blue); border-radius: 4px; }
+        .log-item { background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); padding: 10px; border-radius: 8px; font-size: 11px; color: #fff; line-height: 1.4; }
+        .log-time { color: var(--text-muted); font-size: 9px; margin-bottom: 4px; display: block; font-family: monospace; }
+        .log-hl-admin { color: var(--danger-red); font-weight: 800; }
+        .log-hl-user { color: var(--light-blue); font-weight: 800; }
+        .log-hl-gold { color: var(--gold); font-weight: 800; }
 
         /* Затемнение фона при открытии модалки */
         .custom-modal-overlay {
@@ -730,6 +738,9 @@
                     <div style="font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 4px;" id="full-profile-name">PlayerName</div>
                     <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px;">ID: 9481023</div>
                     <div class="role-badge role-owner">👑 Владелец проекта</div>
+
+                    <div class="gold-balance-pill">💰 1 500 G</div>
+                    
                     <div class="profile-date">На проекте с: 12.05.2023</div>
                 </div>
                 <button class="btn btn-outline" style="width: auto; padding: 8px 20px; font-size: 12px;" onclick="openModal('modal-settings')">⚙️ Настройки</button>
@@ -981,125 +992,62 @@
         </div>
 
         <div id="tab-admin" class="tab">
-    <h1 class="page-title">Управление</h1>
+            <h1 class="page-title">Управление</h1>
     
-    <div class="card" style="border-color: rgba(59, 130, 246, 0.3);">
-        <div style="font-size: 14px; font-weight: 900; color: var(--light-blue); text-transform: uppercase; margin-bottom: 15px;">🛡️ Панель Администратора</div>
-        <div class="admin-grid">
-            <div class="admin-btn">
-                <div class="admin-btn-icon">👥</div>
-                <div class="admin-btn-title">Игроки</div>
-                <div class="admin-btn-desc">Поиск, статистика и профили игроков</div>
+            <div class="card" style="border-color: rgba(59, 130, 246, 0.3);">
+                <div style="font-size: 14px; font-weight: 900; color: var(--light-blue); text-transform: uppercase; margin-bottom: 15px;">🛡️ Панель Администратора</div>
+                <div class="admin-grid">
+                    <div class="admin-btn" onclick="openModal('modal-call-player')">
+                        <div class="admin-btn-icon">🔍</div>
+                        <div class="admin-btn-title">Поиск Игрока</div>
+                        <div class="admin-btn-desc">Найти профиль по ID или Нику</div>
+                    </div>
+                    <div class="admin-btn" onclick="openModal('modal-ban')">
+                    <div class="admin-btn-icon">🔨</div>
+                    <div class="admin-btn-title">Блокировка</div>
+                    <div class="admin-btn-desc">Выдать Бан аккаунта</div>
+                    </div>
+                    <div class="admin-btn" onclick="openModal('modal-mute')">
+                        <div class="admin-btn-icon">🔇</div>
+                        <div class="admin-btn-title">Мут Чата</div>
+                        <div class="admin-btn-desc">Ограничить текстовый чат</div>
+                    </div>
+                    <div class="admin-btn" onclick="openModal('modal-logs')">
+                        <div class="admin-btn-icon">📋</div>
+                        <div class="admin-btn-title">Логи действий</div>
+                        <div class="admin-btn-desc">История банов и проверок</div>
+                    </div>
+                </div>
             </div>
-            <div class="admin-btn" onclick="openModal('modal-ban')">
-                <div class="admin-btn-icon">🔨</div>
-                <div class="admin-btn-title">Выдать Бан</div>
-                <div class="admin-btn-desc">Блокировка аккаунта с указанием причины</div>
-            </div>
-            <div class="admin-btn" onclick="openModal('modal-mute')">
-                <div class="admin-btn-icon">🔇</div>
-                <div class="admin-btn-title">Мут Чата</div>
-                <div class="admin-btn-desc">Ограничение текстового чата</div>
-            </div>
-            <div class="admin-btn">
-                <div class="admin-btn-icon">🎫</div>
-                <div class="admin-btn-title">Тикеты</div>
-                <div class="admin-btn-desc">Жалобы от игроков (2 новых)</div>
-            </div>
-        </div>
-    </div>
 
-    <div class="card" style="border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.02);">
-        <div style="font-size: 14px; font-weight: 900; color: var(--gold); text-transform: uppercase; margin-bottom: 15px;">👑 Системная Панель (Владелец)</div>
-        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 15px;">Эти функции управляют ядром платформы. Доступно только для @Zentrox_1.</div>
+            <div class="card" style="border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.02);">
+                <div style="font-size: 14px; font-weight: 900; color: var(--gold); text-transform: uppercase; margin-bottom: 15px;">👑 Системная Панель (Владелец)</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 15px;">Управление экономикой и ядром платформы. Доступно только для @Zentrox_1.</div>
         
-        <div class="admin-grid">
-            <div class="admin-btn owner-btn">
-                <div class="admin-btn-icon">🛠️</div>
-                <div class="admin-btn-title">Вкладки сайта</div>
-                <div class="admin-btn-desc">Включение и отключение разделов</div>
-            </div>
-            <div class="admin-btn owner-btn" onclick="openModal('modal-staff')">
-                <div class="admin-btn-icon">👮</div>
-                <div class="admin-btn-title">Персонал</div>
-                <div class="admin-btn-desc">Назначение админов и организаторов</div>
-            </div>
-            <div class="admin-btn owner-btn" onclick="openModal('modal-finance')">
-                <div class="admin-btn-icon">💰</div>
-                <div class="admin-btn-title">Финансы</div>
-                <div class="admin-btn-desc">Статистика доната и выдача Gold</div>
-            </div>
-            <div class="admin-btn owner-btn">
-                <div class="admin-btn-icon">🏆</div>
-                <div class="admin-btn-title">Глобал Турниры</div>
-                <div class="admin-btn-desc">Создание Major ивентов и призов</div>
-            </div>
-            <div class="admin-btn owner-btn" onclick="openModal('modal-broadcast')">
-                <div class="admin-btn-icon">📢</div>
-                <div class="admin-btn-title">Рассылка</div>
-                <div class="admin-btn-desc">Системное уведомление всем игрокам</div>
-            </div>
-            <div class="admin-btn owner-btn">
-                <div class="admin-btn-icon">⚙️</div>
-                <div class="admin-btn-title">Ядро</div>
-                <div class="admin-btn-desc">Глубокие настройки платформы</div>
+                <div class="admin-grid">
+                    <div class="admin-btn owner-btn" onclick="openModal('modal-finance')">
+                        <div class="admin-btn-icon">💰</div>
+                        <div class="admin-btn-title">Экономика (Gold)</div>
+                        <div class="admin-btn-desc">Выдать или забрать баланс</div>
+                    </div>
+                    <div class="admin-btn owner-btn" onclick="openModal('modal-staff')">
+                        <div class="admin-btn-icon">⭐</div>
+                        <div class="admin-btn-title">Привилегии</div>
+                        <div class="admin-btn-desc">Выдача VIP и прав персонала</div>
+                    </div>
+                    <div class="admin-btn owner-btn" onclick="openModal('modal-broadcast')">
+                        <div class="admin-btn-icon">📢</div>
+                        <div class="admin-btn-title">Рассылка</div>
+                        <div class="admin-btn-desc">Уведомление всем игрокам сайта</div>
+                    </div>
+                    <div class="admin-btn owner-btn">
+                        <div class="admin-btn-icon">⚙️</div>
+                        <div class="admin-btn-title">Настройки ядра</div>
+                        <div class="admin-btn-desc">Включение / выключение модулей</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div id="modal-ban" class="custom-modal-overlay">
-    <div class="custom-modal-box">
-        <span class="close-modal" onclick="closeModal('modal-ban')">×</span>
-        <h3 style="margin-top:0; color: #ef4444;">🔨 Выдать Бан</h3>
-        <input type="text" id="ban-user-id" placeholder="ID игрока (например, 1502)">
-        <input type="text" id="ban-reason" placeholder="Причина (читы, спам и т.д.)">
-        <select id="ban-time">
-            <option value="1">На 1 день</option>
-            <option value="7">На 7 дней</option>
-            <option value="30">На 30 дней</option>
-            <option value="perm">Навсегда</option>
-        </select>
-        <button onclick="submitAdminAction('ban')" style="background: #ef4444;">Заблокировать</button>
-    </div>
-</div>
-
-<div id="modal-mute" class="custom-modal-overlay">
-    <div class="custom-modal-box">
-        <span class="close-modal" onclick="closeModal('modal-mute')">×</span>
-        <h3 style="margin-top:0; color: #f97316;">🔇 Мут Чата</h3>
-        <input type="text" id="mute-user-id" placeholder="ID игрока">
-        <input type="text" id="mute-reason" placeholder="Причина мута">
-        <select id="mute-time">
-            <option value="1h">На 1 час</option>
-            <option value="24h">На 24 часа</option>
-        </select>
-        <button onclick="submitAdminAction('mute')" style="background: #f97316;">Выдать Мут</button>
-    </div>
-</div>
-
-<div id="modal-finance" class="custom-modal-overlay">
-    <div class="custom-modal-box" style="border-color: rgba(251, 191, 36, 0.5);">
-        <span class="close-modal" onclick="closeModal('modal-finance')">×</span>
-        <h3 style="margin-top:0; color: var(--gold, #fbbf24);">💰 Выдать Gold / VIP</h3>
-        <input type="text" id="fin-user-id" placeholder="ID игрока">
-        <select id="fin-action-type">
-            <option value="give_gold">Начислить Gold (баланс)</option>
-            <option value="give_vip">Выдать VIP статус</option>
-        </select>
-        <input type="text" id="fin-amount" placeholder="Количество Gold / Дней VIP">
-        <button onclick="submitAdminAction('finance')" style="background: var(--gold, #fbbf24); color: #000;">Подтвердить</button>
-    </div>
-</div>
-
-<div id="modal-broadcast" class="custom-modal-overlay">
-    <div class="custom-modal-box">
-        <span class="close-modal" onclick="closeModal('modal-broadcast')">×</span>
-        <h3 style="margin-top:0; color: #3b82f6;">📢 Системное уведомление</h3>
-        <textarea id="broadcast-text" rows="4" placeholder="Введите текст рассылки для всех пользователей..." style="width: 100%; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid #334155; color: white; border-radius: 6px; margin-bottom: 10px; resize: none;"></textarea>
-        <button onclick="submitAdminAction('broadcast')">Отправить всем</button>
-    </div>
-</div>
 
     </div> <div id="modal-active-check" class="modal-overlay">
         <div class="modal-content-wrap">
@@ -1187,6 +1135,45 @@
             <button class="btn btn-primary" onclick="closeModal('modal-settings')">Сохранить изменения</button>
         </div>
     </div>
+
+    <div id="modal-logs" class="custom-modal-overlay">
+            <div class="custom-modal-box" style="width: 380px;">
+                <span class="close-modal" onclick="closeModal('modal-logs')">×</span>
+                <h3 style="margin-top:0; color: #fff;">📋 Системные логи</h3>
+                <div class="log-list">
+                    <div class="log-item">
+                        <span class="log-time">Сегодня, 14:32:11</span>
+                        Владелец <span class="log-hl-gold">Zentrox</span> начислил <span class="log-hl-gold">500 G</span> игроку <span class="log-hl-user">ID: 9481023</span>.
+                    </div>
+                    <div class="log-item">
+                        <span class="log-time">Сегодня, 13:15:00</span>
+                        Админ <span class="log-hl-admin">Токеро</span> выдал Бан игроку <span class="log-hl-user">ID: 1502</span> на 7 дней. Причина: Софт.
+                    </div>
+                    <div class="log-item">
+                        <span class="log-time">Вчера, 22:40:05</span>
+                        Админ <span class="log-hl-admin">Токеро</span> запустил проверку на читы для игрока <span class="log-hl-user">ID: 765611</span>. Вердикт: Чист.
+                    </div>
+                    <div class="log-item">
+                        <span class="log-time">Вчера, 18:20:10</span>
+                        Владелец <span class="log-hl-gold">Zentrox</span> запустил глобальную рассылку.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-staff" class="custom-modal-overlay">
+            <div class="custom-modal-box" style="border-color: rgba(251, 191, 36, 0.5);">
+                <span class="close-modal" onclick="closeModal('modal-staff')">×</span>
+                <h3 style="margin-top:0; color: var(--gold, #fbbf24);">⭐ Выдать права / VIP</h3>
+                <input type="text" id="staff-user-id" placeholder="ID игрока">
+                <select id="staff-role">
+                    <option value="vip">VIP Статус (Все фишки)</option>
+                    <option value="moderator">Модератор чата</option>
+                    <option value="admin">Администратор (Полные права)</option>
+                </select>
+                 <button onclick="submitAdminAction('staff')" style="background: var(--gold, #fbbf24); color: #000;">Назначить</button>
+            </div>
+        </div>
 
     <script>
         let tg = window.Telegram.WebApp;
