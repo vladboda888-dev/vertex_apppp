@@ -206,12 +206,18 @@
            17. ТАБЛИЦА ПРОВЕРОК НА ЧИТЫ
            ========================================= */
         .check-header {
-            display: grid; grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr 1fr;
+            display: grid; 
+            /* Жесткие размеры колонок в пикселях (6 колонок) */
+            grid-template-columns: 100px 140px 160px 120px 130px 80px; 
+            width: max-content; /* Растягивает фон под весь контент */
             padding: 0 15px 10px; font-size: 10px; font-weight: 700; color: var(--text-muted);
             border-bottom: 1px solid var(--border-light); margin-bottom: 10px; text-transform: uppercase;
         }
         .check-row {
-            display: grid; grid-template-columns: 1fr 1.5fr 1.5fr 1.5fr 1fr;
+            display: grid; 
+            /* Точно такие же жесткие размеры */
+            grid-template-columns: 100px 140px 160px 120px 130px 80px; 
+            width: max-content; /* Растягивает фон */
             align-items: center; background: var(--bg-panel); padding: 12px 15px;
             border-radius: 12px; margin-bottom: 8px; font-size: 11px; font-weight: 600;
             border: 1px solid transparent; cursor: pointer; transition: background 0.2s;
@@ -227,6 +233,16 @@
         /* Таймер проверки */
         .check-timer-box { background: var(--bg-main); border: 1px solid var(--border-light); padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; }
         .timer-text { font-size: 32px; font-weight: 900; color: var(--danger-red); font-family: monospace; letter-spacing: 2px; }
+
+        /* Класс-обертка для горизонтального скролла с телефона */
+        .table-responsive { 
+            width: 100%; 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; 
+            padding-bottom: 10px; 
+        }
+        .table-responsive::-webkit-scrollbar { height: 4px; }
+        .table-responsive::-webkit-scrollbar-thumb { background: var(--light-blue); border-radius: 4px; }
 
         /* =========================================
            18. ВСПЛЫВАЮЩИЕ ОКНА (Модалки)
@@ -385,6 +401,47 @@
         .map-name { font-size: 18px; font-weight: 900; color: #fff; text-transform: uppercase; text-shadow: 0 2px 5px rgba(0,0,0,0.9); letter-spacing: 1px; }
         .map-score-input { width: 45px; background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.2); color: #fff; text-align: center; border-radius: 6px; font-weight: 900; padding: 6px; outline: none; font-size: 14px; transition: 0.2s; }
         .map-score-input:focus { border-color: var(--light-blue); background: rgba(0,0,0,0.9); }
+
+        /* =========================================
+           27. ГЛОБАЛЬНЫЙ ЧАТ И ЭФФЕКТЫ
+           ========================================= */
+        .chat-main-container { display: flex; flex-direction: column; height: 60vh; min-height: 400px; background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden; margin-bottom: 15px; }
+        .chat-msg-list { flex-grow: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
+        .msg-box { display: flex; gap: 10px; align-items: flex-start; }
+        .msg-ava { width: 34px; height: 34px; border-radius: 10px; background: #222; display: flex; justify-content: center; align-items: center; font-size: 16px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); }
+        .msg-content { background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 12px; border-top-left-radius: 2px; font-size: 12px; line-height: 1.5; color: #e2e8f0; max-width: 85%; }
+        .msg-name { font-weight: 900; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; font-size: 13px; }
+        
+        /* Премиум эффекты ников */
+        .name-owner { color: var(--gold); text-shadow: 0 0 10px rgba(251, 191, 36, 0.5); }
+        .name-admin { color: var(--danger-red); text-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+        .name-premium { color: #c084fc; text-shadow: 0 0 10px rgba(192, 132, 252, 0.5); }
+        
+        .chat-input-wrapper { display: flex; gap: 10px; padding: 15px; background: rgba(0,0,0,0.3); border-top: 1px solid var(--border-light); }
+
+        /* Магазин в чате (Горизонтальный скролл) */
+        .store-notice { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); color: var(--gold); padding: 12px; border-radius: 8px; font-size: 11px; font-weight: 800; text-align: center; margin-bottom: 15px; letter-spacing: 0.5px; }
+        .chat-store-wrap { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch; }
+        .chat-store-wrap::-webkit-scrollbar { height: 4px; }
+        .chat-store-wrap::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+        .store-item { min-width: 140px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); border-radius: 12px; padding: 15px; text-align: center; display: flex; flex-direction: column; gap: 8px; transition: 0.2s; }
+        .store-item:hover { border-color: var(--gold); transform: translateY(-2px); }
+        .store-icon { font-size: 32px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+        
+        /* =========================================
+           28. АДМИН ПАНЕЛЬ И ПАНЕЛЬ ВЛАДЕЛЬЦА
+           ========================================= */
+        .admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .admin-btn { background: linear-gradient(145deg, rgba(255,255,255,0.03), transparent); border: 1px solid var(--border-light); padding: 15px; border-radius: 12px; text-align: left; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; gap: 8px; }
+        .admin-btn:hover { border-color: var(--light-blue); transform: translateY(-2px); background: rgba(59, 130, 246, 0.05); }
+        .admin-btn-icon { font-size: 24px; }
+        .admin-btn-title { font-size: 12px; font-weight: 900; color: #fff; text-transform: uppercase; }
+        .admin-btn-desc { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
+
+        /* Уникальный стиль кнопок владельца */
+        .owner-btn { background: linear-gradient(145deg, rgba(251, 191, 36, 0.05), transparent); border-color: rgba(251, 191, 36, 0.2); }
+        .owner-btn:hover { border-color: var(--gold); background: rgba(251, 191, 36, 0.1); }
+        .owner-btn .admin-btn-title { color: var(--gold); }
     </style>
 </head>
 <body>
@@ -692,23 +749,25 @@
                 <button class="btn btn-primary" style="width: auto; padding: 8px 15px; font-size: 11px;" onclick="openModal('modal-call-player')">+ Вызвать игрока</button>
             </div>
             
-            <div class="check-header-ext">
-                <div>Точная дата</div><div>Модератор</div><div>Подозреваемый</div><div>Дискорд</div><div>Вердикт</div><div>Действия</div>
-            </div>
+            <div class="table-responsive">
+                <div class="check-header-ext">
+                    <div>Точная дата</div><div>Модератор</div><div>Подозреваемый</div><div>Дискорд</div><div>Вердикт</div><div>Действия</div>
+                </div>
 
-            <div style="display: flex; flex-direction: column;">
-                <div class="check-row-ext">
-                    <div style="font-size: 10px; color: #fff; font-weight: 700;">16.08.2026<br><span style="color: var(--text-muted);">16:14:15</span></div>
-                    <div class="user-cell"><div class="mini-ava">👑</div> Токеро</div>
-                    <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🐶</div> [Skeeet] Мил...</div>
-                    <div style="color: var(--text-muted); font-size: 10px;">Ожидание...</div>
-                    <div><span class="verdict-badge verdict-wait">⏳ Идет проверка</span></div>
-                    <div style="display: flex; justify-content: flex-end; gap: 5px;">
-                        <button class="check-action-btn" title="Досье игрока" onclick="openModal('modal-player-check-info')">📄</button>
-                        <button class="check-action-btn" title="Открыть чат проверки" onclick="openModal('modal-active-check')">💬</button>
+                <div style="display: flex; flex-direction: column;">
+                    <div class="check-row-ext">
+                        <div style="font-size: 10px; color: #fff; font-weight: 700;">16.08.2026<br><span style="color: var(--text-muted);">16:14:15</span></div>
+                        <div class="user-cell"><div class="mini-ava">👑</div> Токеро</div>
+                        <div class="user-cell"><div class="mini-ava" style="border-radius: 50%;">🐶</div> [Skeeet] Мил...</div>
+                        <div style="color: var(--text-muted); font-size: 10px;">Ожидание...</div>
+                        <div><span class="verdict-badge verdict-wait">⏳ Идет проверка</span></div>
+                        <div style="display: flex; justify-content: flex-end; gap: 5px;">
+                            <button class="check-action-btn" title="Досье игрока" onclick="openModal('modal-player-check-info')">📄</button>
+                            <button class="check-action-btn" title="Открыть чат проверки" onclick="openModal('modal-active-check')">💬</button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
 
         <div id="tab-tribunal" class="tab">
@@ -731,7 +790,7 @@
                 </div>
             </div>
 
-            <div id="list-mutes" class="list-hidden">
+            <div id="list-mutes" class="list-hidden table-responsive">
                 <div class="table-header-ext"><div>Игрок</div><div>Админ</div><div>Причина</div><div>Статус</div><div>Точный срок</div><div>Дата выдачи</div><div>Действие</div></div>
                 <div class="ban-row-ext">
                     <div class="user-cell"><div class="mini-ava">🔇</div> ToxicBoy</div>
@@ -767,8 +826,153 @@
             </div>
         </div>
 
-        <div id="tab-chat" class="tab"><h1 class="page-title">Чат</h1><div class="card" style="text-align: center; color: var(--text-muted);">Чат...</div></div>
-        <div id="tab-admin" class="tab"><h1 class="page-title">Управление</h1><div class="card" style="text-align: center; color: var(--text-muted);">Панель администратора</div></div>
+        <div id="tab-chat" class="tab">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 class="page-title" style="margin: 0;">Общий Чат</h1>
+                <button class="btn btn-outline" style="width: auto; padding: 6px 15px; font-size: 11px; border-color: var(--gold); color: var(--gold);" onclick="toggleComments('chat-store-section')">🛒 Магазин</button>
+            </div>
+
+            <div id="chat-store-section" style="display: none; margin-bottom: 20px; animation: fadeIn 0.3s ease;">
+                <div class="store-notice">
+                    👑 Покупка привилегий, рамок и уникальных цветов доступна только через владельца проекта - @Zentrox_1
+                </div>
+                <div class="chat-store-wrap">
+                    <div class="store-item">
+                        <div class="store-icon">✨</div>
+                        <div style="font-size: 12px; font-weight: 900; color: #fff;">Неоновый Ник</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Любой цвет свечения</div>
+                        <div class="badge" style="background: rgba(251, 191, 36, 0.2); color: var(--gold); margin: 0 auto;">200 G</div>
+                    </div>
+                    <div class="store-item">
+                        <div class="store-icon">🖼️</div>
+                        <div style="font-size: 12px; font-weight: 900; color: #fff;">Анимированная Рамка</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Выделяет аватарку</div>
+                        <div class="badge" style="background: rgba(251, 191, 36, 0.2); color: var(--gold); margin: 0 auto;">350 G</div>
+                    </div>
+                    <div class="store-item">
+                        <div class="store-icon">💎</div>
+                        <div style="font-size: 12px; font-weight: 900; color: #fff;">Премиум Бейдж</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Значок возле ника</div>
+                        <div class="badge" style="background: rgba(251, 191, 36, 0.2); color: var(--gold); margin: 0 auto;">500 G</div>
+                    </div>
+                    <div class="store-item">
+                        <div class="store-icon">🚀</div>
+                        <div style="font-size: 12px; font-weight: 900; color: #fff;">VIP Статус</div>
+                        <div style="font-size: 10px; color: var(--text-muted);">Все фишки чата сразу</div>
+                        <div class="badge" style="background: rgba(251, 191, 36, 0.2); color: var(--gold); margin: 0 auto;">1000 G</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-main-container">
+                <div class="chat-msg-list">
+                    <div class="msg-box">
+                        <div class="msg-ava">👻</div>
+                        <div class="msg-content">
+                            <div class="msg-name">PlayerName <span class="badge" style="font-size: 8px; padding: 2px 6px;">Игрок</span></div>
+                            Парни, кто пойдет турнир 2х2 вечером?
+                        </div>
+                    </div>
+                    
+                    <div class="msg-box">
+                        <div class="msg-ava" style="border-color: #c084fc;">💎</div>
+                        <div class="msg-content" style="border-left: 2px solid #c084fc;">
+                            <div class="msg-name name-premium">RichBoy <span class="badge" style="background: #c084fc; color: #fff; font-size: 8px; padding: 2px 6px;">VIP</span></div>
+                            Я могу, какой у тебя эло на фейсите?
+                        </div>
+                    </div>
+
+                    <div class="msg-box">
+                        <div class="msg-ava" style="border-color: var(--danger-red);">🛡️</div>
+                        <div class="msg-content" style="background: rgba(239, 68, 68, 0.05); border-left: 2px solid var(--danger-red);">
+                            <div class="msg-name name-admin">Токеро <span class="badge" style="background: var(--danger-red); color: #fff; font-size: 8px; padding: 2px 6px;">Админ</span></div>
+                            Напоминаю, что оскорбления в чате караются мутом!
+                        </div>
+                    </div>
+
+                    <div class="msg-box">
+                        <div class="msg-ava" style="border-color: var(--gold); box-shadow: 0 0 10px rgba(251,191,36,0.3);">👑</div>
+                        <div class="msg-content" style="background: rgba(251, 191, 36, 0.05); border-left: 2px solid var(--gold);">
+                            <div class="msg-name name-owner">Zentrox <span class="badge" style="background: var(--gold); color: #000; font-size: 8px; padding: 2px 6px;">Владелец</span></div>
+                            Регистрация на мажор закрывается через 2 часа. Успейте подать заявки! За покупкой косметики пишите мне в ЛС.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-wrapper">
+                    <input type="text" class="form-input" placeholder="Введите сообщение..." style="margin-bottom: 0;">
+                    <button class="btn btn-primary" style="width: 50px; flex-shrink: 0; font-size: 16px;">➤</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-admin" class="tab">
+            <h1 class="page-title">Управление</h1>
+            
+            <div class="card" style="border-color: rgba(59, 130, 246, 0.3);">
+                <div style="font-size: 14px; font-weight: 900; color: var(--light-blue); text-transform: uppercase; margin-bottom: 15px;">🛡️ Панель Администратора</div>
+                <div class="admin-grid">
+                    <div class="admin-btn">
+                        <div class="admin-btn-icon">👥</div>
+                        <div class="admin-btn-title">Игроки</div>
+                        <div class="admin-btn-desc">Поиск, статистика и профили игроков</div>
+                    </div>
+                    <div class="admin-btn">
+                        <div class="admin-btn-icon">🔨</div>
+                        <div class="admin-btn-title">Выдать Бан</div>
+                        <div class="admin-btn-desc">Блокировка аккаунта с указанием причины</div>
+                    </div>
+                    <div class="admin-btn">
+                        <div class="admin-btn-icon">🔇</div>
+                        <div class="admin-btn-title">Мут Чата</div>
+                        <div class="admin-btn-desc">Ограничение текстового чата</div>
+                    </div>
+                    <div class="admin-btn">
+                        <div class="admin-btn-icon">🎫</div>
+                        <div class="admin-btn-title">Тикеты</div>
+                        <div class="admin-btn-desc">Жалобы от игроков (2 новых)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.02);">
+                <div style="font-size: 14px; font-weight: 900; color: var(--gold); text-transform: uppercase; margin-bottom: 15px;">👑 Системная Панель (Владелец)</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 15px;">Эти функции управляют ядром платформы. Доступно только для @Zentrox_1.</div>
+                
+                <div class="admin-grid">
+                    <div class="admin-btn owner-btn">
+                        <div class="admin-btn-icon">🛠️</div>
+                        <div class="admin-btn-title">Вкладки сайта</div>
+                        <div class="admin-btn-desc">Включение и отключение разделов</div>
+                    </div>
+                    <div class="admin-btn owner-btn">
+                        <div class="admin-btn-icon">👮</div>
+                        <div class="admin-btn-title">Персонал</div>
+                        <div class="admin-btn-desc">Назначение админов и организаторов</div>
+                    </div>
+                    <div class="admin-btn owner-btn">
+                        <div class="admin-btn-icon">💰</div>
+                        <div class="admin-btn-title">Финансы</div>
+                        <div class="admin-btn-desc">Статистика доната и выдача Gold</div>
+                    </div>
+                    <div class="admin-btn owner-btn">
+                        <div class="admin-btn-icon">🏆</div>
+                        <div class="admin-btn-title">Глобал Турниры</div>
+                        <div class="admin-btn-desc">Создание Major ивентов и призов</div>
+                    </div>
+                    <div class="admin-btn owner-btn">
+                        <div class="admin-btn-icon">📢</div>
+                        <div class="admin-btn-title">Рассылка</div>
+                        <div class="admin-btn-desc">Системное уведомление всем игрокам</div>
+                    </div>
+                    <div class="admin-btn owner-btn">
+                        <div class="admin-btn-icon">⚙️</div>
+                        <div class="admin-btn-title">Ядро</div>
+                        <div class="admin-btn-desc">Глубокие настройки платформы</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div> <div id="modal-active-check" class="modal-overlay">
         <div class="modal-content-wrap">
