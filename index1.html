@@ -332,7 +332,7 @@
            25. НОВЫЕ СТИЛИ (Профиль, Корзина, Чат проверки)
            ========================================= */
         /* Статусы профиля */
-        .profile-status-badges { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; z-index: 5; }
+        .profile-status-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
         .badge-grey { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-muted); padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
         .badge-green { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--success-green); padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.1); }
         .badge-red { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--danger-red); padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 0 10px rgba(239, 68, 68, 0.1); }
@@ -455,13 +455,16 @@
             <div class="profile-banner"></div>
             <div class="profile-header-new">
                 
-                <div class="profile-status-badges">
-                    <div class="badge-grey">Без наказания</div>
-                    <div class="badge-green">✔️ Чист</div>
-                </div>
-
+                <div class="profile-header-new">
+                
                 <div class="profile-avatar-large">👻</div>
                 <div class="profile-info-new" style="flex-grow: 1;">
+                    
+                    <div class="profile-status-badges">
+                        <div class="badge-grey">Без наказания</div>
+                        <div class="badge-green">✔️ Чист</div>
+                    </div>
+
                     <div style="font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 4px;" id="full-profile-name">PlayerName</div>
                     <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px;">ID: 9481023</div>
                     <div class="role-badge role-owner">👑 Владелец проекта</div>
@@ -505,6 +508,37 @@
                     <button class="social-btn">🟣 Discord</button>
                     <button class="social-btn">🔵 Telegram</button>
                     <button class="social-btn">🎮 Steam ID</button>
+                </div>
+            </div>
+
+            <div class="achievements-header">
+                <span>🌟 Достижения</span>
+                <span class="achiv-count">3 / 10 СЛОТОВ</span>
+            </div>
+            
+            <div class="achievements-list">
+                <div class="achiv-item gold">
+                    <div class="achiv-icon">🏆</div>
+                    <div class="achiv-info">
+                        <div class="achiv-title">Победитель Major</div>
+                        <div class="achiv-desc">VERTEX SPRING MAJOR 5v5</div>
+                    </div>
+                </div>
+
+                <div class="achiv-item">
+                    <div class="achiv-icon">🎯</div>
+                    <div class="achiv-info">
+                        <div class="achiv-title">Лучший снайпер турнира</div>
+                        <div class="achiv-desc">WEEKEND CUP #4</div>
+                    </div>
+                </div>
+
+                <div class="achiv-item">
+                    <div class="achiv-icon">🛡️</div>
+                    <div class="achiv-info">
+                        <div class="achiv-title">Непробиваемый (Клатч 1v4)</div>
+                        <div class="achiv-desc">NIGHT CUP 2v2</div>
+                    </div>
                 </div>
             </div>
 
